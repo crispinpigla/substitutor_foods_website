@@ -1,2 +1,2 @@
-web: purebeurre0.wsgi
-init: pure_beurre_django/manage.py runserver
+web: pure_beurre_django.pure_beurre_django.wsgi
+init: ./pure_beurre/manage.py runserver
