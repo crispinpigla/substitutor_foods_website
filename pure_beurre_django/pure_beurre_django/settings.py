@@ -16,7 +16,7 @@ import os
 import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -137,11 +137,8 @@ if os.environ.get('ENV') == 'PRODUCTION':
     # Static files settings
     PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-    STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
-    STATIC_TMP = os.path.join(BASE_DIR, 'static')
-
-    os.makedirs(STATIC_TMP, exist_ok=True)
-    os.makedirs(STATIC_ROOT, exist_ok=True)
+    #STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+    STATIC_ROOT = os.path.normpath(os.path.join(BASE_DIR, 'staticfiles')) 
 
     # Extra places for collectstatic to find static files.
     STATICFILES_DIRS = (
