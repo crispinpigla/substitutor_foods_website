@@ -1,0 +1,15 @@
+
+
+{% load static %}
+
+{% if reponse == 'added' %}
+	<div class="un_suscribe" id="un_suscribe_{{id_substitut}}_{{ id_product }}" style="height: 60%;width: 70%; color: white; background: red; border-radius: 5px; text-align: center; cursor: pointer;  border: solid red 1px; transition: background 0.2s;" id_product="{{ id_product }}" id_substitut="{{ id_substitut }}" >
+		Supprimer ce produit
+	</div>
+{% elif reponse == 'deleted' %}
+	<div class="un_suscribe" id="un_suscribe_{{id_substitut}}_{{ id_product }}" style="height: 60%;width: 70%; color: white; background: green; border-radius: 5px; text-align: center; cursor: pointer;  border: solid green 1px; transition: background 0.2s;" id_product="{{ id_product }}" id_substitut="{{ id_substitut }}" >
+		Enregistrer ce produit
+	</div>
+{% endif %}
+
+<script src="{% static 'js/pur_beurre.js' %}"></script>

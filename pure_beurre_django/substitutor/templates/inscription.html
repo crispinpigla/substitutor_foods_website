@@ -1,0 +1,20 @@
+
+
+
+
+
+
+
+<form class="form-inline" action="../home/?home_status=make_inscription" method="post" style="display: flex; flex-direction: column; height: 200px; justify-content: space-around;" >
+  {% csrf_token %}
+
+  {{ form.name }}
+
+  {{ form.email }}
+
+  {{ form.password }}
+
+  <!-- <input type="hidden" class="hidden" value="{{ album_id }}" name="album_id"> -->
+
+  <button type="submit" class="btn btn-success">Inscription</button>
+</form>

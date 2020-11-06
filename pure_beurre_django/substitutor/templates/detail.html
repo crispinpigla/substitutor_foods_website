@@ -1,0 +1,163 @@
+{% extends "./base.html" %}
+
+
+
+
+{% block header_content %}
+
+  {% if user_id %}
+  <div>
+    {% include 'header_connected.html' %}
+  </div>
+  {% else %}
+  <div>
+    {% include 'header_disconnected.html' %}
+  </div>
+  {% endif %}
+{% endblock %}
+
+
+
+
+
+{% block image_background_content %}{{product.url_image}}{% endblock %}
+
+
+
+
+
+
+{% block accroche_content %}
+	{{ product.name }}
+{% endblock %}
+
+{% block accroche_plus_content %}
+	Détail du produit 
+{% endblock %}
+
+
+
+
+
+{% block detail_content %}
+
+
+<div class="col-12" class="nutriscore" style="height: 120px; display: flex; justify-content: center; align-items: center; font-size: 180%; color: green; cursor: pointer;"><img style="height: 100%; border-radius: 15px;" src='../../static/img/nutriscore_{{ product.nutriscore }}.png' ></div>
+
+
+<div class="col-12" style="text-align: center; display: flex; justify-content: center; align-items: center; flex-direction: column; margin-bottom: 20px; font-size: 120%;" > 
+  <div style="font-size: 70%; color: silver;" >
+    Quantité
+  </div>
+  <div  class="col-8" style="border-bottom: solid 1px; display: flex;justify-content: center; align-items: center;"  >
+    {{ product.quantite }} 
+  </div> 
+</div>
+<div class="col-12" style="text-align: center; display: flex; justify-content: center; align-items: center; flex-direction: column; margin-bottom: 20px; font-size: 120%;" > 
+  <div style="font-size: 70%; color: silver;" >
+    Marque
+  </div>
+  <div  class="col-8" style="border-bottom: solid 1px; display: flex;justify-content: center; align-items: center;"  >
+     {{ product.marque }} 
+  </div>
+</div>
+
+<div class="col-12" style="text-align: center; display: flex; justify-content: center; align-items: center; flex-direction: column; margin-bottom: 20px; font-size: 120%;" >
+
+  <div style="font-size: 70%; color: silver;" >
+    Labels
+  </div>
+  <div  class="col-8" style="border-bottom: solid 1px; display: flex;justify-content: center; align-items: center;"  >
+     {{ product.labels }}
+  </div>
+
+</div>
+
+<div class="col-12" style="text-align: center;  display: flex; justify-content: center; align-items: center; flex-direction: column; margin-bottom: 20px; font-size: 120%;" >
+
+  <div style="font-size: 70%; color: silver;" >
+    Ingrédients
+  </div>
+  <div   class="col-8" style="border-bottom: solid 1px; display: flex;justify-content: center; align-items: center;" >
+     {{product.ingredients }}
+  </div>
+
+
+</div>
+<div class="col-12" style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin-bottom: 20px; font-size: 120%;" >
+    <div style="font-size: 70%; color: silver;" >
+      Produits provoquant des allergies ou des intolérances
+    </div>
+    <div class="col-8" style="border-bottom: solid 1px; display: flex;justify-content: center; align-items: center;" >
+       {{ product.produits_provoqu_allergies }}
+    </div>
+</div>
+<div class="col-12" style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin-bottom: 20px; font-size: 120%;" >
+
+  <div style="font-size: 70%; color: silver;" >
+    Traces eventuelles
+  </div>
+  <div class="col-8" style="border-bottom: solid 1px; display: flex;justify-content: center; align-items: center;" >
+      {{ product.traces_eventuelles }} 
+  </div>
+
+
+</div>
+
+<div class="col-12" style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin-bottom: 20px; font-size: 120%;" > 
+
+  <div style="font-size: 70%; color: silver;" >
+    Lien vers page openfoodfact du produit
+  </div>
+  <a href="{{ product.lien_o_ff }} "  class="col-8" style="border-bottom: solid 1px; display: flex;justify-content: center; align-items: center;" >
+     {{ product.lien_o_ff }} 
+  </a>
+
+
+</div>
+
+<div class="col-12" style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin-bottom: 20px; font-size: 120%;" >
+  <div style="font-size: 70%; color: silver;" >
+    Magasins
+  </div>
+
+  <div class="col-8" style="border-bottom: solid 1px; display: flex;  flex-direction: column;  justify-content: center; align-items: center;" >
+    {% for store in stores %}
+      <div  class="col-12" style="text-align: center;"  > {{ store.name }} </div>
+    {% endfor %}
+  </div>
+  
+</div>
+<div class="col-12" style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin-bottom: 20px; font-size: 120%;" >
+  <div style="font-size: 70%; color: silver;" >
+    Categories
+  </div>
+  <div class="col-8" style="border-bottom: solid 1px; display: flex; flex-direction: column; justify-content: center; align-items: center;" >
+    {% for categorie in categories %}
+      <div class="col-12" style="text-align: center;" > {{ categorie.name }} </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="col-12" style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin-bottom: 20px; font-size: 120%;" >
+  
+  <div style="font-size: 70%; color: silver;" >
+    Nutriments pour 100 g
+  </div>
+  <div class="col-8" style="border: solid silver 1px; border-radius: 5px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgb(235, 235, 235); font-size: 90%; padding-top: 10px; padding-bottom: 10px;" >
+    {% for nutriment_100g in nutriments_100g %}
+      <div class="col-12 row" style="text-align: center; border-bottom: solid silver 1px;" >
+        <div class="col-6 h-100" style="text-align: left;">
+          {{ nutriment_100g.0 }}
+        </div>
+        <div class="col-6 h-100" style="text-align: right;">
+          {{ nutriment_100g.1.0 }}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+
+{% endblock %}

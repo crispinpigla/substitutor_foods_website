@@ -1,0 +1,121 @@
+from django.test import TestCase
+
+from ..models import Categorie, Store, Product, Account, Favorite
+
+from ..auxilliaries.installation import download, validations
+
+# Create your tests here.
+
+
+class TestsModels(TestCase):
+    """docstring for TestsSubstitutor"""
+
+    def setUp(self):
+        """Initilize database test"""
+        download0 = download.Download()
+        download0.get_products_from_api()
+
+        # resizing
+        download0.rows_products = [download0.rows_products[0][:10]]
+
+        # Construction and filtering of data to insert in the database
+        validation0 = validations.Validations()
+        validation0.sort_build(download0)
+        self.validation = validation0
+
+        product_to_insert = []
+        store_to_insert = []
+        categorie_to_insert = []
+        for product in self.validation.rows_products:
+            product_to_insert.append(
+                Product.objects.create(
+                    code=product["code"],
+                    name=product["product_name"],
+                    quantite=product.get("quantity", ""),
+                    marque=product.get("brands", ""),
+                    nom_categories=product.get("categories", ""),
+                    labels=product.get("labels", ""),
+                    ingredients=product.get("ingredients_text", ""),
+                    nutriments=product["nutriments"],
+                    produits_provoqu_allergies=product["allergens_tags"],
+                    traces_eventuelles=product["traces_tags"],
+                    nutriscore=product["nutriscore_data"]["grade"],
+                    lien_o_ff=product.get("url", ""),
+                    url_image=product.get("image_url", ""),
+                )
+            )
+            # if ((self.validation.rows_products.index(product)) % 5) == 0 :
+            # 	print( 'Insertion des produits : ', self.validation.rows_products.index(product) , '/', len(self.validation.rows_products))
+
+        for store in self.validation.rows_stores:
+            store_to_insert.append(Store.objects.create(name=store[0]))
+            # if ((self.validation.rows_stores.index(store)) % 5) == 0 :
+            # 	print( 'Insertion des magasins : ',  self.validation.rows_stores.index(store) , '/', len(self.validation.rows_stores))
+
+        for categorie in self.validation.rows_categories:
+            categorie_to_insert.append(Categorie.objects.create(name=categorie[0]))
+            # if ((self.validation.rows_categories.index(categorie)) % 5) == 0 :
+            # 	print( 'Insertion des catégories : ',  self.validation.rows_categories.index(categorie) , '/', len(self.validation.rows_categories) )
+
+        for product_store in self.validation.rows_products_stores:
+            product0 = Product.objects.get(code=int(product_store[0]))
+            store0 = Store.objects.get(name=product_store[1])
+            product0.store.add(store0)
+            # if ((self.validation.rows_products_stores.index(product_store)) % 5) == 0 :
+            # 	print( 'Insertion des produits-magasins : ',  self.validation.rows_products_stores.index(product_store) , '/', len(self.validation.rows_products_stores) )
+
+        for product_categorie in self.validation.rows_products_categories:
+            product0 = Product.objects.get(code=int(product_categorie[0]))
+            categorie0 = Categorie.objects.get(name=product_categorie[1])
+            product0.categorie.add(categorie0)
+            # if ((self.validation.rows_products_categories.index(product_categorie)) % 5) == 0 :
+            # 	print( 'Insertion des produits-categories : ',  self.validation.rows_products_categories.index(product_categorie) , '/', len(self.validation.rows_products_categories) )
+
+        user = Account.objects.create(name="a1", adresse_mail="a1@a1.a1", password="a0")
+
+        favorite = Favorite.objects.create(
+            product=product_to_insert[0], substitut=product_to_insert[1], user=user
+        )
+
+    def test_models(self):
+        """Test models modèle"""
+
+        # Test that objects receive to the database are Categorie's objects
+        result_categorie = True
+        categories = Categorie.objects.all()
+        for categorie in categories:
+            if not isinstance(categorie, Categorie):
+                result_categorie = False
+        self.assertTrue(result_categorie)
+
+        # Test that objects receive to the database are Store's objects
+        result_store = True
+        stores = Store.objects.all()
+        for store in stores:
+            if not isinstance(store, Store):
+                result_store = False
+        self.assertTrue(result_store)
+
+        # Test that objects receive to the database are Product's objects
+        result_product = True
+        products = Product.objects.all()
+        for product in products:
+            if not isinstance(product, Product):
+                result_product = False
+        self.assertTrue(result_product)
+
+        # Test that objects receive to the database are Account's objects
+        result_account = True
+        accounts = Account.objects.all()
+        for account in accounts:
+            if not isinstance(account, Account):
+                result_account = False
+        self.assertTrue(result_account)
+
+        # Test that objects receive to the database are Favorite's objects
+        result_favorite = True
+        favorites = Favorite.objects.all()
+        for favorite in favorites:
+            if not isinstance(favorite, Favorite):
+                result_favorite = False
+        self.assertTrue(result_favorite)

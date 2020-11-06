@@ -1,0 +1,134 @@
+{% extends "./base.html" %}
+
+
+{% load i18n %}
+
+{% load static %}
+
+{% block header_content %}
+
+  {% if user_id %}
+  <div>
+    {% include 'header_connected.html' %}
+  </div>
+  {% else %}
+  <div>
+    {% include 'header_disconnected.html' %}
+  </div>
+  {% endif %}
+{% endblock %}
+
+
+{% block image_background_content %}{% static 'img/logo_mes_substituts.png' %}{% endblock %}
+
+
+
+{% block accroche_content %}
+	Mes aliments
+{% endblock %}
+
+
+{% block accroche_plus_content %}
+	Liste de mes favoris
+{% endblock %}
+
+
+
+{% block listing_product_content %}
+
+
+
+
+
+
+	<div class="col-12 row" >
+
+
+
+		{% if resultats|length == 0 %}
+
+			<div class="col-12 row" style="display: flex;justify-content: center;align-items: center;height: 120px; color: gray; font-size: 200%;">Aucun produit enregistré</div>
+
+
+		{% else %}
+
+
+			
+
+			<div class="col-12 row" style="display: flex;justify-content: center;align-items: center;height: 120px;">Mes produits substitués : </div>
+
+			{% for resultat in resultats %}
+
+				<div class="col-4" style="" >
+
+					<div class="conteneur_produit" style=" width: 100%; border: solid silver 1px; margin: 10px; border-radius: 8px; background: rgb(245, 245, 245); transition: background 0.2s;">
+						<a href="../{{resultat.1.id}}" class="contain_image" style="height: 350px; display: flex; justify-content: center; align-items: center; cursor: pointer;" >
+							<img style="max-height: 100%; max-width: 100%; " src="{{ resultat.1.url_image }}">
+						</a>
+						<a href="../{{resultat.1.id}}" class="col-12" class="nom" style=" width: 100%; height: 35px; display: block; text-align: center; cursor: pointer;">{{ resultat.1.name }}</a>
+						<a href="../{{resultat.1.id}}" class="col-12" class="nutriscore" style="height: 80px; display: flex; justify-content: center; align-items: center; font-size: 180%; color: green; cursor: pointer;"><img style="height: 100%; border-radius: 15px;" src='../../static/img/nutriscore_{{ resultat.1.nutriscore  }}.png' ></a>
+						<div style="height: 50px; display: flex; justify-content: center; align-items: center; ">
+
+								<div class="un_suscribe_favorites" id="un_suscribe_{{resultat.1.id}}_{{ resultat.2.id }}" style="height: 60%;width: 70%; color: white; background: red; border-radius: 5px; text-align: center; cursor: pointer; border: solid red 1px; transition: background 0.2s;" id_product="{{ resultat.2.id }}" id_substitut="{{resultat.1.id}}" >
+									Supprimer ce produit
+								</div>
+
+						</div>
+						<a href="../{{resultat.1.id}}" class="col-12" class="detail" style="width: 100%; height: 25px; display: flex; justify-content: center; align-items: center; font-size: 70%; color: gray;cursor: pointer;">Voir plus de detail</a>
+
+
+
+						<div class="information_produit_substitue" style="width: 100%; height: 100px;" >
+
+							<div style="border-top: solid silver 1px; width: 80%;display: flex; justify-content: center; align-items: center; font-size: 70%; cursor: pointer; margin: auto;" >
+							</div>
+							<a href="../{{resultat.2.id}}" class="contain_image" style=" height: 35px; display: flex; justify-content: center; align-items: center; cursor: pointer;" >
+								<img style="max-height: 100%; max-width: 100%; " src="{{ resultat.2.url_image }}">
+							</a>
+							<a href="../{{resultat.2.id}}" class="col-12" class="nutriscore" style="height: 25px; display: flex; justify-content: center; align-items: center; font-size: 180%; color: green; cursor: pointer;"><img style="height: 100%; border-radius: 15px;" src='../../static/img/nutriscore_{{ resultat.2.nutriscore  }}.png' ></a>
+							<a href="../{{resultat.2.id}}" class="col-12" class="nom" style=" width: 100%; height: 20px; display: block; text-align: center; cursor: pointer; font-size: 80%;">{{ resultat.2.name }}</a>
+							<div style=" width: 80%;display: flex; justify-content: center; align-items: center; font-size: 70%; cursor: pointer; margin: auto;" >
+							Produit substitué
+							</div>
+
+						</div>
+
+						<div class="col-9" style="color: gray; text-align: center; font-size: 80%; border-top: solid 1px; margin: auto;" >
+							{% language 'fr' %}
+							enregistré le {{ resultat.0.date_engistrement|date:"D d M Y" }} à {{ resultat.0.date_engistrement|time:"H:i" }}
+							{% endlanguage %}
+						</div>
+						
+					</div>
+
+				</div>
+
+			{% endfor %}
+
+			<div class="col-12 row" style="height: 100px; " >
+				<div class="col-6 h-100" style="display: flex;justify-content: center; align-items: center;" >
+				{% if resultats.has_previous %}
+				  <a class="col-3" style=" display: flex; justify-content: center; align-items: center; color: gray; border-radius: 10px; height: 50%; border: solid silver 1px;" href="?search_input={{caractere}}&page={{ resultats.previous_page_number }}">Précédent</a>
+				{% endif %}
+				</div>
+				<div class="col-6 h-100" style="display: flex;justify-content: center; align-items: center;" >
+				{% if resultats.has_next %}
+				  <a class="col-3" style=" display: flex; justify-content: center; align-items: center; color: gray; border-radius: 10px; height: 50%; border: solid silver 1px;" href="?search_input={{caractere}}&page={{ resultats.next_page_number }}">Suivant</a>
+				{% endif %}
+				</div>
+			</div>
+
+
+		{% endif %}
+
+
+
+		
+
+		<script src="{% static 'js/pur_beurre.js' %}" ></script>
+
+
+	</div>
+
+
+{% endblock %}

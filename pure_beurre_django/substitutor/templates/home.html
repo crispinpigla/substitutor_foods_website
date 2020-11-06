@@ -1,0 +1,112 @@
+{% extends "./base.html" %}
+
+
+{% load static %}
+
+
+{% block header_content %}
+  {% if user_id %}
+  <div>
+    {% include 'header_connected.html' %}
+  </div>
+  {% else %}
+  <div>
+    {% include 'header_disconnected.html' %}
+  </div>
+  {% endif %}
+
+{% endblock %}
+
+
+{% block image_background_content %}{{'../../static/img/colette-6.jpg'}}{% endblock %}
+
+
+
+
+
+
+{% block about_content %}
+
+	{% if home_status == None or home_status == 'make_connexion' or home_status == 'make_inscription' or home_status ==  'make_disconnection' %}
+		{% include 'about.html' %}
+	{% endif %}
+
+{% endblock %}
+
+
+{% block portfolio_content %}
+	{% if home_status == None or home_status == 'make_connexion' or home_status == 'make_inscription' or home_status ==  'make_disconnection' %}
+		{% include 'portfolio.html' %}
+	{% endif %}
+{% endblock %}
+
+
+{% block contact_content %}
+	{% if home_status == None or home_status == 'make_connexion' or home_status == 'make_inscription' or home_status ==  'make_disconnection' %}
+		{% include 'contact.html' %}
+	{% endif %}
+{% endblock %}
+
+
+
+{% block accroche_content %}
+	{% if home_status == 'connexion' %}
+		Connectez-vous
+	{% elif home_status == 'inscription' %}
+		Inscrivez-vous
+	{% else %}
+		Du gras, oui, mais de qualité !
+	{% endif %}
+{% endblock %}
+
+
+
+{% block accroche_plus_content %}
+	{% if home_status == 'connexion' %}
+		
+		<form class="form-inline col-12" action="../home/?home_status=make_connexion" method="post" style="display: flex; flex-direction: column; height: 200px; justify-content: space-around;" >
+		  {% csrf_token %}
+		  {{ form.email }}
+		  {{ form.password }}
+		  <button type="submit" class="btn btn-success">connexion</button>
+		</form>
+		<div style="color: red; font-size: 50%;" >{{ message_to_user }}</div>
+
+
+	{% elif home_status == 'inscription' %}
+		<form class="form-inline" action="../home/?home_status=make_inscription" method="post" style="display: flex; flex-direction: column; height: 200px; justify-content: space-around;" >
+		  {% csrf_token %}
+		  {{ form.name }}
+		  {{ form.email }}
+		  {{ form.password }}
+		  <button type="submit" class="btn btn-success">Inscription</button>
+		</form>
+		<div style="color: red; font-size: 50%;" >
+		{{ message_to_user }}
+
+		{% if errors %}
+			<div>
+			  {% for key, error in errors %}
+			  {% autoescape off %}
+			    {{ error }}
+			  {% endautoescape %}
+			  {% endfor %}
+			</div>
+		{% endif %}
+
+		</div>
+	{% else %}
+		Trouvez un produit de substitution pour ce que vous consommez tous les jours.
+	{% endif %}
+{% endblock %}
+
+
+
+{% block form_search_content %}
+	{% if home_status == None or home_status == 'make_connexion' or home_status == 'make_inscription' or home_status ==  'make_disconnection' %}
+		<form class="form-inline" action="../substitute/" method="get" style="width: 100%; " >
+			{% csrf_token %}
+			{{ form.search_input }}
+		</form>
+	{% endif %}
+{% endblock %}

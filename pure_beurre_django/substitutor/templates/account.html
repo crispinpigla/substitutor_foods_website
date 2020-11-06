@@ -1,0 +1,81 @@
+{% extends "./base.html" %}
+
+{% load static %}
+
+
+
+
+{% block header_content %}
+
+  {% if user_id %}
+  <div>
+    {% include 'header_connected.html' %}
+  </div>
+  {% else %}
+  <div>
+    {% include 'header_disconnected.html' %}
+  </div>
+  {% endif %}
+
+{% endblock %}
+
+
+{% block image_background_content %}{% static 'img/logo_mon_compte.png' %}{% endblock %}
+
+
+
+
+
+{% block accroche_content %}
+	Mon compte
+{% endblock %}
+
+{% block accroche_plus_content %}
+	Informations sur le compte 
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+{% block account_content %}
+
+<div class="col-6 row" style="display: flex;justify-content: center;align-items: center;height: 80px; border-bottom: solid 1px; margin: auto;">  Mon Compte : </div>
+<div class="col-6 row" style="height: 50px;"></div>
+
+
+	<div class="col-12" style="" >
+    <div class="" style="color:gray; margin: auto; height: 35px; display: flex; justify-content: center; align-items: center;" >
+      nom
+    </div>
+    <div class="col-4" style="margin: auto; min-width: 200px; height: 35px; border: solid gray 1px; border-radius: 5px; background: rgb(237, 237, 237); display: flex; justify-content: center; align-items: center;" >
+     {{ account.name }} 
+    </div>
+  </div>
+
+	<div class="col-12" >
+  <div style="color:gray; margin: auto; height: 35px; display: flex; justify-content: center; align-items: center;" >
+    Adresse e-mail
+  </div>
+  <div class="col-4" style="margin: auto; min-width: 200px; height: 35px; border: solid gray 1px; border-radius: 5px; background: rgb(237, 237, 237); display: flex; justify-content: center; align-items: center;" >
+   {{ account.adresse_mail }} 
+  </div>
+  </div>
+
+	<div class="col-12"  >
+  <div style="color:gray; margin: auto; height: 35px; display: flex; justify-content: center; align-items: center;" >
+    Mot de passe
+  </div>
+  <div class="col-4" style="margin: auto; min-width: 200px; height: 35px; border: solid gray 1px; border-radius: 5px; background: rgb(237, 237, 237); display: flex; justify-content: center; align-items: center;" >
+   {{ account.password }} 
+  </div>
+  </div>
+
+
+
+{% endblock %}
