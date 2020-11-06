@@ -32,7 +32,7 @@ else:
     DEBUG = True
 
 #ALLOWED_HOSTS = ["127.0.0.1"]
-ALLOWED_HOSTS = ['pure_beurre.herokuapp.com']
+ALLOWED_HOSTS = ['purebeurre0.herokuapp.com']
 
 
 # Application definition
