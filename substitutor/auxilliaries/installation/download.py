@@ -26,7 +26,7 @@ class Download:
         print('----------------------------------------')
 
 
-        if dictionnary_status["status_installation"] == "not_installed":
+        if dictionnary_status["installation_status"] == "not_installed":
             #dictionnary_status["status_installation"] = "installtion_in_progress"
             print('----------------------------------------')
             print('Le dictionnary status apres le if : ', dictionnary_status["status_installation"])
@@ -60,7 +60,7 @@ class Download:
             ) as file:
                 json.dump(dictionnary_status, file)
 
-        elif dictionnary_status["status_installation"] == "installed":
+        elif dictionnary_status["installation_status"] == "installed":
             with open(
                 "substitutor/auxilliaries/installation/installation_status.json", "r"
             ) as installation_status:
@@ -68,7 +68,7 @@ class Download:
             self._rows_products = dictionnary_status["products"]
             # print('Taille du row product : ', len(self._rows_products))
 
-        elif dictionnary_status["status_installation"] == "installtion_in_progress":
+        elif dictionnary_status["installation_status"] == "installtion_in_progress":
             pass
 
     # getters
