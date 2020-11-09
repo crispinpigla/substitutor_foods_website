@@ -1,2 +1,2 @@
-web: pure_beurre_django.wsgi
+web: gunicorn pure_beurre_django.wsgi
 
