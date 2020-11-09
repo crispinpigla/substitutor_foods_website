@@ -18,9 +18,16 @@ class Download:
             "substitutor/auxilliaries/installation/installation_status.json", "r"
         ) as installation_status:
             dictionnary_status = json.load(installation_status)
+        print('----------------------------------------')
+        print('Le code avant le if ')
+        print('----------------------------------------')
+
 
         if dictionnary_status["status_installation"] == "not_installed":
             #dictionnary_status["status_installation"] = "installtion_in_progress"
+            print('----------------------------------------')
+            print('Le dictionnary status apres le if : ', dictionnary_status["status_installation"])
+            print('----------------------------------------')
             with open(
                 "substitutor/auxilliaries/installation/installation_status.json", "w"
             ) as file:
