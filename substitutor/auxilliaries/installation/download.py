@@ -21,15 +21,14 @@ class Download:
         print('----------------------------------------')
         print('Le code avant le if ')
         print('Le type du dictionnary status: ', type(dictionnary_status))
-        for i in dictionnary_status:
-            print(i)
+        print(dictionnary_status)
         print('----------------------------------------')
 
 
         if dictionnary_status["installation_status"] == "not_installed":
             #dictionnary_status["status_installation"] = "installtion_in_progress"
             print('----------------------------------------')
-            print('Le dictionnary status apres le if : ', dictionnary_status["status_installation"])
+            print('Le dictionnary status apres le if : ', dictionnary_status["installation_status"])
             print('----------------------------------------')
             with open(
                 "substitutor/auxilliaries/installation/installation_status.json", "w"
