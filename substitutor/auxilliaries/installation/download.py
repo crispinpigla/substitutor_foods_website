@@ -21,6 +21,8 @@ class Download:
         print('----------------------------------------')
         print('Le code avant le if ')
         print('Le type du dictionnary status: ', type(dictionnary_status))
+        for i in dictionnary_status:
+            print(i)
         print('----------------------------------------')
 
 
