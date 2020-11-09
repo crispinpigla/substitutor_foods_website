@@ -19,7 +19,7 @@
 
 
 
-{% block image_background_content %}{% if resultats_product_page|length == 0 %}{{'../../static/img/aucun_resultat.png'}}{% else %}{{product_to_treat.0.url_image}}{% endif %}{% endblock %}
+{% block image_background_content %}{% if resultats_product_page|length == 0 %}{{'../../static/substitutor/img/aucun_resultat.png'}}{% else %}{{product_to_treat.0.url_image}}{% endif %}{% endblock %}
 
 
 
@@ -38,7 +38,7 @@
 	{% if resultats_product_page|length == 0 %}
 		{{caractere}}
 	{% else %}
-		{{product_to_treat.0.name}} <br> <div class="col-12" class="nutriscore" style="height: 80px; display: flex; justify-content: center; align-items: center; font-size: 180%; color: green; cursor: pointer;"><img style="height: 100%; border-radius: 15px;" src='../../static/img/nutriscore_{{ product_to_treat.0.nutriscore }}.png' ></div>
+		{{product_to_treat.0.name}} <br> <div class="col-12" class="nutriscore" style="height: 80px; display: flex; justify-content: center; align-items: center; font-size: 180%; color: green; cursor: pointer;"><img style="height: 100%; border-radius: 15px;" src='../../static/substitutor/img/nutriscore_{{ product_to_treat.0.nutriscore }}.png' ></div>
 	{% endif %}
 	
 {% endblock %}
@@ -81,7 +81,7 @@
 							<img style="max-height: 100%; max-width: 100%; " src="{{ resultat_product_page.1.url_image }}">
 						</a>
 						<a href="../{{resultat_product_page.1.id}}" class="nom" style=" width: 100%; height: 35px; display: block; text-align: center; cursor: pointer;">{{ resultat_product_page.1.name }}</a>
-						<a href="../{{resultat_product_page.1.id}}" class="col-12" class="nutriscore" style="height: 80px; display: flex; justify-content: center; align-items: center; font-size: 180%; color: green; cursor: pointer;"><img style="height: 100%; border-radius: 15px;" src='../../static/img/nutriscore_{{ resultat_product_page.1.nutriscore }}.png' ></a>
+						<a href="../{{resultat_product_page.1.id}}" class="col-12" class="nutriscore" style="height: 80px; display: flex; justify-content: center; align-items: center; font-size: 180%; color: green; cursor: pointer;"><img style="height: 100%; border-radius: 15px;" src='../../static/substitutor/img/nutriscore_{{ resultat_product_page.1.nutriscore }}.png' ></a>
 						<div style="height: 50px; display: flex; justify-content: center; align-items: center; ">
 							{% if resultat_product_page in list_product_favorite %}
 								<div class="un_suscribe" id="un_suscribe_{{resultat_product_page.1.id}}_{{ product_to_treat.0.id }}" style="height: 60%;width: 70%; color: white; background: red; border-radius: 5px; text-align: center; cursor: pointer; border: solid red 1px; transition: background 0.2s;" id_product="{{ product_to_treat.0.id }}" id_substitut="{{ resultat_product_page.1.id }}" >
