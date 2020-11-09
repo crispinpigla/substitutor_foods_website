@@ -20,6 +20,7 @@ class Download:
             dictionnary_status = json.load(installation_status)
         print('----------------------------------------')
         print('Le code avant le if ')
+        print('Le dictionnary status: ', dictionnary_status)
         print('----------------------------------------')
 
 
