@@ -13,7 +13,6 @@ from ..auxilliaries.substitute import AuxilliarySubstitute
 from ..auxilliaries.installation import download, validations
 
 
-
 class TestAuxilliaries(TestCase):
     """docstring for TestAuxilliaries"""
 

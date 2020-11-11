@@ -131,7 +131,7 @@ SESSION_ENGINE = "django.contrib.sessions.backends.db"
 # SESSION_FILE_PATH = os.getcwd()
 
 
-#if os.environ.get("ENV") == "PRODUCTION":
+# if os.environ.get("ENV") == "PRODUCTION":
 
 # Static files settings
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
