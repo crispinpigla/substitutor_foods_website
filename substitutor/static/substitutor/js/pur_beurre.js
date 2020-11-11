@@ -15,14 +15,11 @@ $('.un_suscribe').click(function(){
        dataType : 'html',
        success : function(code_html, statut){
 
-       	//var from_backend = JSON.parse(xhr.responseText)
-        //contenu_html = document.createRange().createContextualFragment(from_backend);
-        //document.getElementById('un_suscribe_'+ this.getAttribute('id_product')).html(code_html);
         console.log(code_html == 'not_connected');
 
         if ( code_html == 'not_connected' ) 
         {
-        	window.location.href = "http://127.0.0.1:8000/substitutor/home/?home_status=connexion";
+        	window.location.href = "/substitutor/home/?home_status=connexion";
         }
         else
         {
@@ -143,4 +140,4 @@ $('.un_suscribe_favorites').mouseout(function() {
 
 
 
-$('.un_suscribe').attr('class', '');
+$('.un_suscribe').attr('class', 'un_suscribe_off');

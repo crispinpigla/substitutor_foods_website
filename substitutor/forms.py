@@ -12,8 +12,14 @@ class InscriptionForm(forms.Form):
 class ConnexionForm(forms.Form):
     """Inscription form"""
 
-    email = forms.EmailField(label="Adresse e-mail")
-    password = forms.CharField(label="Mot de passe", widget=forms.PasswordInput)
+    email = forms.EmailField(
+        label="Adresse e-mail",
+        widget=forms.TextInput(attrs={"placeholder": "Adresse e-mail"}),
+    )
+    password = forms.CharField(
+        label="Mot de passe",
+        widget=forms.PasswordInput(attrs={"placeholder": "Mot de passe"}),
+    )
 
 
 class SearchForm(forms.Form):

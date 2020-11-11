@@ -26,13 +26,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "y2!bd%d^@_)*e77o&gvgy(bndcj))ym*l_6waq%ig#!a3m6r0u"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.environ.get('ENV') == 'PRODUCTION':
+if os.environ.get("ENV") == "PRODUCTION":
     DEBUG = False
+    ALLOWED_HOSTS = ["purebeurre0.herokuapp.com"]
 else:
     DEBUG = True
-
-#ALLOWED_HOSTS = ["127.0.0.1"]
-ALLOWED_HOSTS = ['purebeurre0.herokuapp.com']
+    ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -55,7 +54,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = "pure_beurre_django.urls"
@@ -132,22 +131,19 @@ SESSION_ENGINE = "django.contrib.sessions.backends.db"
 # SESSION_FILE_PATH = os.getcwd()
 
 
-#if os.environ.get('ENV') == 'PRODUCTION':
+if os.environ.get("ENV") == "PRODUCTION":
 
-# Static files settings
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+    # Static files settings
+    PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-#STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+    # STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+    STATIC_ROOT = os.path.join(PROJECT_ROOT, "staticfiles")
 
-# Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static'),
-)
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    # Extra places for collectstatic to find static files.
+    STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, "static"),)
+    # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+    db_from_env = dj_database_url.config(conn_max_age=500)
+    DATABASES["default"].update(db_from_env)
 
-
-#MEDIA_ROOT = os.path.join(BASE_DIR, 'wt/static/media/')
+    # MEDIA_ROOT = os.path.join(BASE_DIR, 'wt/static/media/')

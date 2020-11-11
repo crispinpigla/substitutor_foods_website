@@ -13,6 +13,7 @@ whitenoise = "*"
 dj-database-url = "*"
 gunicorn = "*"
 requests = "*"
+selenium = "*"
 
 [requires]
 python_version = "3.8"

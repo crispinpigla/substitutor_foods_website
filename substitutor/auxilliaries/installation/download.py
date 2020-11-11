@@ -19,14 +19,14 @@ class Download:
         ) as installation_status:
             dictionnary_status = json.load(installation_status)
 
-
         if dictionnary_status["installation_status"] == "not_installed":
             with open(
                 "substitutor/auxilliaries/installation/installation_status.json", "w"
             ) as file:
                 json.dump(dictionnary_status, file)
 
-            for number_page in range(10):
+            number_page_search = 1
+            for number_page in range(number_page_search):
                 request_products_api_open_food_facts = requests.get(
                     "https://fr.openfoodfacts.org/cgi/search.pl?action=process"
                     "&sort_by=unique_scans_n&page_size=1000&page= "
@@ -43,8 +43,8 @@ class Download:
                 )
                 print("Téléchargement des produits ", number_page + 1, "/", 10)
 
-            #dictionnary_status["status_installation"] = "installed"
-            #dictionnary_status["products"] = self._rows_products
+            # dictionnary_status["status_installation"] = "installed"
+            # dictionnary_status["products"] = self._rows_products
             with open(
                 "substitutor/auxilliaries/installation/installation_status.json", "w"
             ) as file:

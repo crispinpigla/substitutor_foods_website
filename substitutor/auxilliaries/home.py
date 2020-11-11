@@ -86,6 +86,6 @@ class AuxillariesHome:
             del request.session["user_id"]
         except Exception as e:
             pass
-        user_id = False
+        user_id = None
         context = {"user_id": user_id, "home_status": None, "form": form}
         return context

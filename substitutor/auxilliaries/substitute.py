@@ -5,7 +5,7 @@ from ..forms import SearchForm
 from django.core.paginator import Paginator
 
 
-class SubstituteAuxilliary:
+class AuxilliarySubstitute:
     """docstring for SubstituteAuxilliary"""
 
     def __init__(self):

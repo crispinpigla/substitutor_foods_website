@@ -64,21 +64,33 @@
 {% block accroche_plus_content %}
 	{% if home_status == 'connexion' %}
 		
-		<form class="form-inline col-12" action="../home/?home_status=make_connexion" method="post" style="display: flex; flex-direction: column; height: 200px; justify-content: space-around;" >
+		<form class="form-inline col-12 row" action="../home/?home_status=make_connexion" method="post" style="display: flex; flex-direction: column; height: 200px; justify-content: space-around;" >
 		  {% csrf_token %}
+
+		  <!--<label for="{{ form.email.id_for_label }}" style="font-size: 50%;" >Adresse e-mail</label>-->
 		  {{ form.email }}
+
+		  <!--<label for="{{ form.password.id_for_label }}" style="font-size: 50%;" >Mot de passe</label>-->
 		  {{ form.password }}
+
 		  <button type="submit" class="btn btn-success">connexion</button>
 		</form>
 		<div style="color: red; font-size: 50%;" >{{ message_to_user }}</div>
 
 
 	{% elif home_status == 'inscription' %}
-		<form class="form-inline" action="../home/?home_status=make_inscription" method="post" style="display: flex; flex-direction: column; height: 200px; justify-content: space-around;" >
+		<form class="form-inline" action="../home/?home_status=make_inscription" method="post" style="display: flex; flex-direction: column; height: 250px; justify-content: space-around;" >
 		  {% csrf_token %}
+
+		  <label for="{{ form.name.id_for_label }}" style="font-size: 50%;" >Nom</label>
 		  {{ form.name }}
+
+		  <label for="{{ form.email.id_for_label }}" style="font-size: 50%;" >Adresse e-mail</label>
 		  {{ form.email }}
+
+		  <label for="{{ form.password.id_for_label }}" style="font-size: 50%;" >Mot de passe</label>
 		  {{ form.password }}
+
 		  <button type="submit" class="btn btn-success">Inscription</button>
 		</form>
 		<div style="color: red; font-size: 50%;" >

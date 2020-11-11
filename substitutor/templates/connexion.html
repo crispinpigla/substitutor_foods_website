@@ -3,8 +3,15 @@
 
 <form class="form-inline col-12" action="../home/?home_status=make_connexion" method="post" style="display: flex; flex-direction: column; height: 200px; justify-content: space-around;" >
   {% csrf_token %}
-  <input type="email" name="email">
-  <input type="password" name="password">
+
+
+  <label for="{{ form.email.id_for_label }}">
+  	{{form.name}}
+  <!--<input type="email" name="email">-->
+
+  <label for="{{ form.password.id_for_label }}">
+  	{{form.password}}
+ <!-- <input type="password" name="password"> -->
 
   <!-- <input type="hidden" class="hidden" value="{{ album_id }}" name="album_id"> -->
 

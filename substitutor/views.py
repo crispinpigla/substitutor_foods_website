@@ -9,7 +9,7 @@ from .forms import InscriptionForm, ConnexionForm, SearchForm
 from .models import Categorie, Store, Product, Account, Favorite
 
 from .auxilliaries.home import AuxillariesHome
-from .auxilliaries.substitute import SubstituteAuxilliary
+from .auxilliaries.substitute import AuxilliarySubstitute
 from .auxilliaries.favorite import AuxilliariesFavorites
 from .auxilliaries.installation.installation import Installation
 
@@ -21,7 +21,7 @@ def home(request):
     # request ...
     try:
         user_id = request.session["user_id"]
-    except KeyError as e:
+    except (KeyError, AttributeError):
         user_id = False
     home_status = request.GET.get("home_status")
     auxilliary_home = AuxillariesHome()
@@ -38,8 +38,8 @@ def home(request):
         form = InscriptionForm()
         context = {"user_id": user_id, "home_status": home_status, "form": form}
     else:
-        #installation0 = Installation(Product, Store, Categorie)
-        #installation0.insertions()
+        # installation0 = Installation(Product, Store, Categorie)
+        # installation0.insertions()
         form = SearchForm()
         context = {"user_id": user_id, "home_status": home_status, "form": form}
     return render(request, "home.html", context)
@@ -49,9 +49,9 @@ def substitute(request):
     # request ...
     try:
         user_id = request.session["user_id"]
-    except KeyError as e:
+    except (KeyError, AttributeError):
         user_id = False
-    auxilliary_substitute = SubstituteAuxilliary()
+    auxilliary_substitute = AuxilliarySubstitute()
     id_substitut = request.GET.get("un_suscribe_substitute_id")
     id_product = request.GET.get("id_product")
     if id_substitut:
@@ -73,7 +73,7 @@ def substitute(request):
 def detail(request, product_id):
     try:
         user_id = request.session["user_id"]
-    except KeyError as e:
+    except (KeyError, AttributeError):
         user_id = False
     product = Product.objects.get(pk=product_id)
     product_stores = product.store.all()
@@ -100,25 +100,22 @@ def favoris(request):
     # request ...
     try:
         user_id = request.session["user_id"]
-    except KeyError as e:
+    except (KeyError, AttributeError):
         user_id = False
     auxilliary_favorite = AuxilliariesFavorites()
-    favoris_status = request.GET.get("favorite_status")
+    # favoris_status = request.GET.get("favorite_status")
     if user_id:
-        context = auxilliary_favorite.get_context_favorites(
-            request, user_id, favoris_status
-        )
+        context = auxilliary_favorite.get_context_favorites(request, user_id)
+        return render(request, "favoris.html", context)
     else:
         return redirect("/substitutor/home")
-
-    return render(request, "favoris.html", context)
 
 
 def account(request):
     # request ...
     try:
         user_id = request.session["user_id"]
-    except KeyError as e:
+    except (KeyError, AttributeError):
         user_id = False
     if user_id:
         account = Account.objects.get(pk=user_id)
