@@ -18,6 +18,7 @@ class Product(models.Model):
     quantite = models.CharField(max_length=255)
     marque = models.TextField()
     nom_categories = models.TextField()
+    nom_stores = models.TextField(null=True)
     labels = models.TextField()
     ingredients = models.TextField()
     nutriments = models.TextField(null=True)

@@ -3,7 +3,7 @@ from django.test import TestCase
 from ..models import Categorie, Store, Product, Account, Favorite
 
 from ..auxilliaries.installation import download, validations
-
+from . import products_data
 # Create your tests here.
 
 
@@ -13,10 +13,7 @@ class TestsModels(TestCase):
     def setUp(self):
         """Initilize database test"""
         download0 = download.Download()
-        download0.get_products_from_api()
-
-        # resizing
-        download0.rows_products = [download0.rows_products[0][:10]]
+        download0.rows_products = products_data.PRODUCTS
 
         # Construction and filtering of data to insert in the database
         validation0 = validations.Validations()
@@ -44,32 +41,22 @@ class TestsModels(TestCase):
                     url_image=product.get("image_url", ""),
                 )
             )
-            # if ((self.validation.rows_products.index(product)) % 5) == 0 :
-            # 	print( 'Insertion des produits : ', self.validation.rows_products.index(product) , '/', len(self.validation.rows_products))
 
         for store in self.validation.rows_stores:
             store_to_insert.append(Store.objects.create(name=store[0]))
-            # if ((self.validation.rows_stores.index(store)) % 5) == 0 :
-            # 	print( 'Insertion des magasins : ',  self.validation.rows_stores.index(store) , '/', len(self.validation.rows_stores))
 
         for categorie in self.validation.rows_categories:
             categorie_to_insert.append(Categorie.objects.create(name=categorie[0]))
-            # if ((self.validation.rows_categories.index(categorie)) % 5) == 0 :
-            # 	print( 'Insertion des catégories : ',  self.validation.rows_categories.index(categorie) , '/', len(self.validation.rows_categories) )
 
         for product_store in self.validation.rows_products_stores:
             product0 = Product.objects.get(code=int(product_store[0]))
             store0 = Store.objects.get(name=product_store[1])
             product0.store.add(store0)
-            # if ((self.validation.rows_products_stores.index(product_store)) % 5) == 0 :
-            # 	print( 'Insertion des produits-magasins : ',  self.validation.rows_products_stores.index(product_store) , '/', len(self.validation.rows_products_stores) )
 
         for product_categorie in self.validation.rows_products_categories:
             product0 = Product.objects.get(code=int(product_categorie[0]))
             categorie0 = Categorie.objects.get(name=product_categorie[1])
             product0.categorie.add(categorie0)
-            # if ((self.validation.rows_products_categories.index(product_categorie)) % 5) == 0 :
-            # 	print( 'Insertion des produits-categories : ',  self.validation.rows_products_categories.index(product_categorie) , '/', len(self.validation.rows_products_categories) )
 
         user = Account.objects.create(name="a1", adresse_mail="a1@a1.a1", password="a0")
 
@@ -77,8 +64,8 @@ class TestsModels(TestCase):
             product=product_to_insert[0], substitut=product_to_insert[1], user=user
         )
 
-    def test_models(self):
-        """Test models modèle"""
+    def test_models_categorie(self):
+        """Test models modèle categorie"""
 
         # Test that objects receive to the database are Categorie's objects
         result_categorie = True
@@ -88,6 +75,9 @@ class TestsModels(TestCase):
                 result_categorie = False
         self.assertTrue(result_categorie)
 
+    def test_models_store(self):
+        """Test modèle store"""
+
         # Test that objects receive to the database are Store's objects
         result_store = True
         stores = Store.objects.all()
@@ -95,6 +85,9 @@ class TestsModels(TestCase):
             if not isinstance(store, Store):
                 result_store = False
         self.assertTrue(result_store)
+
+    def test_models_produit(self):
+        """Test modèle produit"""
 
         # Test that objects receive to the database are Product's objects
         result_product = True
@@ -104,6 +97,9 @@ class TestsModels(TestCase):
                 result_product = False
         self.assertTrue(result_product)
 
+    def test_models_account(self):
+        """Test modèle account"""
+
         # Test that objects receive to the database are Account's objects
         result_account = True
         accounts = Account.objects.all()
@@ -111,6 +107,9 @@ class TestsModels(TestCase):
             if not isinstance(account, Account):
                 result_account = False
         self.assertTrue(result_account)
+
+    def test_models_favorite(self):
+        """Test modèle favorite"""
 
         # Test that objects receive to the database are Favorite's objects
         result_favorite = True

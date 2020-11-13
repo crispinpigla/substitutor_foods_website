@@ -30,8 +30,10 @@ class Validations:
                         and (product0["nutriscore_data"]["grade"] != "")
                     ):
                         list_products.append(product0)
+                    else:
+                        pass
                 except Exception as e:
-                    pass
+                    print(product0['code'])
         self.rows_products = list_products
 
         # Construction of product-stores and products-categories dictionaries
@@ -50,7 +52,8 @@ class Validations:
                 except KeyError as e:
                     self.rows_products.remove(product1)
             except KeyError as e:
-                self.rows_products.remove(product1)
+                pass
+
         self.products_stores = list_products_store
         self.products_categories = list_products_categories
 

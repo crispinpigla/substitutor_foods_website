@@ -21,6 +21,7 @@ class AuxilliarySubstitute:
             product_to_treat = [products_find[0]]
         except Exception as e:
             product_to_treat = []
+
         return product_to_treat
 
     def _product_to_substitute(self, product_to_treat):

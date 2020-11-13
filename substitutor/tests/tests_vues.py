@@ -10,7 +10,7 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from ..models import Categorie, Store, Product, Account, Favorite
 from ..auxilliaries.installation import download, validations
 from ..views import home, substitute, detail, favoris, account
-
+from . import products_data
 # Create your tests here.
 
 
@@ -22,10 +22,7 @@ class TestsModels(TestCase):
         self.factory = RequestFactory()
 
         download0 = download.Download()
-        download0.get_products_from_api()
-
-        # resizing
-        download0.rows_products = [download0.rows_products[0][:10]]
+        download0.rows_products = products_data.PRODUCTS
 
         # Construction and filtering of data to insert in the database
         validation0 = validations.Validations()
@@ -37,11 +34,13 @@ class TestsModels(TestCase):
         for product in self.validation.rows_products:
             product_to_insert.append(
                 Product.objects.create(
+                    id=(self.validation.rows_products.index(product))+1,
                     code=product["code"],
                     name=product["product_name"],
                     quantite=product.get("quantity", ""),
                     marque=product.get("brands", ""),
                     nom_categories=product.get("categories", ""),
+                    nom_stores=product.get("store", ""),
                     labels=product.get("labels", ""),
                     ingredients=product.get("ingredients_text", ""),
                     nutriments=product["nutriments"],
@@ -107,19 +106,22 @@ class TestsModels(TestCase):
                     len(self.validation.rows_products_categories),
                 )
 
-        user = Account.objects.create(name="a1", adresse_mail="a1@a1.a1", password="a0")
+        user = Account.objects.create(id=1, name="a1", adresse_mail="a1@a1.a1", password="a0")
 
         favorite = Favorite.objects.create(
             product=product_to_insert[0], substitut=product_to_insert[1], user=user
         )
 
-    def tests_vues(self):
+    def tests_vues_home(self):
         """Test vues"""
 
         # Teste la vue home
         request = self.factory.post("/substitutor/home/")
         response = home(request)
         self.assertEqual(response.status_code, 200)
+
+    def tests_vues_record_connected(self):
+        """"""
 
         # Teste l'enregistrement d'un substitut si l'utilisateur est connecté
         request = self.factory.get(
@@ -137,6 +139,9 @@ class TestsModels(TestCase):
         response = substitute(request)
         self.assertEqual(response.status_code, 200)
 
+    def tests_vues_record_unconnected(self):
+        """"""
+
         # Teste la reponse renvoyée si l'utilisateur n'est pas connecté et souhaite enregistrer un favori
         request = self.factory.get(
             "/substitutor/substitute/",
@@ -145,10 +150,16 @@ class TestsModels(TestCase):
         response = substitute(request)
         self.assertEqual(response.content, b"not_connected")
 
+    def tests_vues_detail_substitut(self):
+        """"""
+
         # Teste la page de détail d'un substitut
         request = self.factory.get("/substitutor/")
         response = detail(request, 1)
         self.assertEqual(response.status_code, 200)
+
+    def tests_vues_get_favorites(self):
+        """"""
 
         # Teste la restitution des favoris
         request = self.factory.get("/substitutor/favoris/")
@@ -159,11 +170,17 @@ class TestsModels(TestCase):
         response = favoris(request)
         self.assertEqual(response.status_code, 200)
 
+    def tests_vues_redirection(self):
+        """"""
+
         # Teste la redirection de l'utilisateur s'il n'est pas connecté et souhaite acceder aux favoris
         request = self.factory.get("/substitutor/favoris/")
         response = favoris(request)
         self.assertTrue(isinstance(response, HttpResponseRedirect))
         self.assertEqual(response.url, "/substitutor/home")
+
+    def tests_vues_account(self):
+        """"""
 
         # Teste l'accession aux informations du compte
         request = self.factory.get("/substitutor/account/")

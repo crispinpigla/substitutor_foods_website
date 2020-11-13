@@ -1,6 +1,11 @@
 import os, time
 
-from django.test import LiveServerTestCase
+from django.test import LiveServerTestCase, RequestFactory
+
+from ..models import Categorie, Store, Product, Account, Favorite
+
+from ..auxilliaries.installation import download, validations
+from . import products_data
 
 from selenium import webdriver
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
@@ -13,179 +18,256 @@ class TestsParcoursUsers(LiveServerTestCase):
     def setUp(self):
         """Setup"""
         # binary = FirefoxBinary('./geckodriver-v0.28.0-linux32/geckodriver')
+        super().setUpClass()
         PATH = "substitutor/tests/geckodriver/geckodriver"
         self.driver = webdriver.Firefox(executable_path=PATH)
         self.driver.maximize_window()
         if os.environ.get("ENV") == "PRODUCTION":
             self.domain = "http://purebeurre0.herokuapp.com"
         else:
-            self.domain = "localhost:8000"
-        self.driver.get(self.domain + "/substitutor/home/")
+            self.domain = self.live_server_url
+
+        #  support of request
+        self.factory = RequestFactory()
+
+        download0 = download.Download()
+        download0.rows_products = products_data.PRODUCTS
+
+        # Construction and filtering of data to insert in the database
+        validation0 = validations.Validations()
+        validation0.sort_build(download0)
+        self.validation = validation0
+
+
+        product_to_insert = []
+        store_to_insert = []
+        categorie_to_insert = []
+        for product in self.validation.rows_products:
+            product_to_insert.append(
+                Product.objects.create(
+                    id=(self.validation.rows_products.index(product))+1,
+                    code=product["code"],
+                    name=product["product_name"],
+                    quantite=product.get("quantity", ""),
+                    marque=product.get("brands", ""),
+                    nom_categories=product.get("categories", ""),
+                    nom_stores=product.get("store", ""),
+                    labels=product.get("labels", ""),
+                    ingredients=product.get("ingredients_text", ""),
+                    nutriments=product["nutriments"],
+                    produits_provoqu_allergies=product["allergens_tags"],
+                    traces_eventuelles=product["traces_tags"],
+                    nutriscore=product["nutriscore_data"]["grade"],
+                    lien_o_ff=product.get("url", ""),
+                    url_image=product.get("image_url", ""),
+                )
+            )
+            if ((self.validation.rows_products.index(product)) % 500) == 0:
+                print(
+                    "Insertion des produits : ",
+                    self.validation.rows_products.index(product),
+                    "/",
+                    len(self.validation.rows_products),
+                )
+
+        for store in self.validation.rows_stores:
+            store_to_insert.append(Store.objects.create(name=store[0]))
+            if ((self.validation.rows_stores.index(store)) % 500) == 0:
+                print(
+                    "Insertion des magasins : ",
+                    self.validation.rows_stores.index(store),
+                    "/",
+                    len(self.validation.rows_stores),
+                )
+
+        for categorie in self.validation.rows_categories:
+            categorie_to_insert.append(Categorie.objects.create(name=categorie[0]))
+            if ((self.validation.rows_categories.index(categorie)) % 500) == 0:
+                print(
+                    "Insertion des catégories : ",
+                    self.validation.rows_categories.index(categorie),
+                    "/",
+                    len(self.validation.rows_categories),
+                )
+
+        for product_store in self.validation.rows_products_stores:
+            product0 = Product.objects.get(code=int(product_store[0]))
+            store0 = Store.objects.get(name=product_store[1])
+            product0.store.add(store0)
+            if ((self.validation.rows_products_stores.index(product_store)) % 500) == 0:
+                print(
+                    "Insertion des produits-magasins : ",
+                    self.validation.rows_products_stores.index(product_store),
+                    "/",
+                    len(self.validation.rows_products_stores),
+                )
+
+        for product_categorie in self.validation.rows_products_categories:
+            product0 = Product.objects.get(code=int(product_categorie[0]))
+            categorie0 = Categorie.objects.get(name=product_categorie[1])
+            product0.categorie.add(categorie0)
+            if (
+                (self.validation.rows_products_categories.index(product_categorie))
+                % 500
+            ) == 0:
+                print(
+                    "Insertion des produits-categories : ",
+                    self.validation.rows_products_categories.index(product_categorie),
+                    "/",
+                    len(self.validation.rows_products_categories),
+                )
+
+        user = Account.objects.create(id=1, name="a1", adresse_mail="a1@a1.a1", password="a1")
+
+        favorite = Favorite.objects.create(
+            product=product_to_insert[0], substitut=product_to_insert[1], user=user
+        )
+
+        self.driver.get(self.domain)
+
+
+
 
     def tearDown(self):
         """Teardown"""
-        pass
+        self.driver.quit()
 
-    def test_a(self):
-        """Test one"""
 
-        # Acceuil - recherche - detail du produit
+    def test_recherche(self):
+        """Test detail"""
+
+        # Acceuil - recherche - acceuil
         search_input = self.driver.find_element_by_name("search_input")
-        time.sleep(2)
         search_input.send_keys("nutella")
-        time.sleep(5)
         search_input.submit()
-        time.sleep(5)
+        time.sleep(1)
+        noms_produits = self.driver.find_elements_by_link_text("Voir plus de detail")
+        self.assertTrue(len(noms_produits)>0)
+
+
+
+    def test_detail(self):
+        """Test detail"""
+
+        # Acceuil - recherche - detail du produit - acceuil
+        search_input = self.driver.find_element_by_name("search_input")
+        search_input.send_keys("nutella")
+        search_input.submit()
+        time.sleep(1)
         noms_produits = self.driver.find_elements_by_link_text("Voir plus de detail")
         first_prod = noms_produits[0]
         first_prod.click()
-        time.sleep(5)
-        self.driver.quit()
+        contain_detail = self.driver.find_elements_by_class_name("detail_content")
+        self.assertEqual(len(contain_detail), 1)
 
-    def test_b(self):
+
+    def test_record_fail(self):
         """Test two"""
 
         # Acceuil - recherche - tentative d'enregistrement de favori ( hors connexion )
         search_input = self.driver.find_element_by_name("search_input")
-        time.sleep(2)
         search_input.send_keys("nutella")
-        time.sleep(5)
         search_input.submit()
-        time.sleep(5)
         subscription = self.driver.find_elements_by_class_name("un_suscribe_off")
         first_prod = subscription[0]
         first_prod.click()
-        time.sleep(5)
         self.driver.quit()
+        self.assertEqual()
 
-    def test_c(self):
+    def test_favori_unconnected(self):
         """Test three"""
 
         # Acceuil - favoris ( sans connexion )
-        time.sleep(2)
         self.driver.get(self.domain + "/substitutor/favoris/")
-        time.sleep(5)
         self.driver.quit()
+        self.assertEqual()
 
-    def test_d(self):
+    def test_deconnexion(self):
         """Test three"""
 
         # Acceuil - connexion - deconnexion
-        time.sleep(2)
         self.driver.get(self.domain + "/substitutor/home/?home_status=connexion")
-        time.sleep(2)
         mail_input = self.driver.find_element_by_name("email")
         password_input = self.driver.find_element_by_name("password")
         mail_input.send_keys("aa0@aa0.aa0")
-        time.sleep(2)
         password_input.send_keys("crispin")
-        time.sleep(2)
         password_input.submit()
-        time.sleep(2)
         disconnected_button = self.driver.find_element_by_css_selector(
             ".disconnected_button"
         )
         disconnected_button.click()
-        time.sleep(5)
         self.driver.quit()
+        self.assertEqual()
 
-    def test_e(self):
+    def test_inscription(self):
         """Test three"""
 
         # Acceuil - Inscription
-        time.sleep(2)
         self.driver.get(self.domain + "/substitutor/home/?home_status=inscription")
-        time.sleep(2)
         name_input = self.driver.find_element_by_name("name")
         mail_input = self.driver.find_element_by_name("email")
         password_input = self.driver.find_element_by_name("password")
         name_input.send_keys("aa3")
-        time.sleep(2)
         mail_input.send_keys("aa3@aa3.aa3")
-        time.sleep(2)
         password_input.send_keys("crispin")
-        time.sleep(2)
         password_input.submit()
-        time.sleep(2)
         self.driver.quit()
+        self.assertEqual()
 
-    def test_f(self):
+    def test_add_delete_substitut(self):
         """Test three"""
 
-        # Acceuil - connexion - recherche - enregistrement de favori - suppression de favori - Acceuil
-        time.sleep(2)
+        # Acceuil - connexion - recherche - enregistrement de substitut - suppression de substitut - Acceuil
         self.driver.get(self.domain + "/substitutor/home/?home_status=connexion")
-        time.sleep(2)
         mail_input = self.driver.find_element_by_name("email")
         password_input = self.driver.find_element_by_name("password")
         mail_input.send_keys("aa0@aa0.aa0")
-        time.sleep(2)
         password_input.send_keys("crispin")
-        time.sleep(2)
         password_input.submit()
-        time.sleep(2)
         search_input = self.driver.find_element_by_name("search_input")
-        time.sleep(2)
         search_input.send_keys("nutella")
-        time.sleep(2)
         search_input.submit()
-        time.sleep(5)
         subscription = self.driver.find_elements_by_class_name("un_suscribe_off")
         first_prod = subscription[0]
         first_prod.click()
-        time.sleep(5)
         subscription = self.driver.find_elements_by_class_name("un_suscribe_off")
         first_prod = subscription[0]
         first_prod.click()
-        time.sleep(2)
         self.driver.get(self.domain + "/substitutor/home/")
-        time.sleep(2)
         self.driver.quit()
+        self.assertEqual()
 
-    def test_g(self):
+    def test_delete_favori(self):
         """Test three"""
 
         # Acceuil - connexion - favoris - suppression de favori - Acceuil
-        time.sleep(2)
         self.driver.get(self.domain + "/substitutor/home/?home_status=connexion")
-        time.sleep(2)
         mail_input = self.driver.find_element_by_name("email")
         password_input = self.driver.find_element_by_name("password")
         mail_input.send_keys("aa0@aa0.aa0")
-        time.sleep(2)
         password_input.send_keys("crispin")
-        time.sleep(2)
         password_input.submit()
-        time.sleep(2)
         self.driver.get(self.domain + "/substitutor/favoris/")
-        time.sleep(5)
         delete_favorite_subscription = self.driver.find_elements_by_class_name(
             "un_suscribe_favorites"
         )
         first_prod = delete_favorite_subscription[0]
         first_prod.click()
-        time.sleep(5)
         self.driver.get(self.domain + "/substitutor/home/")
-        time.sleep(2)
         self.driver.quit()
+        self.assertEqual()
 
-    def test_h(self):
+    def test_account(self):
         """Test three"""
 
         # Acceuil - connexion - compte - Acceuil
-        time.sleep(2)
         self.driver.get(self.domain + "/substitutor/home/?home_status=connexion")
-        time.sleep(2)
         mail_input = self.driver.find_element_by_name("email")
         password_input = self.driver.find_element_by_name("password")
         mail_input.send_keys("aa0@aa0.aa0")
-        time.sleep(2)
         password_input.send_keys("crispin")
-        time.sleep(2)
         password_input.submit()
-        time.sleep(2)
         self.driver.get(self.domain + "/substitutor/account/")
-        time.sleep(8)
         self.driver.get(self.domain + "/substitutor/home/")
-        time.sleep(2)
         self.driver.quit()
+        self.assertEqual()
