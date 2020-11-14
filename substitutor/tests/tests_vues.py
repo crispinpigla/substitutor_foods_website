@@ -28,13 +28,13 @@ class TestsModels(TestCase):
         validation0 = validations.Validations()
         validation0.sort_build(download0)
         self.validation = validation0
-        product_to_insert = []
-        store_to_insert = []
-        categorie_to_insert = []
+
+        self.product_to_insert = []
+        self.store_to_insert = []
+        self.categorie_to_insert = []
         for product in self.validation.rows_products:
-            product_to_insert.append(
+            self.product_to_insert.append(
                 Product.objects.create(
-                    id=(self.validation.rows_products.index(product))+1,
                     code=product["code"],
                     name=product["product_name"],
                     quantite=product.get("quantity", ""),
@@ -53,14 +53,14 @@ class TestsModels(TestCase):
             )
             if ((self.validation.rows_products.index(product)) % 500) == 0:
                 print(
-                    "Insertion des produits : ",
+                    "\nInsertion des produits : ",
                     self.validation.rows_products.index(product),
                     "/",
                     len(self.validation.rows_products),
                 )
 
         for store in self.validation.rows_stores:
-            store_to_insert.append(Store.objects.create(name=store[0]))
+            self.store_to_insert.append(Store.objects.create(name=store[0]))
             if ((self.validation.rows_stores.index(store)) % 500) == 0:
                 print(
                     "Insertion des magasins : ",
@@ -70,7 +70,7 @@ class TestsModels(TestCase):
                 )
 
         for categorie in self.validation.rows_categories:
-            categorie_to_insert.append(Categorie.objects.create(name=categorie[0]))
+            self.categorie_to_insert.append(Categorie.objects.create(name=categorie[0]))
             if ((self.validation.rows_categories.index(categorie)) % 500) == 0:
                 print(
                     "Insertion des catégories : ",
@@ -106,16 +106,17 @@ class TestsModels(TestCase):
                     len(self.validation.rows_products_categories),
                 )
 
-        user = Account.objects.create(id=1, name="a1", adresse_mail="a1@a1.a1", password="a0")
+        self.user = Account.objects.create(name="a1", adresse_mail="a1@a1.a1", password="a0")
 
-        favorite = Favorite.objects.create(
-            product=product_to_insert[0], substitut=product_to_insert[1], user=user
+        self.favorite = Favorite.objects.create(
+            product=self.product_to_insert[0], substitut=self.product_to_insert[1], user=self.user
         )
 
     def tests_vues_home(self):
         """Test vues"""
 
         # Teste la vue home
+        print('Test de la vue home')
         request = self.factory.post("/substitutor/home/")
         response = home(request)
         self.assertEqual(response.status_code, 200)
@@ -124,18 +125,19 @@ class TestsModels(TestCase):
         """"""
 
         # Teste l'enregistrement d'un substitut si l'utilisateur est connecté
+        print('Test de la vue substitute : enregistrement d\'un substitut si l\'utilisateur est connecté')
         request = self.factory.get(
             "/substitutor/substitute/",
             {
-                "un_suscribe_substitute_id": 2,
-                "id_product": 1,
+                "un_suscribe_substitute_id": self.product_to_insert[1].id,
+                "id_product": self.product_to_insert[0].id,
                 "search_input": "nutella",
             },
         )
         middleware = SessionMiddleware()
         middleware.process_request(request)
         request.session.save()
-        request.session["user_id"] = 1
+        request.session["user_id"] = self.user.id
         response = substitute(request)
         self.assertEqual(response.status_code, 200)
 
@@ -143,6 +145,7 @@ class TestsModels(TestCase):
         """"""
 
         # Teste la reponse renvoyée si l'utilisateur n'est pas connecté et souhaite enregistrer un favori
+        print('Test de la vue substitute: enregistrement d\'un substitut si l\'utilisateur n\'est pas connecté')
         request = self.factory.get(
             "/substitutor/substitute/",
             {"un_suscribe_substitute_id": 2, "id_product": 1},
@@ -150,23 +153,26 @@ class TestsModels(TestCase):
         response = substitute(request)
         self.assertEqual(response.content, b"not_connected")
 
+
     def tests_vues_detail_substitut(self):
         """"""
 
+        print('Test de la vue detail')
         # Teste la page de détail d'un substitut
         request = self.factory.get("/substitutor/")
-        response = detail(request, 1)
+        response = detail(request, self.product_to_insert[0].id)
         self.assertEqual(response.status_code, 200)
 
     def tests_vues_get_favorites(self):
         """"""
 
         # Teste la restitution des favoris
+        print('Test de la vue favorite : Si l\'utilisateur est connecté ')
         request = self.factory.get("/substitutor/favoris/")
         middleware = SessionMiddleware()
         middleware.process_request(request)
         request.session.save()
-        request.session["user_id"] = 1
+        request.session["user_id"] = self.user.id
         response = favoris(request)
         self.assertEqual(response.status_code, 200)
 
@@ -174,6 +180,7 @@ class TestsModels(TestCase):
         """"""
 
         # Teste la redirection de l'utilisateur s'il n'est pas connecté et souhaite acceder aux favoris
+        print('Test de la vue favorite : Si l\'utilisateur n\'est pas connecté ')
         request = self.factory.get("/substitutor/favoris/")
         response = favoris(request)
         self.assertTrue(isinstance(response, HttpResponseRedirect))
@@ -183,10 +190,11 @@ class TestsModels(TestCase):
         """"""
 
         # Teste l'accession aux informations du compte
+        print('Test de la vue account')
         request = self.factory.get("/substitutor/account/")
         middleware = SessionMiddleware()
         middleware.process_request(request)
         request.session.save()
-        request.session["user_id"] = 1
+        request.session["user_id"] = self.user.id
         response = account(request)
         self.assertEqual(response.status_code, 200)

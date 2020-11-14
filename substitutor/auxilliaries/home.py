@@ -10,7 +10,7 @@ class AuxillariesHome:
         """"""
         pass
 
-    def register_account(self, account, request):
+    def _register_account(self, account, request):
         """Register account"""
         if len(account) == 0:
             form = SearchForm()
@@ -43,7 +43,7 @@ class AuxillariesHome:
             post_form = InscriptionForm(request.POST)
             if post_form.is_valid():
                 account = Account.objects.filter(adresse_mail=request.POST.get("email"))
-                context = self.register_account(account, request)
+                context = self._register_account(account, request)
             else:
                 home_status = "inscription"
                 form = InscriptionForm()

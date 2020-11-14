@@ -68,6 +68,7 @@ class TestsModels(TestCase):
         """Test models modèle categorie"""
 
         # Test that objects receive to the database are Categorie's objects
+        print('\nTest du model categorie')
         result_categorie = True
         categories = Categorie.objects.all()
         for categorie in categories:
@@ -79,6 +80,7 @@ class TestsModels(TestCase):
         """Test modèle store"""
 
         # Test that objects receive to the database are Store's objects
+        print('\nTest du model store')
         result_store = True
         stores = Store.objects.all()
         for store in stores:
@@ -90,6 +92,7 @@ class TestsModels(TestCase):
         """Test modèle produit"""
 
         # Test that objects receive to the database are Product's objects
+        print('\nTest du model produit')
         result_product = True
         products = Product.objects.all()
         for product in products:
@@ -101,6 +104,7 @@ class TestsModels(TestCase):
         """Test modèle account"""
 
         # Test that objects receive to the database are Account's objects
+        print('\nTest du model account')
         result_account = True
         accounts = Account.objects.all()
         for account in accounts:
@@ -112,6 +116,7 @@ class TestsModels(TestCase):
         """Test modèle favorite"""
 
         # Test that objects receive to the database are Favorite's objects
+        print('\nTest du model favorite')
         result_favorite = True
         favorites = Favorite.objects.all()
         for favorite in favorites:

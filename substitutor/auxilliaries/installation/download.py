@@ -41,7 +41,7 @@ class Download:
                 self._rows_products.append(
                     request_products_api_open_food_facts["products"]
                 )
-                print("Téléchargement des produits ", number_page + 1, "/", 10)
+                print("\nTéléchargement des produits ", number_page + 1, "/", 10)
 
             # dictionnary_status["status_installation"] = "installed"
             # dictionnary_status["products"] = self._rows_products

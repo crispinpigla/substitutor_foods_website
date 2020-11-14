@@ -7,6 +7,10 @@ from ..models import Categorie, Store, Product, Account, Favorite
 from ..auxilliaries.installation import download, validations
 from . import products_data
 
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+
 from selenium import webdriver
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from selenium.webdriver.common.keys import Keys
@@ -19,13 +23,6 @@ class TestsParcoursUsers(LiveServerTestCase):
         """Setup"""
         # binary = FirefoxBinary('./geckodriver-v0.28.0-linux32/geckodriver')
         super().setUpClass()
-        PATH = "substitutor/tests/geckodriver/geckodriver"
-        self.driver = webdriver.Firefox(executable_path=PATH)
-        self.driver.maximize_window()
-        if os.environ.get("ENV") == "PRODUCTION":
-            self.domain = "http://purebeurre0.herokuapp.com"
-        else:
-            self.domain = self.live_server_url
 
         #  support of request
         self.factory = RequestFactory()
@@ -38,14 +35,13 @@ class TestsParcoursUsers(LiveServerTestCase):
         validation0.sort_build(download0)
         self.validation = validation0
 
-
         product_to_insert = []
         store_to_insert = []
         categorie_to_insert = []
         for product in self.validation.rows_products:
             product_to_insert.append(
                 Product.objects.create(
-                    id=(self.validation.rows_products.index(product))+1,
+                    id=(self.validation.rows_products.index(product)) + 1,
                     code=product["code"],
                     name=product["product_name"],
                     quantite=product.get("quantity", ""),
@@ -64,7 +60,7 @@ class TestsParcoursUsers(LiveServerTestCase):
             )
             if ((self.validation.rows_products.index(product)) % 500) == 0:
                 print(
-                    "Insertion des produits : ",
+                    "\nInsertion des produits : ",
                     self.validation.rows_products.index(product),
                     "/",
                     len(self.validation.rows_products),
@@ -117,157 +113,209 @@ class TestsParcoursUsers(LiveServerTestCase):
                     len(self.validation.rows_products_categories),
                 )
 
-        user = Account.objects.create(id=1, name="a1", adresse_mail="a1@a1.a1", password="a1")
+        user = Account.objects.create(name="a1", adresse_mail="a1@a1.a1", password="a1")
 
         favorite = Favorite.objects.create(
             product=product_to_insert[0], substitut=product_to_insert[1], user=user
         )
 
+        PATH = "substitutor/tests/geckodriver/geckodriver"
+        self.driver = webdriver.Firefox(executable_path=PATH)
+        if os.environ.get("ENV") == "PRODUCTION":
+            self.domain = "http://purebeurre0.herokuapp.com"
+        else:
+            self.domain = self.live_server_url
+        self.driver.maximize_window()
         self.driver.get(self.domain)
 
-
-
+        self.waiteur = WebDriverWait(self.driver, 10)
 
     def tearDown(self):
         """Teardown"""
         self.driver.quit()
 
-
     def test_recherche(self):
         """Test detail"""
 
-        # Acceuil - recherche - acceuil
+        # Acceuil - recherche
+        print("Test du parcour acceuil - recherche")
         search_input = self.driver.find_element_by_name("search_input")
         search_input.send_keys("nutella")
         search_input.submit()
-        time.sleep(1)
+        element = self.waiteur.until(
+            EC.presence_of_element_located((By.CLASS_NAME, "conteneur_produit"))
+        )
         noms_produits = self.driver.find_elements_by_link_text("Voir plus de detail")
-        self.assertTrue(len(noms_produits)>0)
-
-
+        self.assertTrue(len(noms_produits) > 0)
 
     def test_detail(self):
         """Test detail"""
 
         # Acceuil - recherche - detail du produit - acceuil
+        print("Test du parcour acceuil - recherche - detail du produit")
         search_input = self.driver.find_element_by_name("search_input")
         search_input.send_keys("nutella")
         search_input.submit()
-        time.sleep(1)
+        element = self.waiteur.until(
+            EC.presence_of_element_located((By.CLASS_NAME, "conteneur_produit"))
+        )
         noms_produits = self.driver.find_elements_by_link_text("Voir plus de detail")
         first_prod = noms_produits[0]
         first_prod.click()
         contain_detail = self.driver.find_elements_by_class_name("detail_content")
         self.assertEqual(len(contain_detail), 1)
 
-
     def test_record_fail(self):
         """Test two"""
 
         # Acceuil - recherche - tentative d'enregistrement de favori ( hors connexion )
+        print(
+            "Test du parcour acceuil - recherche - tentative d'enregistrement de favori ( hors connexion )"
+        )
         search_input = self.driver.find_element_by_name("search_input")
         search_input.send_keys("nutella")
         search_input.submit()
+        element = self.waiteur.until(
+            EC.presence_of_element_located((By.CLASS_NAME, "un_suscribe_off"))
+        )
         subscription = self.driver.find_elements_by_class_name("un_suscribe_off")
         first_prod = subscription[0]
         first_prod.click()
-        self.driver.quit()
-        self.assertEqual()
+        element = self.waiteur.until(
+            EC.presence_of_element_located(
+                (By.CLASS_NAME, "contain_header_disconnected")
+            )
+        )
+        self.assertEqual(
+            self.driver.current_url,
+            self.domain + "/substitutor/home/?home_status=connexion",
+        )
 
     def test_favori_unconnected(self):
         """Test three"""
 
-        # Acceuil - favoris ( sans connexion )
+        # Acceuil - favoris ( hors connexion )
+        print("Test du parcour acceuil - favoris ( hors connexion )")
         self.driver.get(self.domain + "/substitutor/favoris/")
-        self.driver.quit()
-        self.assertEqual()
+        self.assertEqual(self.driver.current_url, self.domain + "/substitutor/home/")
 
     def test_deconnexion(self):
         """Test three"""
 
         # Acceuil - connexion - deconnexion
+        print("Test du parcour acceuil - connexion - deconnexion")
         self.driver.get(self.domain + "/substitutor/home/?home_status=connexion")
         mail_input = self.driver.find_element_by_name("email")
         password_input = self.driver.find_element_by_name("password")
-        mail_input.send_keys("aa0@aa0.aa0")
-        password_input.send_keys("crispin")
+        mail_input.send_keys("a1@a1.a1")
+        password_input.send_keys("a1")
         password_input.submit()
+        element = self.waiteur.until(
+            EC.presence_of_element_located((By.CLASS_NAME, "disconnected_button"))
+        )
         disconnected_button = self.driver.find_element_by_css_selector(
             ".disconnected_button"
         )
         disconnected_button.click()
-        self.driver.quit()
-        self.assertEqual()
+        self.assertEqual(
+            self.driver.current_url,
+            self.domain + "/substitutor/home/?home_status=make_disconnection",
+        )
 
     def test_inscription(self):
         """Test three"""
 
         # Acceuil - Inscription
+        print("Test du parcour acceuil - inscription")
         self.driver.get(self.domain + "/substitutor/home/?home_status=inscription")
+        users_before_inscription = len(Account.objects.all())
         name_input = self.driver.find_element_by_name("name")
         mail_input = self.driver.find_element_by_name("email")
         password_input = self.driver.find_element_by_name("password")
-        name_input.send_keys("aa3")
-        mail_input.send_keys("aa3@aa3.aa3")
-        password_input.send_keys("crispin")
+        name_input.send_keys("a2")
+        mail_input.send_keys("a2@a2.a2")
+        password_input.send_keys("a2")
         password_input.submit()
-        self.driver.quit()
-        self.assertEqual()
+        element = self.waiteur.until(
+            EC.presence_of_element_located((By.CLASS_NAME, "disconnected_button"))
+        )
+        self.assertEqual(users_before_inscription + 1, len(Account.objects.all()))
 
     def test_add_delete_substitut(self):
         """Test three"""
 
         # Acceuil - connexion - recherche - enregistrement de substitut - suppression de substitut - Acceuil
+        print("Test du parcour acceuil - connexion - recherche - enregistrement de substitut - suppression de substitut")
         self.driver.get(self.domain + "/substitutor/home/?home_status=connexion")
         mail_input = self.driver.find_element_by_name("email")
         password_input = self.driver.find_element_by_name("password")
-        mail_input.send_keys("aa0@aa0.aa0")
-        password_input.send_keys("crispin")
+        mail_input.send_keys("a1@a1.a1")
+        password_input.send_keys("a1")
         password_input.submit()
+        element = self.waiteur.until(
+            EC.presence_of_element_located((By.CLASS_NAME, "disconnected_button"))
+        )
         search_input = self.driver.find_element_by_name("search_input")
         search_input.send_keys("nutella")
         search_input.submit()
+        element = self.waiteur.until(
+            EC.presence_of_element_located((By.CLASS_NAME, "un_suscribe_off"))
+        )
+        favorite_before = len(Favorite.objects.all())
         subscription = self.driver.find_elements_by_class_name("un_suscribe_off")
         first_prod = subscription[0]
         first_prod.click()
+        self.assertEqual(favorite_before + 1, len(Favorite.objects.all()))
         subscription = self.driver.find_elements_by_class_name("un_suscribe_off")
         first_prod = subscription[0]
         first_prod.click()
-        self.driver.get(self.domain + "/substitutor/home/")
-        self.driver.quit()
-        self.assertEqual()
+        self.assertEqual(favorite_before, len(Favorite.objects.all()))
 
     def test_delete_favori(self):
         """Test three"""
 
         # Acceuil - connexion - favoris - suppression de favori - Acceuil
+        print("Test du parcour acceuil - connexion - favoris - suppression de favori")
         self.driver.get(self.domain + "/substitutor/home/?home_status=connexion")
+        wait = WebDriverWait(self.driver, 10)
         mail_input = self.driver.find_element_by_name("email")
         password_input = self.driver.find_element_by_name("password")
-        mail_input.send_keys("aa0@aa0.aa0")
-        password_input.send_keys("crispin")
+        mail_input.send_keys("a1@a1.a1")
+        password_input.send_keys("a1")
         password_input.submit()
+        element = wait.until(
+            EC.presence_of_element_located((By.CLASS_NAME, "contain_header_connected"))
+        )
         self.driver.get(self.domain + "/substitutor/favoris/")
+        favorite_before = len(Favorite.objects.all())
+        element = wait.until(
+            EC.presence_of_element_located((By.CLASS_NAME, "un_suscribe_favorites"))
+        )
         delete_favorite_subscription = self.driver.find_elements_by_class_name(
             "un_suscribe_favorites"
         )
         first_prod = delete_favorite_subscription[0]
         first_prod.click()
-        self.driver.get(self.domain + "/substitutor/home/")
-        self.driver.quit()
-        self.assertEqual()
+        self.assertEqual(favorite_before - 1, len(Favorite.objects.all()))
 
     def test_account(self):
         """Test three"""
 
         # Acceuil - connexion - compte - Acceuil
+        print("Test du parcour acceuil - connexion - compte")
         self.driver.get(self.domain + "/substitutor/home/?home_status=connexion")
+        wait = WebDriverWait(self.driver, 10)
         mail_input = self.driver.find_element_by_name("email")
         password_input = self.driver.find_element_by_name("password")
-        mail_input.send_keys("aa0@aa0.aa0")
-        password_input.send_keys("crispin")
+        mail_input.send_keys("a1@a1.a1")
+        password_input.send_keys("a1")
         password_input.submit()
+        element = wait.until(
+            EC.presence_of_element_located((By.CLASS_NAME, "contain_header_connected"))
+        )
         self.driver.get(self.domain + "/substitutor/account/")
-        self.driver.get(self.domain + "/substitutor/home/")
-        self.driver.quit()
-        self.assertEqual()
+        element = wait.until(
+            EC.presence_of_element_located((By.CLASS_NAME, "contain_account"))
+        )
+        account = self.driver.find_elements_by_class_name("contain_account")
+        self.assertEqual(len(account), 1)

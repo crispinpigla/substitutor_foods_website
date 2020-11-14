@@ -14,8 +14,8 @@ from ..auxilliaries.installation import download, validations
 
 from . import products_data
 
-class TestAuxilliaries(TestCase):
-    """docstring for TestAuxilliaries"""
+class TestIntegration(TestCase):
+    """docstring for Testintegration"""
 
     def setUp(self):
         """Initialize database test"""
@@ -24,7 +24,8 @@ class TestAuxilliaries(TestCase):
         self.factory = RequestFactory()
 
         download0 = download.Download()
-        download0.rows_products = products_data.PRODUCTS
+        download0.get_products_from_api()
+        download0.rows_products = [download0.rows_products[0][:50]]
 
         # Construction and filtering of data to insert in the database
         validation0 = validations.Validations()
@@ -37,6 +38,7 @@ class TestAuxilliaries(TestCase):
         for product in self.validation.rows_products:
             self.product_to_insert.append(
                 Product.objects.create(
+                    id=(self.validation.rows_products.index(product))+1,
                     code=product["code"],
                     name=product["product_name"],
                     quantite=product.get("quantity", ""),
@@ -55,7 +57,7 @@ class TestAuxilliaries(TestCase):
             )
             if ((self.validation.rows_products.index(product)) % 500) == 0:
                 print(
-                    "\nInsertion des produits : ",
+                    "Insertion des produits : ",
                     self.validation.rows_products.index(product),
                     "/",
                     len(self.validation.rows_products),
@@ -115,11 +117,11 @@ class TestAuxilliaries(TestCase):
         )
 
 
-    def test_auxilliaries_inscription(self):
-        """docstring for test auxilliaries"""
+    def test_integration_inscription(self):
+        """docstring for test integration"""
 
+        print('Test integration inscription')
         #  Teste la reussite de l'inscription d'un nouvel utilisateur
-        print('Test de l\'auxilliary home : execution de l\'inscription')
         request = self.factory.post(
             "/substitutor/home/",
             {
@@ -128,6 +130,7 @@ class TestAuxilliaries(TestCase):
                 "password": "user_password",
             },
         )
+        # c = self.client.post('/substitutor/home/')
         middleware = SessionMiddleware()
         middleware.process_request(request)
         request.session.save()
@@ -136,25 +139,25 @@ class TestAuxilliaries(TestCase):
         auxilliary_home.make_inscription(request, None)
         self.assertEqual(len(Account.objects.all()), user_before + 1)
 
-    def test_auxilliaries_inscription_fail(self):
+    def test_integration_inscription_fail(self):
         """"""
 
+        print('Test integration inscription fail')
         #  Teste l'echec de l'inscription d'un nouvel utilisateur
-        print('Test de l\'auxilliary home : echec de l\'inscription - email mauvais format')
-        user_before = len(Account.objects.all())
+        self.user_before = len(Account.objects.all())
         request = self.factory.post(
             "/substitutor/home/",
             {"name": "user_name", "email": "user_mail", "password": "user_password"},
         )
         auxilliary_home = AuxillariesHome()
         auxilliary_home.make_inscription(request, None)
-        self.assertEqual(len(Account.objects.all()), user_before)
+        self.assertEqual(len(Account.objects.all()), self.user_before)
 
-    def test_auxilliaries_connexion(self):
+    def test_integration_connexion(self):
         """"""
 
+        print('Test integration connexion')
         #  Teste la reussite de la connexion d'un nouvel utilisateur
-        print('Test de l\'auxilliary home : connexion')
         request = self.factory.post(
             "/substitutor/home/",
             {"email": "a1@a1.a1", "password": "a1"},
@@ -166,11 +169,11 @@ class TestAuxilliaries(TestCase):
         context_connexion = auxilliary_home.make_connexion(request, None)
         self.assertTrue(isinstance(request.session["user_id"], int))
 
-    def test_auxilliaries_connexion_fail(self):
+    def test_integration_connexion_fail(self):
         """"""
 
+        print('Test integration connexion fail')
         #  Teste l'echec de la connexion d'un nouvel utilisateur
-        print('Test de l\'auxilliary home : echec de la connexionon - email non existant dans la base de donnée')
         request = self.factory.post(
             "/substitutor/home/",
             {"email": "another_user_mail@mail.com", "password": "user_password"},
@@ -179,11 +182,11 @@ class TestAuxilliaries(TestCase):
         context_connexion = auxilliary_home.make_connexion(request, None)
         self.assertEqual(context_connexion["user_id"], None)
 
-    def test_auxilliaries_deconnexion(self):
+    def test_integration_deconnexion(self):
         """"""
 
+        print('Test integration deconnexion')
         #  Teste la deconnexion d'un utilisateur
-        print('Test de l\'auxilliary home : deconnexion')
         request = self.factory.post(
             "/substitutor/home/",
             {"email": "user_mail@mail.com", "password": "user_password"},
@@ -196,11 +199,11 @@ class TestAuxilliaries(TestCase):
         context_connexion = auxilliary_home.make_disconnexion(request)
         self.assertEqual(context_connexion["user_id"], None)
 
-    def test_auxilliaries_recherche(self):
+    def test_integration_recherche(self):
         """"""
 
-        #  Teste la recherche d'un substitut lorsques plusieurs résultats sont renvoyés
-        print('Test de l\'auxilliary substitute :  recherche d\'un substitut lorsque des résultats sont trouvés')
+        print('Test integration recherche')
+        #  Teste la recherche d'un substitut lorsques des résultats sont renvoyés
         request = self.factory.get(
             "/substitutor/substitute/", {"search_input": "granola"}
         )
@@ -213,11 +216,11 @@ class TestAuxilliaries(TestCase):
             counter_substitute += 1
         self.assertTrue(counter_substitute > 0)
 
-    def test_auxilliaries_recherche_resultat_vide(self):
+    def test_integration_recherche_resultat_vide(self):
         """"""
 
+        print('Test integration recherche resultat vide')
         #  Teste la recherche d'un substitut lorsques des résultats ne sont pas renvoyés
-        print('Test de l\'auxilliary substitute :  recherche d\'un substitut lorsqu\'aucun resultat n\'est trouvé ')
         request = self.factory.get("/substitutor/substitute/", {"search_input": "aaa"})
         substitute_auxilliary = AuxilliarySubstitute()
         context_find_substitute = substitute_auxilliary.build_context_substitutes(
@@ -229,50 +232,50 @@ class TestAuxilliaries(TestCase):
             counter_substitute += 1
         self.assertTrue(counter_substitute == 0)
 
-    def test_auxilliaries_ajout_favori(self):
+    def test_integration_ajout_favori(self):
         """"""
 
+        print('Test integration ajout favori')
         #  Teste l'ajout d'un favori
-        print('Test de l\'auxilliary substitute :  ajout d\'un favori ')
         request = self.factory.get("/substitutor/substitute/")
         middleware = SessionMiddleware()
         middleware.process_request(request)
         request.session.save()
-        request.session["user_id"] = 1
+        request.session["user_id"] = request, self.user.id
         substitute_before = len(Favorite.objects.all())
         substitute_auxilliary = AuxilliarySubstitute()
         context_add_substitute = substitute_auxilliary.get_context_subscription(
-            request, 1, 3, 4
+            request, self.user.id, self.product_to_insert[2].id, self.product_to_insert[3].id
         )
         self.assertEqual(len(Favorite.objects.all()), substitute_before + 1)
 
-    def test_auxilliaries_suppression_favori(self):
+    def test_integration_suppression_favori(self):
         """"""
 
+        print('Test integration suppression favori')
         #  Teste la suppression d'un favori
-        print('Test de l\'auxilliary substitute :  suppression d\'un favori ')
         request = self.factory.get("/substitutor/substitute/")
         middleware = SessionMiddleware()
         middleware.process_request(request)
         request.session.save()
         request.session["user_id"] = self.user.id
-        substitute_before = len(Favorite.objects.all())
+        substitute_before = len(Favorite.objects.filter(user__id=self.user.id))
         substitute_auxilliary = AuxilliarySubstitute()
         context_add_substitute = substitute_auxilliary.get_context_subscription(
             request, self.user.id, self.product_to_insert[0].id, self.product_to_insert[1].id
         )
-        self.assertEqual(len(Favorite.objects.all()), substitute_before - 1)
+        self.assertEqual(len(Favorite.objects.filter(user__id=self.user.id)), substitute_before - 1)
 
-    def test_auxilliaries_consultation_favori(self):
+    def test_integration_consultation_favori(self):
         """"""
 
+        print('Test integration consultation favori')
         #  Teste la consultation de favoris
-        print('Test de l\'auxilliary favorite :  suppression d\'un favori ')
         request = self.factory.get("/substitutor/favorite/")
         middleware = SessionMiddleware()
         middleware.process_request(request)
         request.session.save()
-        request.session["user_id"] = 1
+        request.session["user_id"] = self.user.id
         auxilliary_favorite = AuxilliariesFavorites()
         context_get_favorite = auxilliary_favorite.get_context_favorites(
             request, request.session["user_id"]
