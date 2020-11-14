@@ -241,7 +241,7 @@ class TestIntegration(TestCase):
         middleware = SessionMiddleware()
         middleware.process_request(request)
         request.session.save()
-        request.session["user_id"] = request, self.user.id
+        request.session["user_id"] = self.user.id
         substitute_before = len(Favorite.objects.all())
         substitute_auxilliary = AuxilliarySubstitute()
         context_add_substitute = substitute_auxilliary.get_context_subscription(

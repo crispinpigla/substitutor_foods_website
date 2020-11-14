@@ -2086,3 +2086,68 @@ console.warn: SearchSettings: "get: No settings file exists, new profile?" (new 
 1605374697231	Marionette	WARN	TLS certificate errors will be ignored for this session
 JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
 1605374707073	Marionette	INFO	Stopped listening on port 39509
+1605391208487	geckodriver	INFO	Listening on 127.0.0.1:41669
+1605391209436	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileODMVDp"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605391216866	Marionette	INFO	Listening on port 42203
+1605391216978	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
+1605391239100	Marionette	INFO	Stopped listening on port 42203
+1605391249734	geckodriver	INFO	Listening on 127.0.0.1:55459
+1605391249740	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileCPdC5w"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605391252641	Marionette	INFO	Listening on port 44905
+1605391252685	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
+JavaScript error: http://localhost:44623/static/substitutor/js/scripts.js, line 29: TypeError: $(...).scrollspy is not a function
+1605391297275	Marionette	INFO	Stopped listening on port 44905
+1605391307538	geckodriver	INFO	Listening on 127.0.0.1:33779
+1605391307544	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileyKduYJ"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605391310441	Marionette	INFO	Listening on port 39351
+1605391310507	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
+1605391334789	Marionette	INFO	Stopped listening on port 39351
+1605391345148	geckodriver	INFO	Listening on 127.0.0.1:47909
+1605391345154	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileLJEiU3"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605391348052	Marionette	INFO	Listening on port 35977
+1605391348116	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
+1605391360761	Marionette	INFO	Stopped listening on port 35977
+1605391372016	geckodriver	INFO	Listening on 127.0.0.1:52251
+1605391372022	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile7L4ITZ"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605391375294	Marionette	INFO	Listening on port 40513
+1605391375360	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
+1605391386806	Marionette	INFO	Stopped listening on port 40513
+JavaScript error: resource://gre/modules/UrlClassifierListManager.jsm, line 691: TypeError: this.tablesData[table] is undefined
+1605391401777	geckodriver	INFO	Listening on 127.0.0.1:44483
+1605391401782	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileIidkRI"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605391405083	Marionette	INFO	Listening on port 33683
+1605391405120	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
+1605391410344	Marionette	INFO	Stopped listening on port 33683
+1605391426325	geckodriver	INFO	Listening on 127.0.0.1:54597
+1605391426331	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileLNHdDL"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605391429683	Marionette	INFO	Listening on port 39481
+1605391429763	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
+1605391440018	Marionette	INFO	Stopped listening on port 39481
+1605391457570	geckodriver	INFO	Listening on 127.0.0.1:55323
+1605391457576	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilePEvpUH"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605391460663	Marionette	INFO	Listening on port 34377
+1605391460713	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
+1605391473998	Marionette	INFO	Stopped listening on port 34377
+1605391488199	geckodriver	INFO	Listening on 127.0.0.1:54011
+1605391488205	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileuvTQ9K"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605391491285	Marionette	INFO	Listening on port 36389
+1605391491351	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
+1605391502417	Marionette	INFO	Stopped listening on port 36389
