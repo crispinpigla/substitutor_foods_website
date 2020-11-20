@@ -125,13 +125,13 @@ def account(request):
         return redirect("/substitutor/home")
 
 
-def redirect_home(self):
+def redirect_home(request):
     """Redirect vers home"""
     return redirect("/substitutor/home")
 
 
 
-def delete():
+def delete(request):
     """ Delete """
 
     Product.objects.all().delete
@@ -139,4 +139,10 @@ def delete():
     Categorie.objects.all().delete
     Account.objects.all().delete
     Favorite.objects.all().delete
-    return redirect("/substitutor/home")
+
+    return HttpResponse('data deleted')
+
+
+def load():
+    """load"""
+    pass
