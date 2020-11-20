@@ -140,6 +140,12 @@ def delete(request):
     Account.objects.all().delete
     Favorite.objects.all().delete
 
+    print(len(Product.objects.all()))
+    print(len(Store.objects.all()))
+    print(len(Categorie.objects.all()))
+    print(len(Account.objects.all()))
+    print(len(Favorite.objects.all()))
+
     return HttpResponse('data deleted')
 
 
