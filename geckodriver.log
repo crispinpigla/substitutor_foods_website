@@ -2297,3 +2297,65 @@ console.warn: SearchSettings: "get: No settings file exists, new profile?" (new 
 1605793774869	Marionette	WARN	TLS certificate errors will be ignored for this session
 JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
 1605793781158	Marionette	INFO	Stopped listening on port 35127
+1605864260867	geckodriver	INFO	Listening on 127.0.0.1:40383
+1605864261812	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileohyVMf"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605864268276	Marionette	INFO	Listening on port 43319
+1605864268631	Marionette	WARN	TLS certificate errors will be ignored for this session
+1605864273139	Marionette	INFO	Stopped listening on port 43319
+JavaScript error: resource://gre/modules/UrlClassifierListManager.jsm, line 691: TypeError: this.tablesData[table] is undefined
+1605864283788	geckodriver	INFO	Listening on 127.0.0.1:54041
+1605864283794	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileHrRmdp"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605864286716	Marionette	INFO	Listening on port 36597
+1605864286831	Marionette	WARN	TLS certificate errors will be ignored for this session
+1605864291747	Marionette	INFO	Stopped listening on port 36597
+JavaScript error: resource://gre/modules/UrlClassifierListManager.jsm, line 691: TypeError: this.tablesData[table] is undefined
+1605864302346	geckodriver	INFO	Listening on 127.0.0.1:44305
+1605864302352	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileKCFCXC"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605864305293	Marionette	INFO	Listening on port 34773
+1605864305406	Marionette	WARN	TLS certificate errors will be ignored for this session
+1605864309896	Marionette	INFO	Stopped listening on port 34773
+JavaScript error: resource://gre/modules/UrlClassifierListManager.jsm, line 691: TypeError: this.tablesData[table] is undefined
+1605864320480	geckodriver	INFO	Listening on 127.0.0.1:54295
+1605864320486	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilenOk4c8"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605864323431	Marionette	INFO	Listening on port 44457
+1605864323539	Marionette	WARN	TLS certificate errors will be ignored for this session
+1605864330563	Marionette	INFO	Stopped listening on port 44457
+JavaScript error: resource://gre/modules/UrlClassifierListManager.jsm, line 691: TypeError: this.tablesData[table] is undefined
+1605864346440	geckodriver	INFO	Listening on 127.0.0.1:34905
+1605864346446	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileJntxAM"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605864349614	Marionette	INFO	Listening on port 45697
+1605864349684	Marionette	WARN	TLS certificate errors will be ignored for this session
+1605864355469	Marionette	INFO	Stopped listening on port 45697
+1605864373839	geckodriver	INFO	Listening on 127.0.0.1:46129
+1605864373845	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile5LzDZW"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605864376891	Marionette	INFO	Listening on port 36915
+1605864376975	Marionette	WARN	TLS certificate errors will be ignored for this session
+1605864383339	Marionette	INFO	Stopped listening on port 36915
+JavaScript error: resource://gre/modules/UrlClassifierListManager.jsm, line 691: TypeError: this.tablesData[table] is undefined
+1605864400680	geckodriver	INFO	Listening on 127.0.0.1:41999
+1605864400685	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileRfpSqg"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605864403884	Marionette	INFO	Listening on port 43519
+1605864403922	Marionette	WARN	TLS certificate errors will be ignored for this session
+1605864408869	Marionette	INFO	Stopped listening on port 43519
+JavaScript error: resource://gre/modules/UrlClassifierListManager.jsm, line 691: TypeError: this.tablesData[table] is undefined
+1605864424741	geckodriver	INFO	Listening on 127.0.0.1:44131
+1605864424746	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileRaWLnp"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605864427793	Marionette	INFO	Listening on port 33321
+1605864427884	Marionette	WARN	TLS certificate errors will be ignored for this session
+1605864433187	Marionette	INFO	Stopped listening on port 33321
+JavaScript error: resource://gre/modules/UrlClassifierListManager.jsm, line 691: TypeError: this.tablesData[table] is undefined
+1605864445452	geckodriver	INFO	Listening on 127.0.0.1:58995
+1605864445458	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofiletkVxCu"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1605864448987	Marionette	INFO	Listening on port 37109
+1605864449092	Marionette	WARN	TLS certificate errors will be ignored for this session
+1605864455890	Marionette	INFO	Stopped listening on port 37109
+JavaScript error: resource://gre/modules/UrlClassifierListManager.jsm, line 691: TypeError: this.tablesData[table] is undefined

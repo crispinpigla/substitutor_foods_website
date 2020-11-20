@@ -38,8 +38,8 @@ def home(request):
         form = InscriptionForm()
         context = {"user_id": user_id, "home_status": home_status, "form": form}
     else:
-        # installation0 = Installation(Product, Store, Categorie)
-        # installation0.insertions()
+        #installation0 = Installation(Product, Store, Categorie)
+        #installation0.insertions()
         form = SearchForm()
         context = {"user_id": user_id, "home_status": home_status, "form": form}
     return render(request, "home.html", context)
@@ -127,4 +127,16 @@ def account(request):
 
 def redirect_home(self):
     """Redirect vers home"""
+    return redirect("/substitutor/home")
+
+
+
+def delete():
+    """ Delete """
+
+    Product.objects.all().delete
+    Store.objects.all().delete
+    Categorie.objects.all().delete
+    Account.objects.all().delete
+    Favorite.objects.all().delete
     return redirect("/substitutor/home")

@@ -12,4 +12,5 @@ urlpatterns = [
     url(r"^(?P<product_id>[0-9]+)/$", views.detail),
     url("favoris/", views.favoris),
     url("account/", views.account),
+    url("delete/", views.delete),
 ]
