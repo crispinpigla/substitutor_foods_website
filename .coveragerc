@@ -1,0 +1,9 @@
+[run] 
+source  = 
+	pure_beurre_django.settings
+	pure_beurre_django.urls
+	substitutor
+
+
+[html]
+directory = coverage_html

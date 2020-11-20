@@ -17,6 +17,9 @@ from . import products_data
 class TestAuxilliaries(TestCase):
     """docstring for TestAuxilliaries"""
 
+    count_insertion = 0
+
+
     def setUp(self):
         """Initialize database test"""
 
