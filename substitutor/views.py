@@ -38,8 +38,8 @@ def home(request):
         form = InscriptionForm()
         context = {"user_id": user_id, "home_status": home_status, "form": form}
     else:
-        installation0 = Installation(Product, Store, Categorie)
-        installation0.insertions()
+        #installation0 = Installation(Product, Store, Categorie)
+        #installation0.insertions()
         form = SearchForm()
         context = {"user_id": user_id, "home_status": home_status, "form": form}
     return render(request, "home.html", context)
