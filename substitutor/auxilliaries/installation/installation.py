@@ -19,6 +19,7 @@ class Installation:
         # Downloading API data
         download0 = download.Download()
         download0.get_products_from_api()
+        download0.rows_products = [download0.rows_products[0][:700]]
 
         # Construction and filtering of data to insert in the database
         validation0 = validations.Validations()

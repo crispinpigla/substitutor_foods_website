@@ -38,8 +38,8 @@ def home(request):
         form = InscriptionForm()
         context = {"user_id": user_id, "home_status": home_status, "form": form}
     else:
-        #installation0 = Installation(Product, Store, Categorie)
-        #installation0.insertions()
+        installation0 = Installation(Product, Store, Categorie)
+        installation0.insertions()
         form = SearchForm()
         context = {"user_id": user_id, "home_status": home_status, "form": form}
     return render(request, "home.html", context)
@@ -134,17 +134,16 @@ def redirect_home(request):
 def delete(request):
     """ Delete """
 
-    Product.objects.all().delete
-    Store.objects.all().delete
-    Categorie.objects.all().delete
-    Account.objects.all().delete
-    Favorite.objects.all().delete
-
-    print(len(Product.objects.all()))
-    print(len(Store.objects.all()))
-    print(len(Categorie.objects.all()))
-    print(len(Account.objects.all()))
-    print(len(Favorite.objects.all()))
+    Product.objects.all().delete()
+    Store.objects.all().delete()
+    Categorie.objects.all().delete()
+    Account.objects.all().delete()
+    Favorite.objects.all().delete()
+    print('Nombre de produits : ', len(Product.objects.all()))
+    print('Nombre de magasins : ', len(Store.objects.all()))
+    print('Nombre de categories : ', len(Categorie.objects.all()))
+    print('Nombre de comptes : ', len(Account.objects.all()))
+    print('Nombre de favoris : ', len(Favorite.objects.all()))
 
     return HttpResponse('data deleted')
 
