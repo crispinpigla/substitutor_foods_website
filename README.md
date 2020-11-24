@@ -16,7 +16,6 @@ S'il vous est demandé d'entrer votre mot de passe, entrez le
 Dans la console linus linux il est demandé si vous souhaitez continuer. Entrer `o` pour oui  
 ### Créer l'utilisateur postgresql de l'application
 Sous linux entrer la commande `sudo -i -u postgres`  
-S'il vous est demandé d'entrer votre mot de passe, entrez le  
 Sous linux entrer la commande `psql`
 Dans postgresql entrer la commande `CREATE USER substitutor_foods_user WITH CREATEDB;`
 Dans postgresql entrer la commande `CREATE DATABASE substitutor_foods OWNER substitutor_foods_user;`
@@ -41,20 +40,21 @@ Sous linux, dans l'invite commande, naviguer jusqu'au répertoire du fichier con
 Dans la console, se rendre dans le répertoire du projet ( le répertoire qui contient le fichier `manage.py` )
 Dans la console linux entrez la commande `pipenv install`
 Dans la console linux entrez la commande `pipenv shell`
-
-
 ## Creation de la base de données
 Dans la console et sous linux entrer `./manage.py migrate`
 `./manage.py loaddata substitutor/dumps/substitutor.json`
-
 ## Lancer l'application
-Sous linux, dans l'invite commande, naviguer jusqu'au répertoire du fichier contenant l'application et executer la commande `./manage server`
-
+Sous linux, dans l'invite commande, naviguer jusqu'au répertoire du fichier contenant l'application et executer la commande `./manage.py runserver`
+Ouvrir un navigateur et rendez vous à l'adresse `http://127.0.0.1:8000/` ou `http://localhost:8000/`
 # Désinstaller l'application
-Supprimer la base de données
-Supprimer l'utilisateur
-Supprimer postgresql `sudo apt-get --purge remove postgresql postgresql-doc postgresql-common`
+## Supprimer la base de données et l'utilisateur de la base de donnée
+Sous linux entrer la commande `sudo -i -u postgres`  
+Dans la console linux, se connecter à la base de données postgresql grace à la commandee `psql`  
+Dans la console postgresql, supprimer la base de données de l'application en entrant la commande `DROP DATABASE IF EXISTS substitutor_foods;`  
+Dans la console postgresql, supprimer l'utilisateur de la base de données de l'application en entrant la commande `DROP USER IF EXISTS substitutor_foods_user;`  
+Dans postgresql entrer la commande `\q`  
+Dans la console linux se deconnecter de l'utilisateur postgres en entrant la commande `exit`  
+Dans la console linux supprimer postgresql en entrant la commande `sudo apt-get --purge remove postgresql postgresql-doc postgresql-common`  
 Une fenetre 'Configuration de postgresql-12' s'affiche dans la console  
 A l'aide de flèches directionnelles sélectionner `oui` et appuyer sur `la touche entrer`
-
-Supprimer le fichier contenant l'application
+Supprimer le fichier contenant l'application ( que nous avons appellé `contain_application`  )
