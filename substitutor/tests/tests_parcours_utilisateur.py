@@ -128,7 +128,7 @@ class TestsParcoursUsers(LiveServerTestCase):
         self.driver.maximize_window()
         self.driver.get(self.domain)
 
-        self.waiteur = WebDriverWait(self.driver, 10)
+        self.waiteur = WebDriverWait(self.driver, 30)
 
     def tearDown(self):
         """Teardown"""
