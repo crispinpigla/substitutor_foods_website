@@ -56,5 +56,6 @@ Dans postgresql entrer la commande `\q`
 Dans la console linux se deconnecter de l'utilisateur postgres en entrant la commande `exit`  
 Dans la console linux supprimer postgresql en entrant la commande `sudo apt-get --purge remove postgresql postgresql-doc postgresql-common`  
 Une fenetre 'Configuration de postgresql-12' s'affiche dans la console  
-A l'aide de flèches directionnelles sélectionner `oui` et appuyer sur `la touche entrer`
+A l'aide de flèches directionnelles sélectionner `oui` et appuyer sur `la touche entrer`  
+## Supprimer l'application
 Supprimer le fichier contenant l'application ( que nous avons appellé `contain_application`  )
