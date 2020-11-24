@@ -11,12 +11,12 @@ Initialiser le dépot git avec la commande `git init`
 Dans la console linux entrer la commande `git pull https://github.com/crispinpigla/subtitutor_foods.git`
 ## Installer La base de données
 ### Installer Postgresql
-Sous linux installer le système de gestion de base de donnée Postgresql grace à la commande `sudo apt install postgresql`  
+Dans la console linux, installer le système de gestion de base de donnée Postgresql grace à la commande `sudo apt install postgresql`  
 S'il vous est demandé d'entrer votre mot de passe, entrez le  
 Dans la console linux il est demandé si vous souhaitez continuer. Entrer `o` pour oui  
 ### Créer l'utilisateur postgresql de l'application
-Sous linux entrer la commande `sudo -i -u postgres`  
-Sous linux entrer la commande `psql`  
+Dans la console linux, entrer la commande `sudo -i -u postgres`  
+Dans la console linux, entrer la commande `psql`  
 Dans postgresql entrer la commande `CREATE USER substitutor_foods_user WITH CREATEDB;`  
 Dans postgresql entrer la commande `CREATE DATABASE substitutor_foods OWNER substitutor_foods_user;`  
 Dans postgresql entrer la commande `ALTER USER substitutor_foods_user WITH ENCRYPTED PASSWORD 'substitutor_foods_password';`  
@@ -36,19 +36,19 @@ Entrer dans la console linux `sudo apt install pipenv`
 S'il vous est demandé d'entrer votre mot de passe, entrez le  
 Entrer dans la console linux `pip install pipenv`  
 ## Installer les dépendances
-Sous linux, dans l'invite commande, naviguer jusqu'au répertoire du fichier contenant l'application et executer la commande `sudo pipenv install`  
+Dans la console linux,, dans l'invite commande, naviguer jusqu'au répertoire du fichier contenant l'application et executer la commande `sudo pipenv install`  
 Dans la console, se rendre dans le répertoire du projet ( le répertoire qui contient le fichier `manage.py` )  
 Dans la console linux entrez la commande `pipenv install`  
 Dans la console linux entrez la commande `pipenv shell`  
 ## Creation de la base de données
-Dans la console et sous linux entrer `./manage.py migrate`  
-`./manage.py loaddata substitutor/dumps/substitutor.json`  
+Dans la console linux, entrer `./manage.py migrate`  
+Remplir la base de données en entrant dans la console `./manage.py loaddata substitutor/dumps/substitutor.json`  
 ## Lancer l'application
-Sous linux, dans l'invite commande, naviguer jusqu'au répertoire du fichier contenant l'application et executer la commande `./manage.py runserver`  
+Dans la console linux,, dans l'invite commande, naviguer jusqu'au répertoire du fichier contenant l'application et executer la commande `./manage.py runserver`  
 Ouvrir un navigateur et rendez vous à l'adresse `http://127.0.0.1:8000/` ou `http://localhost:8000/`  
 # Désinstaller l'application
 ## Supprimer la base de données et l'utilisateur de la base de donnée
-Sous linux entrer la commande `sudo -i -u postgres`  
+Dans la console linux, entrer la commande `sudo -i -u postgres`  
 Dans la console linux, se connecter à la base de données postgresql grace à la commandee `psql`  
 Dans la console postgresql, supprimer la base de données de l'application en entrant la commande `DROP DATABASE IF EXISTS substitutor_foods;`  
 Dans la console postgresql, supprimer l'utilisateur de la base de données de l'application en entrant la commande `DROP USER IF EXISTS substitutor_foods_user;`  
