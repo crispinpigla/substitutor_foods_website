@@ -2,6 +2,8 @@
 
 import datetime
 
+from ..forms import SearchForm
+
 from django.core.paginator import Paginator
 
 from ..models import Favorite
@@ -26,9 +28,10 @@ class AuxilliariesFavorites:
 
         paginator = Paginator(pre_resultats, 9)
         page = request.GET.get("page")
+        form = SearchForm()
         try:
             resultats = paginator.page(page)
         except Exception as e:
             resultats = paginator.page(1)
-        context = {"user_id": user_id, "numero_page": page, "resultats": resultats}
+        context = {"user_id": user_id, "numero_page": page, "resultats": resultats, "form": form}
         return context

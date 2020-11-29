@@ -32,16 +32,18 @@ def home(request):
     elif home_status == "make_disconnection":
         context = auxilliary_home.make_disconnexion(request)
     elif home_status == "connexion":
-        form = ConnexionForm()
-        context = {"user_id": user_id, "home_status": home_status, "form": form}
+        form0 = ConnexionForm()
+        form1 = SearchForm()
+        context = {"user_id": user_id, "home_status": home_status, "form0": form0, "form1": form1}
     elif home_status == "inscription":
-        form = InscriptionForm()
-        context = {"user_id": user_id, "home_status": home_status, "form": form}
+        form0 = InscriptionForm()
+        form1 = SearchForm()
+        context = {"user_id": user_id, "home_status": home_status, "form0": form0, "form1": form1}
     else:
         #installation0 = Installation(Product, Store, Categorie)
         #installation0.insertions()
         form = SearchForm()
-        context = {"user_id": user_id, "home_status": home_status, "form": form}
+        context = {"user_id": user_id, "home_status": home_status, "form1": form}
     return render(request, "home.html", context)
 
 
@@ -86,12 +88,14 @@ def detail(request, product_id):
         nutriments[count][0] = nutriments[count][0][1:-1]
         if nutriments[count][0][-5:] == "_100g":
             nutriments_100g.append([nutriments[count][0][:-5], [nutriments[count][1]]])
+    form = SearchForm()
     context = {
         "user_id": user_id,
         "product": product,
         "stores": product_stores,
         "categories": product_categories,
         "nutriments_100g": nutriments_100g,
+        "form": form,
     }
     return render(request, "detail.html", context)
 
@@ -118,8 +122,9 @@ def account(request):
     except (KeyError, AttributeError):
         user_id = False
     if user_id:
+        form = SearchForm()
         account = Account.objects.get(pk=user_id)
-        context = {"user_id": user_id, "account": account}
+        context = {"user_id": user_id, "account": account, "form": form}
         return render(request, "account.html", context)
     else:
         return redirect("/substitutor/home")

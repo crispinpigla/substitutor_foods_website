@@ -5,6 +5,12 @@
 
 
 {% block header_content %}
+	
+	<form class="form-inline" action="../substitute/" method="get" >
+		{% csrf_token %}
+		{{ form1.search_input }}
+	</form>
+
   {% if user_id %}
   <div>
     {% include 'header_connected.html' %}
@@ -68,10 +74,10 @@
 		  {% csrf_token %}
 
 		  <!--<label for="{{ form.email.id_for_label }}" style="font-size: 50%;" >Adresse e-mail</label>-->
-		  {{ form.email }}
+		  {{ form0.email }}
 
 		  <!--<label for="{{ form.password.id_for_label }}" style="font-size: 50%;" >Mot de passe</label>-->
-		  {{ form.password }}
+		  {{ form0.password }}
 
 		  <button type="submit" class="btn btn-success">connexion</button>
 		</form>
@@ -83,13 +89,13 @@
 		  {% csrf_token %}
 
 		  <label for="{{ form.name.id_for_label }}" style="font-size: 50%;" >Nom</label>
-		  {{ form.name }}
+		  {{ form0.name }}
 
 		  <label for="{{ form.email.id_for_label }}" style="font-size: 50%;" >Adresse e-mail</label>
-		  {{ form.email }}
+		  {{ form0.email }}
 
 		  <label for="{{ form.password.id_for_label }}" style="font-size: 50%;" >Mot de passe</label>
-		  {{ form.password }}
+		  {{ form0.password }}
 
 		  <button type="submit" class="btn btn-success">Inscription</button>
 		</form>
@@ -115,10 +121,11 @@
 
 
 {% block form_search_content %}
+
 	{% if home_status == None or home_status == 'make_connexion' or home_status == 'make_inscription' or home_status ==  'make_disconnection' %}
 		<form class="form-inline" action="../substitute/" method="get" style="width: 100%; " >
 			{% csrf_token %}
-			{{ form.search_input }}
+			{{ form1.search_input }}
 		</form>
 	{% endif %}
 {% endblock %}

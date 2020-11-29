@@ -3,7 +3,10 @@
 {% load static %}
 
 {% block header_content %}
-
+	<form class="form-inline" action="../substitute/" method="get" >
+		{% csrf_token %}
+		{{ form.search_input }}
+	</form>
   {% if user_id %}
   <div>
     {% include 'header_connected.html' %}

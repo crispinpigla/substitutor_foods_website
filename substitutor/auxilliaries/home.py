@@ -21,15 +21,17 @@ class AuxillariesHome:
             )
             request.session["user_id"] = user.id
             user_id = request.session["user_id"]
-            context = {"user_id": user_id, "home_status": None, "form": form}
+            context = {"user_id": user_id, "home_status": None, "form1": form}
         else:
             home_status = "inscription"
-            form = InscriptionForm()
+            form0 = InscriptionForm()
+            form1 = SearchForm()
             message_to_user = "Un compte possédant cet e-mail existe déja"
             context = {
                 "user_id": None,
                 "home_status": home_status,
-                "form": form,
+                "form0": form0,
+                "form1": form1,
                 "message_to_user": message_to_user,
             }
         return context
@@ -38,7 +40,7 @@ class AuxillariesHome:
         """Make inscription"""
         if user_id:
             form = SearchForm()
-            context = {"user_id": user_id, "home_status": None, "form": form}
+            context = {"user_id": user_id, "home_status": None, "form1": form}
         else:
             post_form = InscriptionForm(request.POST)
             if post_form.is_valid():
@@ -46,11 +48,13 @@ class AuxillariesHome:
                 context = self._register_account(account, request)
             else:
                 home_status = "inscription"
-                form = InscriptionForm()
+                form0 = InscriptionForm()
+                form1 = SearchForm()
                 context = {
                     "user_id": user_id,
                     "home_status": home_status,
-                    "form": form,
+                    "form0": form0,
+                    "form1": form1,
                     "message_to_user": "",
                 }
                 context["errors"] = post_form.errors.items()
@@ -65,18 +69,20 @@ class AuxillariesHome:
         )
         if len(account) == 0:
             home_status = "connexion"
-            form = ConnexionForm()
+            form0 = ConnexionForm()
+            form1 = SearchForm()
             message_to_user = "Adresse ou mot de passe incorrect"
             context = {
                 "user_id": user_id,
                 "home_status": home_status,
-                "form": form,
+                "form0": form0,
+                "form1": form1,
                 "message_to_user": message_to_user,
             }
         else:
             request.session["user_id"] = account[0].id
             user_id = request.session["user_id"]
-            context = {"user_id": user_id, "home_status": None, "form": form}
+            context = {"user_id": user_id, "home_status": None, "form1": form}
         return context
 
     def make_disconnexion(self, request):
@@ -87,5 +93,5 @@ class AuxillariesHome:
         except Exception as e:
             pass
         user_id = None
-        context = {"user_id": user_id, "home_status": None, "form": form}
+        context = {"user_id": user_id, "home_status": None, "form1": form}
         return context

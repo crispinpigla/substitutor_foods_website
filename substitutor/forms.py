@@ -26,5 +26,5 @@ class SearchForm(forms.Form):
     """Search form"""
 
     search_input = forms.CharField(
-        label="", widget=forms.TextInput(attrs={"class": "col-12"})
+        label="", widget=forms.TextInput(attrs={"class": "col-12", "placeholder": "Entrez un produit"})
     )
