@@ -15,8 +15,8 @@ before_install:
    - sudo apt-get update
 
 install:
-   #- sudo apt-get install python3-pip
-   - sudo pip3 install pipenv
+   - sudo apt-get install python3-pip
+   #- sudo pip3 install pipenv
    - ls -a
    #- pip freeze > requirements.txt
    - sudo pip3 install -r requirements.txt
