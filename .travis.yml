@@ -24,6 +24,8 @@ install:
    - sudo pip3 install -r requirements.txt
    - sudo pip install Django
    
+   - sudo pip install pathlib
+   
 
 services:
   - postgresql
