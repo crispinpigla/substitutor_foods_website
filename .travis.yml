@@ -12,7 +12,7 @@ before_install:
    - deactivate
    - pwd
    - ls -a
-   - sudo brew install pipenv
+   - sudo pip3 install pipenv
    - pipenv shell
 
 services:
