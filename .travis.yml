@@ -22,7 +22,7 @@ install:
    - sudo pip3 install --upgrade setuptools
    
    - sudo pip3 install -r requirements.txt
-   - sudo pip3 install Django
+   - sudo pip install Django
    
    - sudo pip install pathlib
    - sudo pip install dj_database_url
