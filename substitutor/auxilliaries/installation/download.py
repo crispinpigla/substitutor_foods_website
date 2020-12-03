@@ -1,5 +1,3 @@
-# coding=utf-8
-
 """This module allows you to manage the download of products."""
 
 import json
