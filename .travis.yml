@@ -34,6 +34,7 @@ install:
    - pip3 install --upgrade setuptools
    
    - pip3 install -r requirements.txt
+   - pip3 install django-secrets
    #- sudo pip install Django
    
    #- sudo pip install pathlib
