@@ -18,7 +18,7 @@ install:
    #- sudo apt-get install python3-pip
    #- sudo pip3 install pipenv
    - ls -a
-   - pip install -r Pipfile
+   - sudo pip install -r Pipfile
    
 
 services:
