@@ -40,6 +40,6 @@ script:
   #-  travis_wait 30 ./manage.py test
   #- ./manage.py test
   #- ./manage.py test.tests_integration
-  - python3 manage.py test.tests_models
+  - python3 manage.py test substitutor.tests.tests_models
   #- ./manage.py test.tests_parcours_utilisateur
   #- ./manage.py test.tests_vues
