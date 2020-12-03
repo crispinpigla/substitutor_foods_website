@@ -31,9 +31,9 @@ install:
    #- sudo pip3 install pipenv
    - ls -a
    #- pip freeze > requirements.txt
-   - sudo pip install --upgrade setuptools
+   - pip3 install --upgrade setuptools
    
-   - sudo pip install -r requirements.txt
+   - pip3 install -r requirements.txt
    #- sudo pip install Django
    
    #- sudo pip install pathlib
@@ -53,6 +53,6 @@ script:
   #-  travis_wait 30 ./manage.py test
   #- ./manage.py test
   #- ./manage.py test.tests_integration
-  - python ./manage.py test substitutor.tests.tests_models
+  - python3 ./manage.py test substitutor.tests.tests_models
   #- ./manage.py test.tests_parcours_utilisateur
   #- ./manage.py test.tests_vues
