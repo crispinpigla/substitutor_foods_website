@@ -1,9 +1,20 @@
 language: python
 python:
-  - "3.5"
-# command to install dependencies
-install:
+  - '3.5'
+
+# safelist
+branches:
+  only:
+    - staging
+
+before_script:
   - pipenv install
-# command to run tests
+  - pipenv shell
+
+services:
+  - postgresql
+
+env: DJANGO_SETTINGS_MODULE=disquaire_project.settings.travis
+
 script:
-  - ./manage.py test # or py.test for Python versions 3.5 and below
+  - ./manage.py test
