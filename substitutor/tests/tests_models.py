@@ -65,7 +65,7 @@ class TestsModels(TestCase):
         )
 
     def test_models_categorie(self):
-        """Test models modèle categorie"""
+        """Test models modele categorie"""
 
         # Test that objects receive to the database are Categorie's objects
         print('\nTest du model categorie')
@@ -77,7 +77,7 @@ class TestsModels(TestCase):
         self.assertTrue(result_categorie)
 
     def test_models_store(self):
-        """Test modèle store"""
+        """Test modele store"""
 
         # Test that objects receive to the database are Store's objects
         print('\nTest du model store')
@@ -89,7 +89,7 @@ class TestsModels(TestCase):
         self.assertTrue(result_store)
 
     def test_models_produit(self):
-        """Test modèle produit"""
+        """Test modele produit"""
 
         # Test that objects receive to the database are Product's objects
         print('\nTest du model produit')
@@ -101,7 +101,7 @@ class TestsModels(TestCase):
         self.assertTrue(result_product)
 
     def test_models_account(self):
-        """Test modèle account"""
+        """Test modele account"""
 
         # Test that objects receive to the database are Account's objects
         print('\nTest du model account')
@@ -113,7 +113,7 @@ class TestsModels(TestCase):
         self.assertTrue(result_account)
 
     def test_models_favorite(self):
-        """Test modèle favorite"""
+        """Test modele favorite"""
 
         # Test that objects receive to the database are Favorite's objects
         print('\nTest du model favorite')
