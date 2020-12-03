@@ -7,9 +7,8 @@ branches:
   only:
     - staging
 
-before_script:
-  - pip install
-  - pipenv shell
+#before_script:
+#  - pipenv shell
 
 services:
   - postgresql
