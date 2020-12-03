@@ -9,7 +9,7 @@ branches:
 
 before_install:
 #  - pipenv install
-   - deactivate
+#   - deactivate
    - pwd
    - ls -a
    - sudo apt-get update
@@ -22,12 +22,12 @@ install:
    - sudo pip3 install --upgrade setuptools
    
    - sudo pip3 install -r requirements.txt
-   - sudo pip install Django
+   #- sudo pip install Django
    
-   - sudo pip install pathlib
-   - sudo pip install dj_database_url
-   - sudo pip install sentry_sdk
-   - sudo pip install psycopg2
+   #- sudo pip install pathlib
+   #- sudo pip install dj_database_url
+   #- sudo pip install sentry_sdk
+   #- sudo pip install psycopg2
    
 
 services:
