@@ -7,9 +7,9 @@ branches:
   only:
     - master
 
-#before_install:
+before_install:
 #  - pipenv install
-#  - pipenv shell
+   - pipenv shell
 
 services:
   - postgresql
