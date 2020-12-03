@@ -13,24 +13,25 @@ before_install:
    - pwd
    - ls -a
    - sudo apt-get update
-   #- sudo apt-get install python3-pip
+
+install:
+   - sudo apt-get install python3-pip
    - sudo pip3 install pipenv
    - ls -a
    - pipenv install
-   - pipenv shell
+   
 
 services:
   - postgresql
-  - python3-pip
-  - pipenv
 
 #env: DJANGO_SETTINGS_MODULE=pure_beurre_django.settings
 
 
 script: 
+  - pipenv shell
   #-  travis_wait 30 ./manage.py test
   #- ./manage.py test
   #- ./manage.py test.tests_integration
-  - ./manage.py test.tests_models
+  #- ./manage.py test.tests_models
   #- ./manage.py test.tests_parcours_utilisateur
   #- ./manage.py test.tests_vues
