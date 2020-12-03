@@ -25,6 +25,7 @@ install:
    - sudo pip install Django
    
    - sudo pip install pathlib
+   - sudo pip install dj_database_url
    
 
 services:
