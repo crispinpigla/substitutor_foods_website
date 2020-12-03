@@ -12,6 +12,7 @@ before_install:
    - deactivate
    - pwd
    - ls -a
+   - sudo apt install python3-pip
    - sudo pip3 install pipenv
    - pipenv shell
 

@@ -25,16 +25,15 @@ Dans linux se deconnecter de l'utilisateur postgres en entrant la commande `exit
 Dans la console linux entrer la commande `sudo chmod o+rwx '/etc/postgresql/12/main/pg_hba.conf'`  
 S'il vous est demandé d'entrer votre mot de passe, entrez le  
 Ouvrir le fichier `'/etc/postgresql/12/main/pg_hba.conf'` et chercher la ligne `local   all             postgres                                peer`  
-Insérer la ligne `local   all             substitutor_foods_user                                md5` juste aprèe la ligne `local   all             postgres                                peer`  
+Insérer la ligne `local   all             substitutor_foods_user                                md5` juste après la ligne `local   all             postgres                                peer`  
 Enregistrer la modification et fermer le fichier  
 Dans la console linux entrez la commande `sudo chmod o-rwx '/etc/postgresql/12/main/pg_hba.conf'`  
 S'il vous est demandé d'entrer votre mot de passe, entrez le  
 Dans la console linux redemarrez postgresql en entrant la commande `sudo service postgresql restart`  
 S'il vous est demandé d'entrer votre mot de passe, entrez le  
 ## Installer et activer l'environement virtuelle
-Entrer dans la console linux `sudo apt install pipenv`  
+Entrer dans la console linux `sudo sudo pip3 install pipenv`  
 S'il vous est demandé d'entrer votre mot de passe, entrez le  
-Entrer dans la console linux `pip install pipenv`  
 ## Installer les dépendances
 Dans la console linux,, dans l'invite commande, naviguer jusqu'au répertoire du fichier contenant l'application et executer la commande `sudo pipenv install`  
 Dans la console, se rendre dans le répertoire du projet ( le répertoire qui contient le fichier `manage.py` )  
