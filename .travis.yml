@@ -21,8 +21,8 @@ install:
    #- pip freeze > requirements.txt
    - sudo pip3 install --upgrade setuptools
    
-   - sudo pip3 install --upgrade OpenSSL
-   - sudo pip3 install --upgrade secrets
+   - sudo pip install --upgrade OpenSSL
+   - sudo pip install --upgrade secrets
    - sudo pip3 install -r requirements.txt
    
 
