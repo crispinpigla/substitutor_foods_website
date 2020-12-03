@@ -13,7 +13,7 @@ before_install:
    - pwd
    - ls -a
    - sudo apt-get update
-   - sudo apt-get install python3-pip
+   #- sudo apt-get install python3-pip
    - sudo pip3 install pipenv
    - ls -a
    - pipenv install
@@ -21,6 +21,8 @@ before_install:
 
 services:
   - postgresql
+  - python3-pip
+  - pipenv
 
 #env: DJANGO_SETTINGS_MODULE=pure_beurre_django.settings
 
