@@ -10,10 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+
+
 from pathlib import Path
 import os
 
 import dj_database_url
+
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -30,6 +35,16 @@ SECRET_KEY = os.environ.get('SECRET_KEY', "y2!bd%d^@_)*e77o&gvgy(bndcj))ym*l_6wa
 if os.environ.get("ENV") == "PRODUCTION":
     DEBUG = False
     ALLOWED_HOSTS = ["purebeurre0.herokuapp.com", "34.105.133.157"]
+    
+    sentry_sdk.init(
+    dsn="https://924a79e00ceb4586bcbdedfd1b3feced@o486074.ingest.sentry.io/5542306",
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
 else:
     DEBUG = True
     ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
