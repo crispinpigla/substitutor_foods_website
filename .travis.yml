@@ -10,14 +10,16 @@ branches:
 before_install:
 #  - pipenv install
    - deactivate
+   - sudo apt-get update
+   - sudo apt-get install python3-venv
+   - sudo apt-get install python3-pip
    - python3 -m venv my_traivis-env
    - source my_traivis-env/bin/activate
    - pwd
    - ls -a
-   - sudo apt-get update
+   
 
 install:
-   - sudo apt-get install python3-pip
    - pip3 --version
    #- sudo pip3 install pipenv
    - ls -a
