@@ -5,7 +5,7 @@ python:
 # safelist
 branches:
   only:
-    - staging
+    - master
 
 #before_script:
 #  - pipenv shell
