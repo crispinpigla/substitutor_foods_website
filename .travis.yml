@@ -12,6 +12,7 @@ before_install:
    - deactivate
    - pwd
    - ls -a
+   - sudo apt install pipenv
    - pipenv shell
 
 services:
