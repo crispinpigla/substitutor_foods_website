@@ -18,5 +18,4 @@ env: DJANGO_SETTINGS_MODULE=pure_beurre_django.settings.travis
 
 
 
-script:
-  - travis_wait 30 ./manage.py test
+script: travis_wait 30 ./manage.py test
