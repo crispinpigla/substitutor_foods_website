@@ -16,7 +16,7 @@ services:
 
 env: DJANGO_SETTINGS_MODULE=pure_beurre_django.settings.travis
 
-install: travis_wait 30 mvn install
+
 
 script:
-  - ./manage.py test
+  - travis_wait 30 ./manage.py test
