@@ -7,7 +7,7 @@ branches:
   only:
     - master
 
-before_script:
+before_install:
   - pipenv install
   - pipenv shell
 
@@ -17,9 +17,9 @@ services:
 env: DJANGO_SETTINGS_MODULE=pure_beurre_django.settings.travis
 
 
-script: 
-  - ./manage.py test.tests_auxilliaries
-  - ./manage.py test.tests_integration
-  - ./manage.py test.tests_models
-  - ./manage.py test.tests_parcours_utilisateur
-  - ./manage.py test.tests_vues
+install: travis_wait 30 ./manage.py test
+  #- ./manage.py test
+  #- ./manage.py test.tests_integration
+  #- ./manage.py test.tests_models
+  #- ./manage.py test.tests_parcours_utilisateur
+  #- ./manage.py test.tests_vues

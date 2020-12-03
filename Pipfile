@@ -15,6 +15,7 @@ gunicorn = "*"
 requests = "*"
 selenium = "*"
 sentry-sdk = "*"
+newrelic = "*"
 
 [requires]
 python_version = "3.8"
