@@ -36,14 +36,14 @@ if os.environ.get("ENV") == "PRODUCTION":
     DEBUG = False
     ALLOWED_HOSTS = ["purebeurre0.herokuapp.com", "34.105.133.157"]
     
-    sentry_sdk.init(
-    dsn="https://924a79e00ceb4586bcbdedfd1b3feced@o486074.ingest.sentry.io/5542306",
-    integrations=[DjangoIntegration()],
-    traces_sample_rate=1.0,
+    #sentry_sdk.init(
+    #dsn="https://924a79e00ceb4586bcbdedfd1b3feced@o486074.ingest.sentry.io/5542306",
+    #integrations=[DjangoIntegration()],
+    #traces_sample_rate=1.0,
 
     # If you wish to associate users to errors (assuming you are using
     # django.contrib.auth) you may enable sending PII data.
-    send_default_pii=True
+    #send_default_pii=True
 )
 else:
     DEBUG = True
