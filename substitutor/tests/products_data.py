@@ -1,3 +1,5 @@
+# coding=utf-8
+
 """données de produits pour les tests unitaires"""
 
 PRODUCTS = [
