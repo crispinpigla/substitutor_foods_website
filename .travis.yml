@@ -9,6 +9,7 @@ branches:
 
 before_install:
 #  - pipenv install
+   - pwd
    - ls -a
    - cd substitutor_foods_website
    - pipenv shell
