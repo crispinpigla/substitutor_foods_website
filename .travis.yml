@@ -27,6 +27,7 @@ install:
    - sudo pip install pathlib
    - sudo pip install dj_database_url
    - sudo pip install sentry_sdk
+   - sudo pip install psycopg2
    
 
 services:
