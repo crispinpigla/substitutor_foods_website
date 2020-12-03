@@ -9,7 +9,9 @@ branches:
 
 before_install:
 #  - pipenv install
-#   - deactivate
+   - deactivate
+   - python3 -m venv my_traivis-env
+   - source my_traivis-env/bin/activate
    - pwd
    - ls -a
    - sudo apt-get update
