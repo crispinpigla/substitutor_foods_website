@@ -8,7 +8,7 @@ branches:
     - staging
 
 before_script:
-  -ls -a
+  - ls -a
   - pipenv install
   - pipenv shell
 
