@@ -1,3 +1,5 @@
+# coding=utf-8
+
 """This module allows the validation of products and the creation of data to
 be inserted into the database. """
 
