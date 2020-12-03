@@ -6,13 +6,20 @@ python:
 branches:
   only:
     - master
+    
+addons:
+  apt:
+    packages:
+      - "python3"
+      - "python3-pip"
+      - "python3-venv"
 
 before_install:
 #  - pipenv install
    - deactivate
    - sudo apt-get update
-   - sudo apt-get install python3-venv
-   - sudo apt-get install python3-pip
+   #- sudo apt-get install python3-venv
+   #- sudo apt-get install python3-pip
    - python3 -m venv my_traivis-env
    - source my_traivis-env/bin/activate
    - pwd
@@ -46,6 +53,6 @@ script:
   #-  travis_wait 30 ./manage.py test
   #- ./manage.py test
   #- ./manage.py test.tests_integration
-  - python ./manage.py test substitutor.tests.tests_models
+  - python3 ./manage.py test substitutor.tests.tests_models
   #- ./manage.py test.tests_parcours_utilisateur
   #- ./manage.py test.tests_vues
