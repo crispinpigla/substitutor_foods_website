@@ -17,5 +17,9 @@ services:
 env: DJANGO_SETTINGS_MODULE=pure_beurre_django.settings.travis
 
 
-
-script: travis_wait 30 ./manage.py test
+script: 
+  - ./manage.py test.tests_auxilliaries
+  - ./manage.py test.tests_integration
+  - ./manage.py test.tests_models
+  - ./manage.py test.tests_parcours_utilisateur
+  - ./manage.py test.tests_vues
