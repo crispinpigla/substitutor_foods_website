@@ -12,8 +12,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 from selenium import webdriver
-from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
-from selenium.webdriver.common.keys import Keys
 
 
 class TestsParcoursUsers(LiveServerTestCase):
@@ -120,8 +118,8 @@ class TestsParcoursUsers(LiveServerTestCase):
         )
 
         PATH = "substitutor/tests/geckodriver/geckodriver"
-        options = webdriver.FirefoxOptions()
-        options.add_argument("--headless")
+        options = webdriver.firefox.options.Options()
+        options.add_argument("-headless")
         self.driver = webdriver.Firefox(executable_path=PATH, firefox_options=options)
         if os.environ.get("ENV") == "PRODUCTION":
             self.domain = "http://purebeurre0.herokuapp.com"
