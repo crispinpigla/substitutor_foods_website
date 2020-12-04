@@ -24,6 +24,8 @@ services:
 
 env: 
   - DJANGO_SETTINGS_MODULE=pure_beurre_django.travis_settings
+
+env:
   global:
     - MOZ_HEADLESS=1
 
