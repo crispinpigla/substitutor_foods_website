@@ -1,7 +1,7 @@
 """update launch module."""
 
 
-from installation import download, validations
+from ..installation import download, validations
 
 from  ... import models
 

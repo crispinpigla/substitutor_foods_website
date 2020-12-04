@@ -124,8 +124,7 @@ class TestsParcoursUsers(LiveServerTestCase):
         options = webdriver.firefox.options.Options()
         options.add_argument("-headless")
         #self.driver = webdriver.Firefox(executable_path=PATH, firefox_options=options)
-        self.driver = FirefoxBinary(firefox_options=options)
-        FirefoxBinary
+        self.driver = FirefoxBinary()
         if os.environ.get("ENV") == "PRODUCTION":
             self.domain = "http://purebeurre0.herokuapp.com"
         else:
