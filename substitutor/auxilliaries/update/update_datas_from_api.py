@@ -2,7 +2,7 @@
 
 
 
-from  .. import datail
+import models
 
 
 print(models.Categorie.objects.all())
