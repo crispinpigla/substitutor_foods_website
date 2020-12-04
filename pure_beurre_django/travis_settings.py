@@ -6,6 +6,8 @@ import dj_database_url
 
 SECRET_KEY = os.environ.get('SECRET_KEY', "y2!bd%d^@_)*e77o&gvgy(bndcj))ym*l_6waq%ig#!a3m6r0u")
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 INSTALLED_APPS = [
     "substitutor.apps.SubstitutorConfig",
     "django.contrib.admin",
