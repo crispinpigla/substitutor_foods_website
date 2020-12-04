@@ -20,15 +20,13 @@ install:
    - pip3 install django-secrets
 
 services:
-  - postgresql
+   - postgresql
 
 env: 
-  - DJANGO_SETTINGS_MODULE=pure_beurre_django.travis_settings
-
-env:
-  global:
-    - MOZ_HEADLESS=1
+   global:
+      - MOZ_HEADLESS=1
+   - DJANGO_SETTINGS_MODULE=pure_beurre_django.travis_settings
 
 
 script: 
-  - ./manage.py test substitutor.tests
+   - ./manage.py test substitutor.tests
