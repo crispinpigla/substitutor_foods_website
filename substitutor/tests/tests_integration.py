@@ -205,7 +205,7 @@ class TestIntegration(TestCase):
         print('Test integration recherche')
         #  Teste la recherche d'un substitut lorsques des résultats sont renvoyés
         request = self.factory.get(
-            "/substitutor/substitute/", {"search_input": "granola"}
+            "/substitutor/substitute/", {"search_input": "nutella"}
         )
         substitute_auxilliary = AuxilliarySubstitute()
         context_find_substitute = substitute_auxilliary.build_context_substitutes(
