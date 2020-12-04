@@ -5,10 +5,12 @@ from django.db import models
 
 class Categorie(models.Model):
     name = models.CharField(max_length=255)
+    date_insertion = models.DateTimeField(auto_now=True, null=True)
 
 
 class Store(models.Model):
     name = models.CharField(max_length=255)
+    date_insertion = models.DateTimeField(auto_now=True, null=True)
 
 
 class Product(models.Model):
@@ -29,17 +31,19 @@ class Product(models.Model):
     url_image = models.TextField(blank=True)
     store = models.ManyToManyField(Store, related_name="product", blank=True)
     categorie = models.ManyToManyField(Categorie, related_name="product", blank=True)
+    date_insertion = models.DateTimeField(auto_now=True, null=True)
 
 
 class Account(models.Model):
     name = models.CharField(max_length=255)
     adresse_mail = models.EmailField(max_length=200)
     password = models.CharField(max_length=255)
+    date_creation = models.DateTimeField(auto_now_add=True, null=True)
 
 
 class Favorite(models.Model):
 
-    date_engistrement = models.DateTimeField(auto_now_add=True)
+    date_engistrement = models.DateTimeField(auto_now_add=True, null=True)
     product = models.ForeignKey(
         Product, related_name="product", on_delete=models.CASCADE, null=True
     )

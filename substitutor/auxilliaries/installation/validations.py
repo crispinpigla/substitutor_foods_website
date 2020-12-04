@@ -33,7 +33,8 @@ class Validations:
                     else:
                         pass
                 except Exception as e:
-                    print(product0['code'])
+                    #print(product0['code'])
+                    pass
         self.rows_products = list_products
 
         # Construction of product-stores and products-categories dictionaries
