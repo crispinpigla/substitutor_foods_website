@@ -1,7 +1,12 @@
 """update launch module."""
 
 
-from . import download, validations
+from ..installation import download, validations
+
+from  ... import models
+
+
+print(models.Categorie.objects.all())
 
 
 class Update:
