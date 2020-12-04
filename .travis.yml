@@ -2,47 +2,20 @@ language: python
 python:
   - '3.8'
 
-# safelist
 branches:
   only:
     - master
     
-addons:
-  apt:
-    packages:
-      - "python3"
-      - "python3-pip"
-      - "python3-venv"
 
 before_install:
-#  - pipenv install
-   #- deactivate
    - sudo apt-get update
-   #- sudo apt-get install python3-venv
-   #- sudo apt-get install python3-pip
-   #- python3 -m venv my_traivis-env
-   #- source my_traivis-env/bin/activate
-   - pwd
-   - ls -a
    
 
 install:
-   - pip3 --version
-   #- sudo pip3 install pipenv
-   - ls -a
-   #- pip freeze > requirements.txt
    - pip3 install --upgrade setuptools
-   
    - pip3 install -r requirements.txt
    - pip3 install python-secrets
    - pip3 install django-secrets
-   #- sudo pip install Django
-   
-   #- sudo pip install pathlib
-   #- sudo pip install dj_database_url
-   #- sudo pip install sentry_sdk
-   #- sudo pip install psycopg2
-   
 
 services:
   - postgresql
@@ -51,10 +24,4 @@ env: DJANGO_SETTINGS_MODULE=pure_beurre_django.travis_settings
 
 
 script: 
-  #- pipenv shell
-  #-  travis_wait 30 ./manage.py test
-  #- ./manage.py test
-  #- ./manage.py test.tests_integration
   - ./manage.py test substitutor.tests.tests_models
-  #- ./manage.py test.tests_parcours_utilisateur
-  #- ./manage.py test.tests_vues
