@@ -1,1 +1,2 @@
-from .. import installation
+#from .. import installation
+print('Initialisation')
