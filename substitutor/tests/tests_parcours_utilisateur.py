@@ -123,8 +123,8 @@ class TestsParcoursUsers(LiveServerTestCase):
         PATH = "substitutor/tests/geckodriver/geckodriver"
         options = webdriver.firefox.options.Options()
         options.add_argument("-headless")
-        #self.driver = webdriver.Firefox(executable_path=PATH, firefox_options=options)
-        self.driver = FirefoxBinary()
+        self.driver = webdriver.Firefox(executable_path=PATH, firefox_options=options)
+        #self.driver = FirefoxBinary()
         if os.environ.get("ENV") == "PRODUCTION":
             self.domain = "http://purebeurre0.herokuapp.com"
         else:

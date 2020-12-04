@@ -3,7 +3,7 @@
 
 if __name__ == '__main__':
     print(0)
-    from .. import *
+    
 else:
     print(1)
     from ..installation import download, validations
