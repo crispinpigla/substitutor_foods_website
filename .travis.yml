@@ -23,9 +23,8 @@ services:
    - postgresql
 
 env: 
-   global:
-      - MOZ_HEADLESS=1
    - DJANGO_SETTINGS_MODULE=pure_beurre_django.travis_settings
+   - global: MOZ_HEADLESS=1
 
 
 script: 
