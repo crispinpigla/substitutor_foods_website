@@ -2,6 +2,8 @@ from . import *
 
 import os
 
+import dj_database_url
+
 SECRET_KEY = os.environ.get('SECRET_KEY', "y2!bd%d^@_)*e77o&gvgy(bndcj))ym*l_6waq%ig#!a3m6r0u")
 
 INSTALLED_APPS = [
