@@ -1,7 +1,14 @@
 """update launch module."""
 
 
-from ..installation import download, validations
+if __name__ == '__main__':
+    print(0)
+    from .. import *
+else:
+    print(1)
+    from ..installation import download, validations
+
+
 
 from  ... import models
 

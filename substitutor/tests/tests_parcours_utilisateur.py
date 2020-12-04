@@ -129,7 +129,7 @@ class TestsParcoursUsers(LiveServerTestCase):
             self.domain = "http://purebeurre0.herokuapp.com"
         else:
             self.domain = self.live_server_url
-        self.driver.maximize_window()
+        #self.driver.maximize_window()
         self.driver.get(self.domain)
 
         self.waiteur = WebDriverWait(self.driver, 30)
