@@ -1,16 +1,8 @@
 """update launch module."""
 
 
-if __name__ == '__main__':
-    print(0)
-    
-else:
-    print(1)
-    from ..installation import download, validations
 
-
-
-from  ... import models
+from  .. import datail
 
 
 print(models.Categorie.objects.all())
