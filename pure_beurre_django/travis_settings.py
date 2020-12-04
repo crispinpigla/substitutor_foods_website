@@ -14,6 +14,18 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 ]
 
+MIDDLEWARE = [
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+]
+
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+    }
+]
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
