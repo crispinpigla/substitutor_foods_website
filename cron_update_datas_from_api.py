@@ -215,7 +215,7 @@ class Update:
         """Upadate"""
         self._build_data_to_protect()
         self._suppression_protegee()
-        self._insertions()
+        #self._insertions()
         print("mise à jour terminée")
 
 
