@@ -141,7 +141,6 @@ class Update:
                     len(self.validation.rows_products),
                 )
 
-
         for store in self.validation.rows_stores:
             if len(Store.objects.filter(name=store[0])) == 0 :
                 # Insertion
@@ -154,10 +153,8 @@ class Update:
                         "/",
                         len(self.validation.rows_stores),
                     )
-
-
         for categorie in self.validation.rows_categories:
-            if len( Categorie.objects.filter(name=categorie[0]) ) :
+            if len( Categorie.objects.filter(name=categorie[0])) == 0  :
                 # Insertion
                 categorie_to_insert.append(
                     Categorie.objects.create(name=categorie[0])
