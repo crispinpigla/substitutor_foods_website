@@ -20,6 +20,5 @@ urlpatterns = [
     url("favoris/", views.favoris),
     url("account/", views.account),
     url("delete/", views.delete),
-    url("load/", views.load),
     url(r"^([A-Z][a-z]+)", views.error_404),
 ]
