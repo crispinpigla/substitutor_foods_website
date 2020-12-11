@@ -155,4 +155,5 @@ def delete(request):
 
 def error_404():
     """load"""
-    raise Http404()
+    #raise Http404()
+    return HttpResponse('in 404')
