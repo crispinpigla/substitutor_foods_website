@@ -153,7 +153,7 @@ def delete(request):
     return HttpResponse('data deleted')
 
 
-def error_404():
+def errorrr_404(request):
     """load"""
     #raise Http404()
     return HttpResponse('in 404')
