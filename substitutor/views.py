@@ -77,30 +77,27 @@ def detail(request, product_id):
         user_id = request.session["user_id"]
     except (KeyError, AttributeError):
         user_id = False
-    if str(product_id).isnumeric():
-        product = Product.objects.get(pk=product_id)
-        product_stores = product.store.all()
-        product_categories = product.categorie.all()
-        post_nutriments = product.nutriments
-        nutriments = post_nutriments[1:-1].split(", ")
-        nutriments_100g = []
-        for count in range(len(nutriments)):
-            nutriments[count] = nutriments[count].split(":")
-            nutriments[count][0] = nutriments[count][0][1:-1]
-            if nutriments[count][0][-5:] == "_100g":
-                nutriments_100g.append([nutriments[count][0][:-5], [nutriments[count][1]]])
-        form = SearchForm()
-        context = {
-            "user_id": user_id,
-            "product": product,
-            "stores": product_stores,
-            "categories": product_categories,
-            "nutriments_100g": nutriments_100g,
-            "form": form,
-        }
-        return render(request, "detail.html", context)
-    else:
-        raise Http404("page does not exist")
+    product = Product.objects.get(pk=product_id)
+    product_stores = product.store.all()
+    product_categories = product.categorie.all()
+    post_nutriments = product.nutriments
+    nutriments = post_nutriments[1:-1].split(", ")
+    nutriments_100g = []
+    for count in range(len(nutriments)):
+        nutriments[count] = nutriments[count].split(":")
+        nutriments[count][0] = nutriments[count][0][1:-1]
+        if nutriments[count][0][-5:] == "_100g":
+            nutriments_100g.append([nutriments[count][0][:-5], [nutriments[count][1]]])
+    form = SearchForm()
+    context = {
+        "user_id": user_id,
+        "product": product,
+        "stores": product_stores,
+        "categories": product_categories,
+        "nutriments_100g": nutriments_100g,
+        "form": form,
+    }
+    return render(request, "detail.html", context)
 
 
 def favoris(request):
@@ -156,6 +153,6 @@ def delete(request):
     return HttpResponse('data deleted')
 
 
-def load():
+def error_404():
     """load"""
-    pass
+    raise Http404()

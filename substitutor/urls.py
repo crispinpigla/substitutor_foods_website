@@ -9,14 +9,17 @@ def trigger_error(request):
 
 
 
+
+
 urlpatterns = [
     path("", views.redirect_home),
     path('sentry-debug/', trigger_error),
     url("home/", views.home),
     url("substitute/", views.substitute),
-    url(r"^(?P<product_id>)/$", views.detail),
+    url(r"^(?P<product_id>[0-9]+)/$", views.detail),
     url("favoris/", views.favoris),
     url("account/", views.account),
     url("delete/", views.delete),
     url("load/", views.load),
+    url(r"^([A-Z][a-z]+)", views.error_404),
 ]
