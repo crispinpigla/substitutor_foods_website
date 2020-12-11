@@ -77,7 +77,7 @@ def detail(request, product_id):
         user_id = request.session["user_id"]
     except (KeyError, AttributeError):
         user_id = False
-    if product_id.isnumeric():
+    if str(product_id).isnumeric():
         product = Product.objects.get(pk=product_id)
         product_stores = product.store.all()
         product_categories = product.categorie.all()
