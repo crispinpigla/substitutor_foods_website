@@ -14,7 +14,7 @@ urlpatterns = [
     path('sentry-debug/', trigger_error),
     url("home/", views.home),
     url("substitute/", views.substitute),
-    url(r"^(?P<product_id>+)/$", views.detail),
+    url(r"^(?P<product_id>)/$", views.detail),
     url("favoris/", views.favoris),
     url("account/", views.account),
     url("delete/", views.delete),
