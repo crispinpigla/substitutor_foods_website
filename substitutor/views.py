@@ -155,4 +155,5 @@ def delete(request):
 
 def errorrr_404(request, var):
     """errorrr"""
-    raise Http404('erreur')
+    #raise Http404('erreur')
+    raise Exception('Erreur 404')
