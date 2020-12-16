@@ -3,14 +3,13 @@
 import os
 import django
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'pure_beurre_django.settings'
-
-django.setup()
-
 from substitutor.models import Categorie, Favorite, Product, Store
 from substitutor.auxilliaries.installation import download, validations
 
 
+os.environ['DJANGO_SETTINGS_MODULE'] = 'pure_beurre_django.settings'
+
+django.setup()
 
 
 
