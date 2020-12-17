@@ -2,6 +2,10 @@
 from ..forms import InscriptionForm, SearchForm, ConnexionForm
 from ..models import Account
 
+from django.shortcuts import render
+
+from sentry_sdk import capture_message
+
 
 class AuxillariesHome:
     """docstring for AuxillariesHome"""
@@ -95,3 +99,11 @@ class AuxillariesHome:
         user_id = None
         context = {"user_id": user_id, "home_status": None, "form1": form}
         return context
+
+
+
+def my_custom_page_not_found_view(request, *args, **kwargs):
+    capture_message("Page not found!", level="error")
+
+    # return any response here, e.g.:
+    return render(request, "404.html")

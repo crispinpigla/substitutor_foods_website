@@ -13,9 +13,6 @@ from .auxilliaries.substitute import AuxilliarySubstitute
 from .auxilliaries.favorite import AuxilliariesFavorites
 from .auxilliaries.installation.installation import Installation
 
-from django.http import HttpResponseNotFound
-from sentry_sdk import capture_message
-
 
 # Create your views here.
 
@@ -154,15 +151,6 @@ def delete(request):
     print('Nombre de favoris : ', len(Favorite.objects.all()))
 
     return HttpResponse('data deleted')
-
-
-
-def my_custom_page_not_found_view(request, *args, **kwargs):
-    capture_message("Page not found!", level="error")
-
-    # return any response here, e.g.:
-    #return HttpResponseNotFound("Not found")
-    return render(request, "404.html")
 
 
 def errorrr_404(request, var):
