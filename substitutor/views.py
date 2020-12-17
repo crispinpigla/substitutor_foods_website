@@ -157,15 +157,15 @@ def delete(request):
 
 
 
-def my_custom_page_not_found_view(*args, **kwargs):
+def my_custom_page_not_found_view(request, *args, **kwargs):
     capture_message("Page not found!", level="error")
 
     # return any response here, e.g.:
-    return HttpResponseNotFound("Not found")
+    #return HttpResponseNotFound("Not found")
+    return render(request, "404.html")
 
 
 def errorrr_404(request, var):
     """errorrr"""
     raise Http404()
     #raise Exception('Erreur 404')
-    #return render(request, "404.html", {})
