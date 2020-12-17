@@ -18,8 +18,6 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include, url
 
-handler404 = 'mysite.views.my_custom_page_not_found_view'
-
 urlpatterns = [
     path("admin/", views.redirect_home),
     url(
