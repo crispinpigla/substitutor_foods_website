@@ -1,0 +1,27 @@
+Error: the command NEW_RELIC_CONFIG_FILE=newrelic.ini could not be found within PATH or Pipfile's [scripts].
+Error: the command NEW_RELIC_CONFIG_FILE=newrelic.ini could not be found within PATH or Pipfile's [scripts].
+Error: the command NEW_RELIC_CONFIG_FILE=newrelic.ini could not be found within PATH or Pipfile's [scripts].
+Error: the command NEW_RELIC_CONFIG_FILE=newrelic.ini could not be found within PATH or Pipfile's [scripts].
+[2020-12-17 18:25:17 +0000] [648268] [INFO] Starting gunicorn 20.0.4
+[2020-12-17 18:25:17 +0000] [648268] [INFO] Listening at: http://127.0.0.1:8000 (648268)
+[2020-12-17 18:25:17 +0000] [648268] [INFO] Using worker: sync
+[2020-12-17 18:25:17 +0000] [648277] [INFO] Booting worker with pid: 648277
+[2020-12-17 18:25:17 +0000] [648278] [INFO] Booting worker with pid: 648278
+[2020-12-17 18:25:17 +0000] [648279] [INFO] Booting worker with pid: 648279
+[2020-12-17 18:54:48 +0000] [650858] [INFO] Starting gunicorn 20.0.4
+[2020-12-17 18:54:48 +0000] [650858] [INFO] Listening at: http://127.0.0.1:8000 (650858)
+[2020-12-17 18:54:48 +0000] [650858] [INFO] Using worker: sync
+[2020-12-17 18:54:48 +0000] [650867] [INFO] Booting worker with pid: 650867
+[2020-12-17 18:54:48 +0000] [650868] [INFO] Booting worker with pid: 650868
+[2020-12-17 18:54:48 +0000] [650870] [INFO] Booting worker with pid: 650870
+[2020-12-17 19:03:04 +0000] [650858] [INFO] Handling signal: term
+[2020-12-17 20:03:04 +0100] [650870] [INFO] Worker exiting (pid: 650870)
+[2020-12-17 20:03:04 +0100] [650868] [INFO] Worker exiting (pid: 650868)
+[2020-12-17 20:03:04 +0100] [650867] [INFO] Worker exiting (pid: 650867)
+[2020-12-17 19:03:04 +0000] [650858] [INFO] Shutting down: Master
+[2020-12-17 19:03:06 +0000] [651783] [INFO] Starting gunicorn 20.0.4
+[2020-12-17 19:03:06 +0000] [651783] [INFO] Listening at: http://127.0.0.1:8000 (651783)
+[2020-12-17 19:03:06 +0000] [651783] [INFO] Using worker: sync
+[2020-12-17 19:03:06 +0000] [651793] [INFO] Booting worker with pid: 651793
+[2020-12-17 19:03:07 +0000] [651794] [INFO] Booting worker with pid: 651794
+[2020-12-17 19:03:07 +0000] [651795] [INFO] Booting worker with pid: 651795
