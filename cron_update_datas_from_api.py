@@ -60,7 +60,7 @@ class Update:
         print('categories protégés : ', self.categories_to_protect)
 
 
-    def _suppression_protectedd(self):
+    def _suppression_protected(self):
         """Suppression protegée"""
 
         for store in Store.objects.all():
@@ -209,7 +209,7 @@ class Update:
     def update(self):
         """Upadate"""
         self._build_data_to_protect()
-        self._suppression_protectedd()
+        self._suppression_protected()
         self._insertions()
         print("mise à jour terminée")
 
