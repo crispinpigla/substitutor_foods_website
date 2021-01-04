@@ -35,7 +35,6 @@ class AuxillariesHome:
         else:
             post_form = InscriptionForm(request.POST)
             if post_form.is_valid():
-                account = Account.objects.filter(adresse_mail=request.POST.get("email"))
                 context = self._register_account(request)
             else:
                 home_status = "inscription"
