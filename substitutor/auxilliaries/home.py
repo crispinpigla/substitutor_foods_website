@@ -14,7 +14,7 @@ class AuxillariesHome:
         """"""
         pass
 
-    def _register_account(self, account, request):
+    def _register_account(self, request):
         """Register account"""
         form = SearchForm()
         user = Account.objects.create(
@@ -25,7 +25,6 @@ class AuxillariesHome:
         request.session["user_id"] = user.id
         user_id = request.session["user_id"]
         context = {"user_id": user_id, "home_status": None, "form1": form}
-        
         return context
 
     def make_inscription(self, request, user_id):
