@@ -14,30 +14,17 @@ class AuxillariesHome:
         """"""
         pass
 
-    def _register_account(self, account, request):
+    def _register_account(self, request):
         """Register account"""
-        if len(account) == 0:
-            form = SearchForm()
-            user = Account.objects.create(
-                name=request.POST.get("name"),
-                adresse_mail=request.POST.get("email"),
-                password=request.POST.get("password"),
-            )
-            request.session["user_id"] = user.id
-            user_id = request.session["user_id"]
-            context = {"user_id": user_id, "home_status": None, "form1": form}
-        else:
-            home_status = "inscription"
-            form0 = InscriptionForm()
-            form1 = SearchForm()
-            message_to_user = "Un compte possédant cet e-mail existe déja"
-            context = {
-                "user_id": None,
-                "home_status": home_status,
-                "form0": form0,
-                "form1": form1,
-                "message_to_user": message_to_user,
-            }
+        form = SearchForm()
+        user = Account.objects.create(
+            name=request.POST.get("name"),
+            adresse_mail=request.POST.get("email"),
+            password=request.POST.get("password"),
+        )
+        request.session["user_id"] = user.id
+        user_id = request.session["user_id"]
+        context = {"user_id": user_id, "home_status": None, "form1": form}
         return context
 
     def make_inscription(self, request, user_id):
@@ -49,7 +36,7 @@ class AuxillariesHome:
             post_form = InscriptionForm(request.POST)
             if post_form.is_valid():
                 account = Account.objects.filter(adresse_mail=request.POST.get("email"))
-                context = self._register_account(account, request)
+                context = self._register_account(request)
             else:
                 home_status = "inscription"
                 form0 = InscriptionForm()
