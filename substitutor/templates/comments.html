@@ -1,0 +1,71 @@
+{% extends "./base.html" %}
+
+
+
+
+{% block header_content %}
+
+  <form class="form-inline" action="../substitute/" method="get" >
+    {% csrf_token %}
+    {{ form.search_input }}
+  </form>
+
+  {% if user_id %}
+  <div>
+    {% include 'header_connected.html' %}
+  </div>
+  {% else %}
+  <div>
+    {% include 'header_disconnected.html' %}
+  </div>
+  {% endif %}
+{% endblock %}
+
+
+
+
+
+{% block image_background_content %}{{product.url_image}}{% endblock %}
+
+
+
+
+
+
+{% block accroche_content %}
+	{{ product.name }}
+{% endblock %}
+
+{% block accroche_plus_content %}
+	Commentaires du produit
+{% endblock %}
+
+
+
+
+
+{% block detail_content %}
+
+
+
+
+
+<div class="detail_content" >
+
+
+
+<div class="col-12" class="nutriscore" style="height: 120px; display: flex; justify-content: center; align-items: center; font-size: 180%; color: green; cursor: pointer;"><img style="height: 100%; border-radius: 15px;" src='../../static/substitutor/img/nutriscore_{{ product.nutriscore }}.png' ></div>
+
+
+
+
+  
+</div>
+
+
+
+
+
+
+
+{% endblock %}

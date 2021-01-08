@@ -1,6 +1,6 @@
 
 
-//           Envoie de la demande
+//           Envoie de la demande de substitution 
 
 
 
@@ -141,3 +141,53 @@ $('.un_suscribe_favorites').mouseout(function() {
 
 
 $('.un_suscribe').attr('class', 'un_suscribe_off');
+
+
+
+//        Envoie de commentaire
+
+
+$('.send_comment_button').click(function(){
+
+  var id_product = this.getAttribute('id_product');
+  var comment_text = $(this).siblings('textarea').val();
+     
+    $.ajax({
+       url : '../comments/?id_product_comments=' + id_product + '&comment_text=' + comment_text,
+       type : 'GET',
+       dataType : 'html',
+       success : function(code_html, statut){
+
+        console.log(code_html == 'not_connected');
+
+        if ( code_html == 'not_connected' ) 
+        {
+          window.location.href = "/substitutor/home/?home_status=connexion";
+        }
+        else
+        {
+          $('.message_confirmation_publication').css('display','block');
+          $('textarea').val('');
+          setTimeout(function(){ $('.message_confirmation_publication').css('display','none'); }, 5000);
+        }
+           
+       },
+
+       error : function(resultat, statut, erreur){
+
+         console.log('le resultat de l\'erreur : ', resultat);
+         console.log(' l\'erreur : ', erreur);
+         console.log('le statut : ', statut);
+
+       },
+
+       complete : function(resultat, statut){
+
+       }
+
+    });
+
+
+
+
+});

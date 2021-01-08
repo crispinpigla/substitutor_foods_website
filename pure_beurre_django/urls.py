@@ -21,7 +21,7 @@ from django.conf.urls import include, url
 handler404 = 'substitutor.auxilliaries.home.my_custom_page_not_found_view'
 
 urlpatterns = [
-    path("admin/", views.redirect_home),
+    path("admin/", admin.site.urls),
     url(
         "substitutor/",
         include(

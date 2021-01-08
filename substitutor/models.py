@@ -45,9 +45,22 @@ class Favorite(models.Model):
 
     date_engistrement = models.DateTimeField(auto_now_add=True, null=True)
     product = models.ForeignKey(
-        Product, related_name="product", on_delete=models.CASCADE, null=True
+        Product, related_name="product_favorite", on_delete=models.CASCADE, null=True
     )
     substitut = models.ForeignKey(
         Product, related_name="substitut", on_delete=models.CASCADE
     )
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
+
+class Comment(models.Model):
+
+    contenu_text = models.TextField()
+    commentator = models.ForeignKey(
+        Account, related_name="commentator", on_delete=models.CASCADE
+    )
+    product = models.ForeignKey(
+        Product, related_name="product", on_delete=models.CASCADE
+    )
+    validation_status = models.BooleanField('commentaire(s) approuvé(s)', default=False)
+    date_insertion = models.DateTimeField(auto_now=True, null=True)
+        

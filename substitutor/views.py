@@ -6,7 +6,7 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import redirect
 
 from .forms import InscriptionForm, ConnexionForm, SearchForm
-from .models import Categorie, Store, Product, Account, Favorite
+from .models import Categorie, Store, Product, Account, Favorite, Comment
 
 from .auxilliaries.home import AuxillariesHome
 from .auxilliaries.substitute import AuxilliarySubstitute
@@ -78,6 +78,7 @@ def detail(request, product_id):
     except (KeyError, AttributeError):
         user_id = False
     product = Product.objects.get(pk=product_id)
+    comments = Comment.objects.filter(product__id=product.id, validation_status='t')
     product_stores = product.store.all()
     product_categories = product.categorie.all()
     post_nutriments = product.nutriments
@@ -96,8 +97,28 @@ def detail(request, product_id):
         "categories": product_categories,
         "nutriments_100g": nutriments_100g,
         "form": form,
+        "comments":comments,
     }
     return render(request, "detail.html", context)
+
+def comments(request):
+    # commentaires ...
+    try:
+        user_id = request.session["user_id"]
+    except (KeyError, AttributeError):
+        user_id = False
+    id_produit = request.GET.get("id_product_comments")
+    contenu_text = request.GET.get("comment_text")
+    if user_id:
+        comment = Comment.objects.create(
+                contenu_text=contenu_text,
+                commentator=Account.objects.get(pk=request.session["user_id"]),
+                product=Product.objects.get(pk=id_produit),
+            )
+        return HttpResponse( id_produit + " est dans la vue " + contenu_text )
+    else:
+        return HttpResponse("not_connected")
+    
 
 
 def favoris(request):
