@@ -7,7 +7,7 @@ from django.test import TestCase, RequestFactory
 from django.contrib.sessions.middleware import SessionMiddleware
 
 
-from ..models import Categorie, Store, Product, Account, Favorite
+from ..models import Categorie, Store, Product, Account, Favorite, Comment
 from ..auxilliaries.installation import download, validations
 from ..views import home, substitute, detail, favoris, account, comments
 from . import products_data
@@ -172,8 +172,11 @@ class TestsModels(TestCase):
         middleware.process_request(request)
         request.session.save()
         request.session["user_id"] = self.user.id
+        len_comments_before = len( Comment.objects.all() )
         response = comments(request)
-        self.assertEqual(response.content, b"done")
+        len_comments_after = len( Comment.objects.all() )
+        self.assertEqual(len_comments_before + 1, len_comments_after)
+        #self.assertEqual(response.content, b"done")
 
     def tests_vues_comments_redirection_ajout_commentaire(self):
         """"""
