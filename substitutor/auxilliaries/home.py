@@ -16,16 +16,28 @@ class AuxillariesHome:
 
     def _register_account(self, account, request):
         """Register account"""
-        form = SearchForm()
-        user = Account.objects.create(
-            name=request.POST.get("name"),
-            adresse_mail=request.POST.get("email"),
-            password=request.POST.get("password"),
-        )
-        request.session["user_id"] = user.id
-        user_id = request.session["user_id"]
-        context = {"user_id": user_id, "home_status": None, "form1": form}
-        
+        if len(account) == 0:
+            form = SearchForm()
+            user = Account.objects.create(
+                name=request.POST.get("name"),
+                adresse_mail=request.POST.get("email"),
+                password=request.POST.get("password"),
+            )
+            request.session["user_id"] = user.id
+            user_id = request.session["user_id"]
+            context = {"user_id": user_id, "home_status": None, "form1": form}
+        else:
+            home_status = "inscription"
+            form0 = InscriptionForm()
+            form1 = SearchForm()
+            message_to_user = "Un compte possédant cet e-mail existe déja"
+            context = {
+                "user_id": None,
+                "home_status": home_status,
+                "form0": form0,
+                "form1": form1,
+                "message_to_user": message_to_user,
+            }
         return context
 
     def make_inscription(self, request, user_id):

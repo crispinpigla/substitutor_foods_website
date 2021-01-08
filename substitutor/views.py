@@ -16,7 +16,6 @@ from .auxilliaries.installation.installation import Installation
 
 # Create your views here.
 
-
 def home(request):
     # request ...
     try:
@@ -115,7 +114,7 @@ def comments(request):
                 commentator=Account.objects.get(pk=request.session["user_id"]),
                 product=Product.objects.get(pk=id_produit),
             )
-        return HttpResponse( id_produit + " est dans la vue " + contenu_text )
+        return HttpResponse( "done" )
     else:
         return HttpResponse("not_connected")
     

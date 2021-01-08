@@ -9,7 +9,7 @@ from django.contrib.sessions.middleware import SessionMiddleware
 
 from ..models import Categorie, Store, Product, Account, Favorite
 from ..auxilliaries.installation import download, validations
-from ..views import home, substitute, detail, favoris, account
+from ..views import home, substitute, detail, favoris, account, comments
 from . import products_data
 # Create your tests here.
 
@@ -153,7 +153,6 @@ class TestsModels(TestCase):
         response = substitute(request)
         self.assertEqual(response.content, b"not_connected")
 
-
     def tests_vues_detail_substitut(self):
         """"""
 
@@ -162,6 +161,27 @@ class TestsModels(TestCase):
         request = self.factory.get("/substitutor/")
         response = detail(request, self.product_to_insert[0].id)
         self.assertEqual(response.status_code, 200)
+
+    def tests_vues_comments_ajout_commentaire(self):
+        """"""
+
+        # Teste l'ajout dun commentaire lorsque l'utilisateur est connecté
+        print('Test de l\'ajout dun commentaire lorsque l\'utilisateur est connecté')
+        request = self.factory.get("/substitutor/", {"id_product_comments": self.product_to_insert[0].id, "comment_text": "ceci est un commentaire"})
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+        request.session.save()
+        request.session["user_id"] = self.user.id
+        response = comments(request)
+        self.assertEqual(response.content, b"done")
+
+    def tests_vues_comments_redirection_ajout_commentaire(self):
+        """"""
+        # Teste la redirection après une tentative d'ajout de commentaire lorsque l'utilisateur n'est pas connecté
+        print('Test de la redirection après une tentative d\'ajout de commentaire lorsque l\'utilisateur n\'est pas connecté')
+        request = self.factory.get("/substitutor/")
+        response = comments(request)
+        self.assertEqual(response.content, b"not_connected")
 
     def tests_vues_get_favorites(self):
         """"""

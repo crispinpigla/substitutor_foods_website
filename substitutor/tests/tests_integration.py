@@ -14,6 +14,8 @@ from ..auxilliaries.installation import download, validations
 
 from . import products_data
 
+from ..views import comments
+
 class TestIntegration(TestCase):
     """docstring for Testintegration"""
 
@@ -47,9 +49,9 @@ class TestIntegration(TestCase):
                     nom_stores=product.get("store", ""),
                     labels=product.get("labels", ""),
                     ingredients=product.get("ingredients_text", ""),
-                    nutriments=product["nutriments"],
-                    produits_provoqu_allergies=product["allergens_tags"],
-                    traces_eventuelles=product["traces_tags"],
+                    nutriments=product.get("nutriments",""),
+                    produits_provoqu_allergies=product.get("allergens_tags",""),
+                    traces_eventuelles=product.get("traces_tags",""),
                     nutriscore=product["nutriscore_data"]["grade"],
                     lien_o_ff=product.get("url", ""),
                     url_image=product.get("image_url", ""),
@@ -285,3 +287,24 @@ class TestIntegration(TestCase):
             if isinstance(result[1], Favorite):
                 check_favorite = False
         self.assertTrue(check_favorite)
+
+    def tests_integration_comments_ajout_commentaire(self):
+        """"""
+
+        # Teste l'ajout dun commentaire lorsque l'utilisateur est connecté
+        print('Test de l\'ajout dun commentaire lorsque l\'utilisateur est connecté')
+        request = self.factory.get("/substitutor/", {"id_product_comments": self.product_to_insert[0].id, "comment_text": "ceci est un commentaire"})
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+        request.session.save()
+        request.session["user_id"] = self.user.id
+        response = comments(request)
+        self.assertEqual(response.content, b"done")
+
+    def tests_integration_comments_redirection_ajout_commentaire(self):
+        """"""
+        # Teste la redirection après une tentative d'ajout de commentaire lorsque l'utilisateur n'est pas connecté
+        print('Test de la redirection après une tentative d\'ajout de commentaire lorsque l\'utilisateur n\'est pas connecté')
+        request = self.factory.get("/substitutor/")
+        response = comments(request)
+        self.assertEqual(response.content, b"not_connected")
