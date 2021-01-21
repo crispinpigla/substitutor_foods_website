@@ -14,7 +14,7 @@ class AuxilliarySubstitute:
 
     def _query_to_product(self, request):
         """ query to product """
-        # Récupération de produit
+        # Récupération de produit.
         caractere = request.GET.get("search_input")
         products_find = Product.objects.filter(name__icontains=caractere)
         try:
