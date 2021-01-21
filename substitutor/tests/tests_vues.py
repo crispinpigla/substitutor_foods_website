@@ -11,6 +11,7 @@ from ..models import Categorie, Store, Product, Account, Favorite, Comment
 from ..auxilliaries.installation import download, validations
 from ..views import home, substitute, detail, favoris, account, comments
 from . import products_data
+
 # Create your tests here.
 
 
@@ -106,17 +107,21 @@ class TestsModels(TestCase):
                     len(self.validation.rows_products_categories),
                 )
 
-        self.user = Account.objects.create(name="a1", adresse_mail="a1@a1.a1", password="a0")
+        self.user = Account.objects.create(
+            name="a1", adresse_mail="a1@a1.a1", password="a0"
+        )
 
         self.favorite = Favorite.objects.create(
-            product=self.product_to_insert[0], substitut=self.product_to_insert[1], user=self.user
+            product=self.product_to_insert[0],
+            substitut=self.product_to_insert[1],
+            user=self.user,
         )
 
     def tests_vues_home(self):
         """Test vues"""
 
         # Teste la vue home
-        print('Test de la vue home')
+        print("Test de la vue home")
         request = self.factory.post("/substitutor/home/")
         response = home(request)
         self.assertEqual(response.status_code, 200)
@@ -125,7 +130,9 @@ class TestsModels(TestCase):
         """"""
 
         # Teste l'enregistrement d'un substitut si l'utilisateur est connecté
-        print('Test de la vue substitute : enregistrement d\'un substitut si l\'utilisateur est connecté')
+        print(
+            "Test de la vue substitute : enregistrement d'un substitut si l'utilisateur est connecté"
+        )
         request = self.factory.get(
             "/substitutor/substitute/",
             {
@@ -145,7 +152,9 @@ class TestsModels(TestCase):
         """"""
 
         # Teste la reponse renvoyée si l'utilisateur n'est pas connecté et souhaite enregistrer un favori
-        print('Test de la vue substitute: enregistrement d\'un substitut si l\'utilisateur n\'est pas connecté')
+        print(
+            "Test de la vue substitute: enregistrement d'un substitut si l'utilisateur n'est pas connecté"
+        )
         request = self.factory.get(
             "/substitutor/substitute/",
             {"un_suscribe_substitute_id": 2, "id_product": 1},
@@ -156,8 +165,8 @@ class TestsModels(TestCase):
     def tests_vues_detail_substitut(self):
         """"""
 
-        print('Test de la vue detail')
-        # Teste la page de détail d'un substitut
+        print("Test de la vue detail")
+        # Teste la page de détail d'un substitut.
         request = self.factory.get("/substitutor/")
         response = detail(request, self.product_to_insert[0].id)
         self.assertEqual(response.status_code, 200)
@@ -166,22 +175,30 @@ class TestsModels(TestCase):
         """"""
 
         # Teste l'ajout dun commentaire lorsque l'utilisateur est connecté
-        print('Test de l\'ajout dun commentaire lorsque l\'utilisateur est connecté')
-        request = self.factory.get("/substitutor/", {"id_product_comments": self.product_to_insert[0].id, "comment_text": "ceci est un commentaire"})
+        print("Test de l'ajout dun commentaire lorsque l'utilisateur est connecté")
+        request = self.factory.get(
+            "/substitutor/",
+            {
+                "id_product_comments": self.product_to_insert[0].id,
+                "comment_text": "ceci est un commentaire",
+            },
+        )
         middleware = SessionMiddleware()
         middleware.process_request(request)
         request.session.save()
         request.session["user_id"] = self.user.id
-        len_comments_before = len( Comment.objects.all() )
+        len_comments_before = len(Comment.objects.all())
         response = comments(request)
-        len_comments_after = len( Comment.objects.all() )
+        len_comments_after = len(Comment.objects.all())
         self.assertEqual(len_comments_before + 1, len_comments_after)
-        #self.assertEqual(response.content, b"done")
+        # self.assertEqual(response.content, b"done")
 
     def tests_vues_comments_redirection_ajout_commentaire(self):
         """"""
         # Teste la redirection après une tentative d'ajout de commentaire lorsque l'utilisateur n'est pas connecté
-        print('Test de la redirection après une tentative d\'ajout de commentaire lorsque l\'utilisateur n\'est pas connecté')
+        print(
+            "Test de la redirection après une tentative d'ajout de commentaire lorsque l'utilisateur n'est pas connecté"
+        )
         request = self.factory.get("/substitutor/")
         response = comments(request)
         self.assertEqual(response.content, b"not_connected")
@@ -190,7 +207,7 @@ class TestsModels(TestCase):
         """"""
 
         # Teste la restitution des favoris
-        print('Test de la vue favorite : Si l\'utilisateur est connecté ')
+        print("Test de la vue favorite : Si l'utilisateur est connecté ")
         request = self.factory.get("/substitutor/favoris/")
         middleware = SessionMiddleware()
         middleware.process_request(request)
@@ -203,7 +220,7 @@ class TestsModels(TestCase):
         """"""
 
         # Teste la redirection de l'utilisateur s'il n'est pas connecté et souhaite acceder aux favoris
-        print('Test de la vue favorite : Si l\'utilisateur n\'est pas connecté ')
+        print("Test de la vue favorite : Si l'utilisateur n'est pas connecté ")
         request = self.factory.get("/substitutor/favoris/")
         response = favoris(request)
         self.assertTrue(isinstance(response, HttpResponseRedirect))
@@ -213,7 +230,7 @@ class TestsModels(TestCase):
         """"""
 
         # Teste l'accession aux informations du compte
-        print('Test de la vue account')
+        print("Test de la vue account")
         request = self.factory.get("/substitutor/account/")
         middleware = SessionMiddleware()
         middleware.process_request(request)
