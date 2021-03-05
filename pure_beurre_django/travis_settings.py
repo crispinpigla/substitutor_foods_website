@@ -19,7 +19,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', "y2!bd%d^@_)*e77o&gvgy(bndcj))ym*l_6wa
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ.get("ENV") == "PRODUCTION":
     DEBUG = False
-    ALLOWED_HOSTS = ["purebeurre0.herokuapp.com", "34.105.133.157"]
+    ALLOWED_HOSTS = ["purebeurre0.herokuapp.com", "34.89.89.206"]
     
 else:
     DEBUG = True
