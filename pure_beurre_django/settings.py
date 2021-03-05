@@ -34,7 +34,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', "y2!bd%d^@_)*e77o&gvgy(bndcj))ym*l_6wa
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ.get("ENV") == "PRODUCTION":
     DEBUG = False
-    ALLOWED_HOSTS = ["purebeurre0.herokuapp.com", "34.89.89.206"]
+    ALLOWED_HOSTS = ["purebeurre0.herokuapp.com", "35.189.115.211"]
     
     sentry_sdk.init(
     dsn="https://924a79e00ceb4586bcbdedfd1b3feced@o486074.ingest.sentry.io/5542306",
