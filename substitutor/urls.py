@@ -1,22 +1,18 @@
-from django.conf.urls import include, url
+from django.conf.urls import include
 
-from django.urls import path
+from django.urls import path, re_path
 
 from . import views  # import views so we can use them in urls.
 
 
-
-
-
-
 urlpatterns = [
     path("", views.redirect_home),
-    url("home/", views.home),
-    url("substitute/", views.substitute),
-    url(r"^(?P<product_id>[0-9]+)/$", views.detail),
-    url("favoris/", views.favoris),
-    url("account/", views.account),
-    url("delete/", views.delete),
-    url("comments/", views.comments),
-    url(r"([a-z]+)/", views.errorrr_404),
+    re_path("home/", views.home),
+    re_path("substitute/", views.substitute),
+    re_path(r"^(?P<product_id>[0-9]+)/$", views.detail),
+    re_path("favoris/", views.favoris),
+    re_path("account/", views.account),
+    re_path("delete/", views.delete),
+    re_path("comments/", views.comments),
+    re_path(r"([a-z]+)/", views.errorrr_404),
 ]

@@ -5,10 +5,8 @@ Application qui permet d'obtenir le substitut d'un produit à partir de la reche
 Les produits de cette application sont des produits téléchargés à partir de l'api d'Open Food Facts.
 # Installation de l'application en local
 ## Téléchager le code source de l'application
-Creer un dossier qui devra contenir l'application. Nous l'appelerons ici `contain_application`  
-Dans la console linux, entrer dans le dossier `contain_application` à l'aide de la commande `cd`  
-Initialiser le dépot git avec la commande `git init`  
-Dans la console linux entrer la commande `git pull https://github.com/crispinpigla/subtitutor_foods.git`
+Dans la console linux, télechargez le code du projet avec `git clone https://github.com/crispinpigla/subtitutor_foods.git`
+Nous appelerons ici `contain_application` le dossier qui contient l'application
 ## Installer La base de données
 ### Installer Postgresql
 Dans la console linux, installer le système de gestion de base de donnée Postgresql grace à la commande `sudo apt install postgresql`  
@@ -22,12 +20,12 @@ Dans postgresql entrer la commande `CREATE DATABASE substitutor_foods OWNER subs
 Dans postgresql entrer la commande `ALTER USER substitutor_foods_user WITH ENCRYPTED PASSWORD 'substitutor_foods_password';`  
 Dans postgresql entrer la commande `\q`  
 Dans linux se deconnecter de l'utilisateur postgres en entrant la commande `exit`  
-Dans la console linux entrer la commande `sudo chmod o+rwx '/etc/postgresql/12/main/pg_hba.conf'`  
+Dans la console linux entrer la commande `sudo chmod o+rwx '/etc/postgresql/[0-9]{2}/main/pg_hba.conf'` (exp: `'/etc/postgresql/14/main/pg_hba.conf'`)
 S'il vous est demandé d'entrer votre mot de passe, entrez le  
-Ouvrir le fichier `'/etc/postgresql/12/main/pg_hba.conf'` et chercher la ligne `local   all             postgres                                peer`  
+Ouvrir le fichier `'/etc/postgresql/[0-9]{2}/main/pg_hba.conf'` et chercher la ligne `local   all             postgres                                peer`  
 Insérer la ligne `local   all             substitutor_foods_user                                md5` juste après la ligne `local   all             postgres                                peer`  
 Enregistrer la modification et fermer le fichier  
-Dans la console linux entrez la commande `sudo chmod o-rwx '/etc/postgresql/12/main/pg_hba.conf'`  
+Dans la console linux entrez la commande `sudo chmod o-rwx '/etc/postgresql/[0-9]{2}/main/pg_hba.conf'`  
 S'il vous est demandé d'entrer votre mot de passe, entrez le  
 Dans la console linux redemarrez postgresql en entrant la commande `sudo service postgresql restart`  
 S'il vous est demandé d'entrer votre mot de passe, entrez le  

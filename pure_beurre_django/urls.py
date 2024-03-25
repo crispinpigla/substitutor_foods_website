@@ -15,14 +15,14 @@ Including another URLconf
 """
 from substitutor import views
 from django.contrib import admin
-from django.urls import path
-from django.conf.urls import include, url
+from django.urls import path, re_path
+from django.conf.urls import include
 
 handler404 = 'substitutor.auxilliaries.home.my_custom_page_not_found_view'
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    url(
+    re_path(
         "substitutor/",
         include(
             ("substitutor.urls", "substitutor_namespace"),
