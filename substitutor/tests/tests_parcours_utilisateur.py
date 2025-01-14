@@ -1,4 +1,10 @@
+"""
+"""
+
+
 import os, time
+import pdb
+import traceback
 
 from django.test import LiveServerTestCase, RequestFactory
 
@@ -10,6 +16,8 @@ from . import products_data
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.service import Service
+from selenium.common.exceptions import TimeoutException
 
 from selenium import webdriver
 
@@ -120,15 +128,17 @@ class TestsParcoursUsers(LiveServerTestCase):
             product=product_to_insert[0], substitut=product_to_insert[1], user=user
         )
 
-        PATH = "substitutor/tests/geckodriver/geckodriver"
+        PATH = os.getcwd() + '/substitutor/tests/geckodriver'
+        # PATH = "substitutor/tests/geckodriver/geckodriver"
         options = webdriver.firefox.options.Options()
         options.add_argument("-headless")
-        self.driver = webdriver.Firefox(executable_path=PATH, options=options)
+        service = Service(executable_path=PATH)
+        self.driver = webdriver.Firefox(service=service, options=options)
         #self.driver = FirefoxBinary()
-        if os.environ.get("ENV") == "PRODUCTION":
-            self.domain = "http://purebeurre0.herokuapp.com"
-        else:
-            self.domain = self.live_server_url
+        # if os.environ.get("ENV") == "PRODUCTION":
+        #     self.domain = "http://purebeurre0.herokuapp.com"
+        # else:
+        self.domain = self.live_server_url
         #self.driver.maximize_window()
         self.driver.get(self.domain)
 
@@ -143,13 +153,21 @@ class TestsParcoursUsers(LiveServerTestCase):
 
         # Acceuil - recherche
         print("Test du parcour acceuil - recherche")
-        search_input = self.driver.find_element_by_name("search_input")
+        # print(self.driver.current_url)
+        # print(self.driver.page_source)
+        search_input = self.driver.find_element('name', "search_input")
         search_input.send_keys("nutella")
         search_input.submit()
-        element = self.waiteur.until(
-            EC.presence_of_element_located((By.CLASS_NAME, "conteneur_produit"))
-        )
-        noms_produits = self.driver.find_elements_by_link_text("Voir plus de detail")
+        try:
+            element = self.waiteur.until(
+                EC.presence_of_element_located((By.CLASS_NAME, "conteneur_produit"))
+            )
+        except TimeoutException:
+            print(traceback.format_exc())
+            print(self.driver.current_url)
+            print(self.driver.page_source)
+
+        noms_produits = self.driver.find_elements('link text', "Voir plus de detail")
         self.assertTrue(len(noms_produits) > 0)
 
     def test_detail(self):
@@ -157,16 +175,24 @@ class TestsParcoursUsers(LiveServerTestCase):
 
         # Acceuil - recherche - detail du produit - acceuil
         print("Test du parcour acceuil - recherche - detail du produit")
-        search_input = self.driver.find_element_by_name("search_input")
+        search_input = self.driver.find_element('name', "search_input")
         search_input.send_keys("nutella")
         search_input.submit()
         element = self.waiteur.until(
             EC.presence_of_element_located((By.CLASS_NAME, "conteneur_produit"))
         )
-        noms_produits = self.driver.find_elements_by_link_text("Voir plus de detail")
+        noms_produits = self.driver.find_elements('link text', "Voir plus de detail")
         first_prod = noms_produits[0]
         first_prod.click()
-        contain_detail = self.driver.find_elements_by_class_name("detail_content")
+        try:
+            element = self.waiteur.until(
+                EC.presence_of_element_located((By.CLASS_NAME, "detail_content"))
+            )
+        except TimeoutException:
+            print(traceback.format_exc())
+            print(self.driver.current_url)
+            print(self.driver.page_source)
+        contain_detail = self.driver.find_elements('class name', "detail_content")
         self.assertEqual(len(contain_detail), 1)
 
     def test_record_fail(self):
@@ -176,13 +202,13 @@ class TestsParcoursUsers(LiveServerTestCase):
         print(
             "Test du parcour acceuil - recherche - tentative d'enregistrement de favori ( hors connexion )"
         )
-        search_input = self.driver.find_element_by_name("search_input")
+        search_input = self.driver.find_element('name', "search_input")
         search_input.send_keys("nutella")
         search_input.submit()
         element = self.waiteur.until(
             EC.presence_of_element_located((By.CLASS_NAME, "un_suscribe_off"))
         )
-        subscription = self.driver.find_elements_by_class_name("un_suscribe_off")
+        subscription = self.driver.find_elements('class name', "un_suscribe_off")
         first_prod = subscription[0]
         first_prod.click()
         element = self.waiteur.until(
@@ -209,15 +235,15 @@ class TestsParcoursUsers(LiveServerTestCase):
         # Acceuil - connexion - deconnexion
         print("Test du parcour acceuil - connexion - deconnexion")
         self.driver.get(self.domain + "/substitutor/home/?home_status=connexion")
-        mail_input = self.driver.find_element_by_name("email")
-        password_input = self.driver.find_element_by_name("password")
+        mail_input = self.driver.find_element('name', "email")
+        password_input = self.driver.find_element('name', "password")
         mail_input.send_keys("a1@a1.a1")
         password_input.send_keys("a1")
         password_input.submit()
         element = self.waiteur.until(
             EC.presence_of_element_located((By.CLASS_NAME, "disconnected_button"))
         )
-        disconnected_button = self.driver.find_element_by_css_selector(
+        disconnected_button = self.driver.find_element('css selector',
             ".disconnected_button"
         )
         disconnected_button.click()
@@ -233,9 +259,9 @@ class TestsParcoursUsers(LiveServerTestCase):
         print("Test du parcour acceuil - inscription")
         self.driver.get(self.domain + "/substitutor/home/?home_status=inscription")
         users_before_inscription = len(Account.objects.all())
-        name_input = self.driver.find_element_by_name("name")
-        mail_input = self.driver.find_element_by_name("email")
-        password_input = self.driver.find_element_by_name("password")
+        name_input = self.driver.find_element('name', "name")
+        mail_input = self.driver.find_element('name', "email")
+        password_input = self.driver.find_element('name', "password")
         name_input.send_keys("a2")
         mail_input.send_keys("a2@a2.a2")
         password_input.send_keys("a2")
@@ -251,26 +277,26 @@ class TestsParcoursUsers(LiveServerTestCase):
         # Acceuil - connexion - recherche - enregistrement de substitut - suppression de substitut - Acceuil
         print("Test du parcour acceuil - connexion - recherche - enregistrement de substitut - suppression de substitut")
         self.driver.get(self.domain + "/substitutor/home/?home_status=connexion")
-        mail_input = self.driver.find_element_by_name("email")
-        password_input = self.driver.find_element_by_name("password")
+        mail_input = self.driver.find_element('name', "email")
+        password_input = self.driver.find_element('name', "password")
         mail_input.send_keys("a1@a1.a1")
         password_input.send_keys("a1")
         password_input.submit()
         element = self.waiteur.until(
             EC.presence_of_element_located((By.CLASS_NAME, "disconnected_button"))
         )
-        search_input = self.driver.find_element_by_name("search_input")
+        search_input = self.driver.find_element('name', "search_input")
         search_input.send_keys("nutella")
         search_input.submit()
         element = self.waiteur.until(
             EC.presence_of_element_located((By.CLASS_NAME, "un_suscribe_off"))
         )
         favorite_before = len(Favorite.objects.all())
-        subscription = self.driver.find_elements_by_class_name("un_suscribe_off")
+        subscription = self.driver.find_elements('class name', "un_suscribe_off")
         first_prod = subscription[0]
         first_prod.click()
         self.assertEqual(favorite_before + 1, len(Favorite.objects.all()))
-        subscription = self.driver.find_elements_by_class_name("un_suscribe_off")
+        subscription = self.driver.find_elements('class name', "un_suscribe_off")
         first_prod = subscription[0]
         first_prod.click()
         self.assertEqual(favorite_before, len(Favorite.objects.all()))
@@ -282,8 +308,8 @@ class TestsParcoursUsers(LiveServerTestCase):
         print("Test du parcour acceuil - connexion - favoris - suppression de favori")
         self.driver.get(self.domain + "/substitutor/home/?home_status=connexion")
         wait = WebDriverWait(self.driver, 10)
-        mail_input = self.driver.find_element_by_name("email")
-        password_input = self.driver.find_element_by_name("password")
+        mail_input = self.driver.find_element('name', "email")
+        password_input = self.driver.find_element('name', "password")
         mail_input.send_keys("a1@a1.a1")
         password_input.send_keys("a1")
         password_input.submit()
@@ -295,7 +321,8 @@ class TestsParcoursUsers(LiveServerTestCase):
         element = wait.until(
             EC.presence_of_element_located((By.CLASS_NAME, "un_suscribe_favorites"))
         )
-        delete_favorite_subscription = self.driver.find_elements_by_class_name(
+        delete_favorite_subscription = self.driver.find_elements(
+            'class name',
             "un_suscribe_favorites"
         )
         first_prod = delete_favorite_subscription[0]
@@ -309,8 +336,8 @@ class TestsParcoursUsers(LiveServerTestCase):
         print("Test du parcour acceuil - connexion - compte")
         self.driver.get(self.domain + "/substitutor/home/?home_status=connexion")
         wait = WebDriverWait(self.driver, 10)
-        mail_input = self.driver.find_element_by_name("email")
-        password_input = self.driver.find_element_by_name("password")
+        mail_input = self.driver.find_element('name', "email")
+        password_input = self.driver.find_element('name', "password")
         mail_input.send_keys("a1@a1.a1")
         password_input.send_keys("a1")
         password_input.submit()
@@ -321,5 +348,5 @@ class TestsParcoursUsers(LiveServerTestCase):
         element = wait.until(
             EC.presence_of_element_located((By.CLASS_NAME, "contain_account"))
         )
-        account = self.driver.find_elements_by_class_name("contain_account")
+        account = self.driver.find_elements('class name', "contain_account")
         self.assertEqual(len(account), 1)

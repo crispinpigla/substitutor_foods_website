@@ -14,6 +14,9 @@ from ..auxilliaries.installation import download, validations
 
 from . import products_data
 
+from unittest import mock
+
+
 class TestAuxilliaries(TestCase):
     """docstring for TestAuxilliaries"""
 
@@ -25,6 +28,8 @@ class TestAuxilliaries(TestCase):
 
         #  support of request
         self.factory = RequestFactory()
+        self.get_response = mock.MagicMock()
+
 
         download0 = download.Download()
         download0.rows_products = products_data.PRODUCTS
@@ -131,7 +136,7 @@ class TestAuxilliaries(TestCase):
                 "password": "user_password",
             },
         )
-        middleware = SessionMiddleware()
+        middleware = SessionMiddleware(self.get_response)
         middleware.process_request(request)
         request.session.save()
         user_before = len(Account.objects.all())
@@ -162,7 +167,7 @@ class TestAuxilliaries(TestCase):
             "/substitutor/home/",
             {"email": "a1@a1.a1", "password": "a1"},
         )
-        middleware = SessionMiddleware()
+        middleware = SessionMiddleware(self.get_response)
         middleware.process_request(request)
         request.session.save()
         auxilliary_home = AuxillariesHome()
@@ -191,7 +196,7 @@ class TestAuxilliaries(TestCase):
             "/substitutor/home/",
             {"email": "user_mail@mail.com", "password": "user_password"},
         )
-        middleware = SessionMiddleware()
+        middleware = SessionMiddleware(self.get_response)
         middleware.process_request(request)
         request.session.save()
         auxilliary_home = AuxillariesHome()
@@ -238,7 +243,7 @@ class TestAuxilliaries(TestCase):
         #  Teste l'ajout d'un favori
         print('Test de l\'auxilliary substitute :  ajout d\'un favori ')
         request = self.factory.get("/substitutor/substitute/")
-        middleware = SessionMiddleware()
+        middleware = SessionMiddleware(self.get_response)
         middleware.process_request(request)
         request.session.save()
         request.session["user_id"] = 1
@@ -255,7 +260,7 @@ class TestAuxilliaries(TestCase):
         #  Teste la suppression d'un favori
         print('Test de l\'auxilliary substitute :  suppression d\'un favori ')
         request = self.factory.get("/substitutor/substitute/")
-        middleware = SessionMiddleware()
+        middleware = SessionMiddleware(self.get_response)
         middleware.process_request(request)
         request.session.save()
         request.session["user_id"] = self.user.id
@@ -272,7 +277,7 @@ class TestAuxilliaries(TestCase):
         #  Teste la consultation de favoris
         print('Test de l\'auxilliary favorite :  suppression d\'un favori ')
         request = self.factory.get("/substitutor/favorite/")
-        middleware = SessionMiddleware()
+        middleware = SessionMiddleware(self.get_response)
         middleware.process_request(request)
         request.session.save()
         request.session["user_id"] = 1

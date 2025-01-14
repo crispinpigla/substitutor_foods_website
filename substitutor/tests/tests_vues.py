@@ -12,15 +12,18 @@ from ..auxilliaries.installation import download, validations
 from ..views import home, substitute, detail, favoris, account, comments
 from . import products_data
 
+from unittest import mock
+
 # Create your tests here.
 
 
-class TestsModels(TestCase):
+class TestsVues(TestCase):
     """docstring for TestsSubstitutor"""
 
     def setUp(self):
         """Setup"""
         self.factory = RequestFactory()
+        self.get_response = mock.MagicMock()
 
         download0 = download.Download()
         download0.rows_products = products_data.PRODUCTS
@@ -141,7 +144,7 @@ class TestsModels(TestCase):
                 "search_input": "nutella",
             },
         )
-        middleware = SessionMiddleware()
+        middleware = SessionMiddleware(self.get_response)
         middleware.process_request(request)
         request.session.save()
         request.session["user_id"] = self.user.id
@@ -183,7 +186,7 @@ class TestsModels(TestCase):
                 "comment_text": "ceci est un commentaire",
             },
         )
-        middleware = SessionMiddleware()
+        middleware = SessionMiddleware(self.get_response)
         middleware.process_request(request)
         request.session.save()
         request.session["user_id"] = self.user.id
@@ -209,7 +212,7 @@ class TestsModels(TestCase):
         # Teste la restitution des favoris
         print("Test de la vue favorite : Si l'utilisateur est connecté ")
         request = self.factory.get("/substitutor/favoris/")
-        middleware = SessionMiddleware()
+        middleware = SessionMiddleware(self.get_response)
         middleware.process_request(request)
         request.session.save()
         request.session["user_id"] = self.user.id
@@ -220,11 +223,11 @@ class TestsModels(TestCase):
         """"""
 
         # Teste la redirection de l'utilisateur s'il n'est pas connecté et souhaite acceder aux favoris
-        print("Test de la vue favorite : Si l'utilisateur n'est pas connecté ")
+        print("Teste la redirection de l'utilisateur s'il n'est pas connecté et souhaite acceder aux favoris")
         request = self.factory.get("/substitutor/favoris/")
         response = favoris(request)
         self.assertTrue(isinstance(response, HttpResponseRedirect))
-        self.assertEqual(response.url, "/substitutor/home")
+        self.assertEqual(response.url, "/substitutor/home/")
 
     def tests_vues_account(self):
         """"""
@@ -232,7 +235,7 @@ class TestsModels(TestCase):
         # Teste l'accession aux informations du compte
         print("Test de la vue account")
         request = self.factory.get("/substitutor/account/")
-        middleware = SessionMiddleware()
+        middleware = SessionMiddleware(self.get_response)
         middleware.process_request(request)
         request.session.save()
         request.session["user_id"] = self.user.id

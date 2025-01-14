@@ -16,6 +16,9 @@ from . import products_data
 
 from ..views import comments
 
+from unittest import mock
+
+
 class TestIntegration(TestCase):
     """docstring for Testintegration"""
 
@@ -24,6 +27,7 @@ class TestIntegration(TestCase):
 
         #  support of request
         self.factory = RequestFactory()
+        self.get_response = mock.MagicMock()
 
         download0 = download.Download()
         download0.get_products_from_api()
@@ -133,7 +137,7 @@ class TestIntegration(TestCase):
             },
         )
         # c = self.client.post('/substitutor/home/')
-        middleware = SessionMiddleware()
+        middleware = SessionMiddleware(self.get_response)
         middleware.process_request(request)
         request.session.save()
         user_before = len(Account.objects.all())
@@ -164,7 +168,7 @@ class TestIntegration(TestCase):
             "/substitutor/home/",
             {"email": "a1@a1.a1", "password": "a1"},
         )
-        middleware = SessionMiddleware()
+        middleware = SessionMiddleware(self.get_response)
         middleware.process_request(request)
         request.session.save()
         auxilliary_home = AuxillariesHome()
@@ -193,7 +197,7 @@ class TestIntegration(TestCase):
             "/substitutor/home/",
             {"email": "user_mail@mail.com", "password": "user_password"},
         )
-        middleware = SessionMiddleware()
+        middleware = SessionMiddleware(self.get_response)
         middleware.process_request(request)
         request.session.save()
         auxilliary_home = AuxillariesHome()
@@ -240,7 +244,7 @@ class TestIntegration(TestCase):
         print('Test integration ajout favori')
         #  Teste l'ajout d'un favori
         request = self.factory.get("/substitutor/substitute/")
-        middleware = SessionMiddleware()
+        middleware = SessionMiddleware(self.get_response)
         middleware.process_request(request)
         request.session.save()
         request.session["user_id"] = self.user.id
@@ -257,7 +261,7 @@ class TestIntegration(TestCase):
         print('Test integration suppression favori')
         #  Teste la suppression d'un favori
         request = self.factory.get("/substitutor/substitute/")
-        middleware = SessionMiddleware()
+        middleware = SessionMiddleware(self.get_response)
         middleware.process_request(request)
         request.session.save()
         request.session["user_id"] = self.user.id
@@ -274,7 +278,7 @@ class TestIntegration(TestCase):
         print('Test integration consultation favori')
         #  Teste la consultation de favoris
         request = self.factory.get("/substitutor/favorite/")
-        middleware = SessionMiddleware()
+        middleware = SessionMiddleware(self.get_response)
         middleware.process_request(request)
         request.session.save()
         request.session["user_id"] = self.user.id
@@ -294,7 +298,7 @@ class TestIntegration(TestCase):
         # Teste l'ajout dun commentaire lorsque l'utilisateur est connecté
         print('Test de l\'ajout dun commentaire lorsque l\'utilisateur est connecté')
         request = self.factory.get("/substitutor/", {"id_product_comments": self.product_to_insert[0].id, "comment_text": "ceci est un commentaire"})
-        middleware = SessionMiddleware()
+        middleware = SessionMiddleware(self.get_response)
         middleware.process_request(request)
         request.session.save()
         request.session["user_id"] = self.user.id
