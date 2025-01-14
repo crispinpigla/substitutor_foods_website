@@ -34,7 +34,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', "y2!bd%d^@_)*e77o&gvgy(bndcj))ym*l_6wa
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ.get("ENV") == "PRODUCTION":
     DEBUG = False
-    ALLOWED_HOSTS = ["purebeurre0.herokuapp.com", "35.189.115.211", "173.249.30.179"]
+    ALLOWED_HOSTS = ["purebeurre0.herokuapp.com", "35.189.115.211", "173.249.30.179", "www.devcris.com", "devcris.com"]
     
     sentry_sdk.init(
     dsn="https://924a79e00ceb4586bcbdedfd1b3feced@o486074.ingest.sentry.io/5542306",
@@ -47,7 +47,7 @@ if os.environ.get("ENV") == "PRODUCTION":
 )
 else:
     DEBUG = True
-    ALLOWED_HOSTS = ["127.0.0.1", "localhost", "173.249.30.179"]
+    ALLOWED_HOSTS = ["127.0.0.1", "localhost", "173.249.30.179", "www.devcris.com", "devcris.com"]
 
 
 # Application definition

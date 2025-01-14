@@ -1,5 +1,8 @@
 """Vue"""
 
+import pdb
+import traceback
+
 from django.shortcuts import render
 from django.core.paginator import Paginator
 from django.http import HttpResponse, Http404
@@ -21,9 +24,11 @@ def home(request):
     try:
         user_id = request.session["user_id"]
     except (KeyError, AttributeError):
+        # print(traceback.format_exc())
         user_id = False
     home_status = request.GET.get("home_status")
     auxilliary_home = AuxillariesHome()
+    # print('home_status: ', home_status)
     if home_status == "make_inscription":
         context = auxilliary_home.make_inscription(request, user_id)
     elif home_status == "make_connexion":
@@ -117,7 +122,7 @@ def comments(request):
         return HttpResponse( "done" )
     else:
         return HttpResponse("not_connected")
-    
+
 
 
 def favoris(request):
@@ -132,7 +137,7 @@ def favoris(request):
         context = auxilliary_favorite.get_context_favorites(request, user_id)
         return render(request, "favoris.html", context)
     else:
-        return redirect("/substitutor/home")
+        return redirect("/substitutor/home/")
 
 
 def account(request):
@@ -147,12 +152,12 @@ def account(request):
         context = {"user_id": user_id, "account": account, "form": form}
         return render(request, "account.html", context)
     else:
-        return redirect("/substitutor/home")
+        return redirect("/substitutor/home/")
 
 
 def redirect_home(request):
     """Redirect vers home"""
-    return redirect("/substitutor/home")
+    return redirect("/substitutor/home/")
 
 
 
