@@ -13,6 +13,7 @@ Dans la console linux, installer le système de gestion de base de donnée Postg
 S'il vous est demandé d'entrer votre mot de passe, entrez le  
 Dans la console linux il est demandé si vous souhaitez continuer. Entrer `o` pour oui  
 ### Créer l'utilisateur postgresql de l'application
+Par défaut, PostgreSQL crée un utilisateur système appelé postgres.
 Dans la console linux, entrer la commande `sudo -i -u postgres`  
 Dans la console linux, entrer la commande `psql`  
 Dans postgresql entrer la commande `CREATE USER substitutor_foods_user WITH CREATEDB;`  
