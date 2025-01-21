@@ -30,7 +30,7 @@ S'il vous est demandé d'entrer votre mot de passe, entrez le
 Dans la console linux redemarrez postgresql en entrant la commande `sudo service postgresql restart`  
 S'il vous est demandé d'entrer votre mot de passe, entrez le  
 ## Installer et activer l'environement virtuelle
-Entrer dans la console linux `sudo sudo pip3 install pipenv`  
+Entrer dans la console linux `sudo pip3 install pipenv`  
 S'il vous est demandé d'entrer votre mot de passe, entrez le  
 ## Installer les dépendances
 Dans la console linux,, dans l'invite commande, naviguer jusqu'au répertoire du fichier contenant l'application et executer la commande `sudo pipenv install`  
@@ -44,7 +44,7 @@ Dans la console linux entrez la commande `pipenv shell`
 Dans la console linux, entrer `./manage.py migrate`  
 Remplir la base de données en entrant dans la console `./manage.py loaddata substitutor/dumps/substitutor.json`  
 ## Lancer l'application
-Dans la console linux,, dans l'invite commande, naviguer jusqu'au répertoire du fichier contenant l'application et executer la commande `./manage.py runserver`  
+Dans la console linux, dans l'invite commande, naviguer jusqu'au répertoire du fichier contenant l'application et executer la commande `./manage.py runserver`  
 Ouvrir un navigateur et rendez vous à l'adresse `http://127.0.0.1:8000/` ou `http://localhost:8000/`  
 # Désinstaller l'application
 ## Supprimer la base de données et l'utilisateur de la base de donnée
