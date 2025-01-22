@@ -35,7 +35,7 @@ S'il vous est demandé d'entrer votre mot de passe, entrez le
 ## Installer les dépendances
 Dans la console linux,, dans l'invite commande, naviguer jusqu'au répertoire du fichier contenant l'application et executer la commande `sudo pipenv install`  
 Dans la console, se rendre dans le répertoire du projet ( le répertoire qui contient le fichier `manage.py` )  
-Mettre à jour la liste des logiciels du système d'exploitation `sudo apt-get update`  
+Mettre à jour la liste des paquets apt `sudo apt-get update`  
 Installer pip3 `sudo apt-get install python3-pip`  
 Installer pipenv `sudo pip3 install pipenv`
 Dans la console linux entrez la commande `pipenv install`  
