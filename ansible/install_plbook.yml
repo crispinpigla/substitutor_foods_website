@@ -1,0 +1,172 @@
+---
+- name: Installation de Healthy foods (Substitutor foods)
+  hosts: test_servers
+  become: yes
+  become_method: su
+
+
+  # après avoir créer le conteneneur et avant de lancer le playbook: activer ssh, verifier que 'PermitRootLogin yes' et 'PasswordAuthentication yes' dans /etc/ssh/sshd_config, ssh-copy-id avec le module
+  # authorized_key de ansible
+
+
+  tasks:
+    - name: Add ssh key on server
+      ansible.builtin.authorized_key:
+        user: root  # user de la machine distante avec lequel la connexion ssh est établie
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+    # - name: Installer Apache
+    #   ansible.builtin.apt:
+    #     name: apache2
+    #     state: absent  # present, absent
+    #     purge: yes  # Cela supprime également les fichiers de configuration
+    #     autoremove: yes  # Cela supprime les dépendances inutilisées
+
+
+    #############################################  For installations on os server  ######################################
+    # lancer le playbook à partir d'une task particulière: --start-at-task="nom task"
+    # lancer le playbook de facon interactive: --step
+
+    - name: Lancer apt update
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600  # Temps en secondes (1 heure). Si la cache est valide, la mise à jour ne sera pas effectuée.
+
+    ############### Start PostgreSQL installation  ####################
+
+    - name: Installer postgre
+      ansible.builtin.apt:
+        name: postgresql
+        state: present
+
+    - name: Trouver la version de postgresql
+      ansible.builtin.shell: "ls /etc/postgresql/"
+      register: psql_version
+
+    - name: Démarrer PostgreSQL  # pg_ctlcluster 16 main start (16 = numero version) | pg_ctlcluster est un utilitaire de ligne de commande fourni avec PostgreSQL pour démarrer, arrêter ou redémarrer un serveur PostgreSQL
+      ansible.builtin.shell: "pg_ctlcluster {{ psql_version.stdout }} main start"
+
+
+    - name: Installer pip3 (Requis pour installer psycopg2)
+      ansible.builtin.apt:
+        name: python3-pip
+        state: present
+        update_cache: true
+
+    - name: Installer psycopg2 (Requis pour que community.postgresql puisse établir une connexion avec PostgreSQL)
+      ansible.builtin.apt:
+        name: python3-psycopg2
+        state: present
+
+
+    - name: Créer un utilisateur PostgreSQL
+      community.postgresql.postgresql_query:
+        db: "postgres"
+        query: "CREATE USER substitutor_foods_user WITH CREATEDB"
+        login_user: "postgres"
+        login_password: ""
+        # port: 5432
+      become_user: postgres  # os user
+
+    - name: Créer une base de donnée PostgreSQL
+      community.postgresql.postgresql_db:  # certaines instructions SQL ne peuvent pas être exécutées dans un bloc de transaction PostgreSQL (avec postgresql_query)
+        name: substitutor_foods
+        owner: substitutor_foods_user
+        state: present
+        login_user: "postgres"
+        login_password: ""
+        # port: 5432
+      become_user: postgres  # os user
+
+
+    - name: Définir le mot de passe de la base de données
+      community.postgresql.postgresql_query:
+        db: "postgres"
+        query: "ALTER USER substitutor_foods_user WITH ENCRYPTED PASSWORD 'substitutor_foods_password'"
+        login_user: "postgres"
+        login_password: ""
+        # port: 5432
+      become_user: postgres  # os user
+
+    - name: Inserer 'local   all             substitutor_foods_user                                md5' dans '/etc/postgresql/[0-9]{2}/main/pg_hba.conf'
+      ansible.builtin.lineinfile:
+        line: "local   all             substitutor_foods_user                                md5"
+        path: "/etc/postgresql/{{ psql_version.stdout }}/main/pg_hba.conf"
+        insertafter: "local   all             postgres                                peer"
+
+    - name: Redémarrer PostgreSQL
+      ansible.builtin.shell: "pg_ctlcluster {{ psql_version.stdout }} main stop && pg_ctlcluster {{ psql_version.stdout }} main start"
+    # - name: Démarrer PostgreSQL
+    #   ansible.builtin.service:
+    #     name: postgresql
+    #     state: restarted
+
+    ############### PostgreSQL installation End  ####################
+
+    ############### Start Application installation  ####################
+
+    - name: Installer git
+      ansible.builtin.apt:
+        name: git
+        state: present
+
+    - name: Cloner le repo
+      ansible.builtin.git:
+        repo: https://github.com/crispinpigla/substitutor_foods_website.git
+        dest: /root/healthy_foods_substitutor  # depends os user
+
+    - name: Installer pipenv
+      ansible.builtin.apt:
+        name: pipenv
+        state: present
+
+    #### Installe pyenv
+    - name: Installer les dépendances pipenv
+      ansible.builtin.apt:
+        name: curl
+        state: present
+
+    - name: Installer pyenv (To manage python versions)
+      ansible.builtin.shell: "curl https://pyenv.run | bash"
+
+    - name: configurer .bashrc pour pyenv
+      ansible.builtin.lineinfile:
+        line: 'export PATH="$HOME/.pyenv/bin:$PATH";
+               eval "$(pyenv init --path)";
+               eval "$(pyenv init -)";
+               eval "$(pyenv virtualenv-init -)"'
+        path: /root/.bashrc
+
+
+    - name: Installer les dépendances de l'application
+      ansible.builtin.shell: "cd /root/healthy_foods_substitutor && pipenv install"
+
+    - name: Remplir la base de données
+      ansible.builtin.shell: "pipenv run ./manage.py migrate && pipenv run ./manage.py loaddata substitutor/dumps/substitutor.json"
+      args:
+        chdir: /root/healthy_foods_substitutor
+
+    - name: Installer paquets pour le deboggage w3m (navigateur texte pour serveur), tmux (multiplexer), iproute2 (pour ss - ports et ips actifs, )
+      ansible.builtin.apt:
+        name:
+          - w3m
+          - tmux
+          - iproute2
+        state: present
+
+    - name: Démmarrer l'application
+      ansible.builtin.shell: "tmux new-session -d 'pipenv run gunicorn -w 2 -b 127.0.0.1:8000 pure_beurre_django.wsgi' " # note gunicorn: le plus petit PID est le pid parent
+      args:
+        chdir: /root/healthy_foods_substitutor
+
+    ############### End Application installation  ####################
+
+    # - name: Debug
+    #   ansible.builtin.debug:
+    #     msg: "Le path du fichier /etc/postgresql/{{ psql_version.stdout }}/main/pg_hba.conf"
+
+    ########
+
+
+...

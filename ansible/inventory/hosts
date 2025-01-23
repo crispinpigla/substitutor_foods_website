@@ -1,0 +1,15 @@
+[test_servers]
+# service ssh status: status de ssh dans un conteneur docker
+# journalctl -u apache2 -f # logs de services en temps reel
+# netstat -tulnp : Afficher toutes les connexions réseau avec les informations de PID
+# docker run -it -p 223:22 ubuntu_ssh_and_configs_vi /bin/bash : creer un conteneur + '&' à la fin pour executer en arrière + 'nohup' au début pour empêcher la commande de se terminer en cas de fermeture du terminal | fg PID : pour recuperer le processus
+
+
+# to pass password like this, sshpass must be installed in ansible machine
+# only put password like this to add public key with authorised_key module
+localhost ansible_user=root ansible_ssh_pass=root ansible_ssh_port=224
+
+# 192.168.1.92 ansible_user=shard1
+# localhost ansible_user=root ansible_ssh_port=224
+
+
