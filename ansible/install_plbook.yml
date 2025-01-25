@@ -45,7 +45,7 @@
       register: psql_version
 
     - name: Démarrer PostgreSQL  # pg_ctlcluster 16 main start (16 = numero version) | pg_ctlcluster est un utilitaire de ligne de commande fourni avec PostgreSQL pour démarrer, arrêter ou redémarrer un serveur PostgreSQL
-      ansible.builtin.shell: "pg_ctlcluster {{ psql_version.stdout }} main start"
+      ansible.builtin.shell: "service postgresql start"  # "pg_ctlcluster {{ psql_version.stdout }} main start"
 
 
     - name: Installer pip3 (Requis pour installer psycopg2)
@@ -96,7 +96,7 @@
         insertafter: "local   all             postgres                                peer"
 
     - name: Redémarrer PostgreSQL
-      ansible.builtin.shell: "pg_ctlcluster {{ psql_version.stdout }} main stop && pg_ctlcluster {{ psql_version.stdout }} main start"
+      ansible.builtin.shell: "service postgresql restart"  # "pg_ctlcluster {{ psql_version.stdout }} main stop && pg_ctlcluster {{ psql_version.stdout }} main start"
     # - name: Démarrer PostgreSQL
     #   ansible.builtin.service:
     #     name: postgresql
@@ -161,6 +161,53 @@
         chdir: /root/healthy_foods_substitutor
 
     ############### End Application installation  ####################
+
+    ############### Start Nginx installation  ####################
+
+    - name: Installer Nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+        update_cache: true
+
+    - name: Créer le fichier de configuration de l'application
+      ansible.builtin.copy:
+        dest: /etc/nginx/sites-available/substitutor_foods
+        content: |
+          server {
+
+            listen 80;
+            server_name _;  # _ = tous les ips et noms de domaines | Remplacez par votre domaine ou adresse IP
+
+            location / {
+              proxy_pass http://127.0.0.1:8000;  # L'adresse de Gunicorn
+              proxy_set_header Host $host;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header X-Forwarded-Proto $scheme;
+            }
+
+          }
+
+    - name: Activer nginx pour l'application
+      ansible.builtin.file:
+        src: /etc/nginx/sites-available/substitutor_foods
+        dest: /etc/nginx/sites-enabled/substitutor_foods
+        state: link
+
+    - name: Désactiver la page d'acceuil Nginx par défaut pour libérer le port 80
+      ansible.builtin.file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: Redémarrer Nginx
+      ansible.builtin.shell: "service nginx restart"
+      # ansible.builtin.service:
+      #   name: nginx
+      #   state: restarted
+
+
+    ############### End Nginx installation  ####################
 
     # - name: Debug
     #   ansible.builtin.debug:
