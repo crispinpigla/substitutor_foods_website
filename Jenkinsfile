@@ -1,9 +1,15 @@
 pipeline {
+    /*
+        prerequis:
+        -  install postgresql, pipenv, pyenv
+        -  Configure postgresql
+    */
     agent any
     stages {
-        stage('Test') {
+        stage("Launchin tests ...") {
             steps {
-                sh "./manage.py test substitutor.tests"
+                sh "pipenv install"
+                sh "pipenv run ./manage.py test substitutor.tests"
             }
         }
     }
