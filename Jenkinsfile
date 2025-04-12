@@ -1,7 +1,7 @@
 pipeline {
     /*
         prerequis:
-        -  install postgresql, pipenv, pyenv
+        -  install postgresql, pipenv, pyenv, vi (or nano)
         -  Configure postgresql
     */
     agent any
