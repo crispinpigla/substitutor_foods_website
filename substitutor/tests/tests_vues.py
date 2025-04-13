@@ -14,8 +14,6 @@ from . import products_data
 
 from unittest import mock
 
-# Create your tests here.
-
 
 class TestsVues(TestCase):
     """docstring for TestsSubstitutor"""
